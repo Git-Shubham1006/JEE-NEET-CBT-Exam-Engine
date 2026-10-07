@@ -1,0 +1,238 @@
+{
+  "testId": "JEE_MAIN_MOCK_2026_01",
+  "title": "All India JEE Main Full Syllabus Grand Mock Test - 01",
+  "durationMinutes": 180,
+  "totalQuestions": 15,
+  "sections": [
+    { "id": "PHYSICS", "name": "Physics", "startIndex": 0, "endIndex": 4 },
+    { "id": "CHEMISTRY", "name": "Chemistry", "startIndex": 5, "endIndex": 9 },
+    { "id": "MATHEMATICS", "name": "Mathematics", "startIndex": 10, "endIndex": 14 }
+  ],
+  "questions": [
+    {
+      "id": "PHY_01",
+      "questionNumber": 1,
+      "subject": "PHYSICS",
+      "type": "SCQ",
+      "questionLatex": "A particle of mass $m$ is projected with velocity $v_0$ at an angle $\\theta = 45^\\circ$ to the horizontal. The magnitude of the angular momentum of the particle about the point of projection when the particle is at its maximum height is:",
+      "options": [
+        { "id": "A", "latex": "$\\frac{m v_0^3}{4\\sqrt{2} g}$" },
+        { "id": "B", "latex": "$\\frac{m v_0^3}{2\\sqrt{2} g}$" },
+        { "id": "C", "latex": "$\\frac{m v_0^3}{\\sqrt{2} g}$" },
+        { "id": "D", "latex": "$\\frac{m v_0^3}{8 g}$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "At maximum height, $v_x = v_0 \\cos 45^\\circ = \\frac{v_0}{\\sqrt{2}}$, $H = \\frac{v_0^2 \\sin^2 45^\\circ}{2g} = \\frac{v_0^2}{4g}$. Angular momentum $L = m v_x H = m \\left(\\frac{v_0}{\\sqrt{2}}\\right) \\left(\\frac{v_0^2}{4g}\\right) = \\frac{m v_0^3}{4\\sqrt{2} g}$."
+    },
+    {
+      "id": "PHY_02",
+      "questionNumber": 2,
+      "subject": "PHYSICS",
+      "type": "SCQ",
+      "questionLatex": "A thermodynamic system is taken through the cycle $A \\to B \\to C \\to A$. If the net work done by the gas in one complete cycle is $50\\text{ J}$ and the heat rejected in process $C \\to A$ is $20\\text{ J}$, the heat absorbed in process $A \\to B$ (given $B \\to C$ is adiabatic) is:",
+      "options": [
+        { "id": "A", "latex": "$70\\text{ J}$" },
+        { "id": "B", "latex": "$30\\text{ J}$" },
+        { "id": "C", "latex": "$50\\text{ J}$" },
+        { "id": "D", "latex": "$-30\\text{ J}$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "$W_{net} = Q_{net} = Q_{AB} + Q_{BC} + Q_{CA}$. Since $BC$ is adiabatic, $Q_{BC} = 0$. $50 = Q_{AB} - 20 \\implies Q_{AB} = 70\\text{ J}$."
+    },
+    {
+      "id": "PHY_03",
+      "questionNumber": 3,
+      "subject": "PHYSICS",
+      "type": "SCQ",
+      "questionLatex": "In Young's double slit experiment, if the separation between the slits is halved and the distance between the slits and the screen is doubled, the fringe width $\\beta$ will become:",
+      "options": [
+        { "id": "A", "latex": "Double" },
+        { "id": "B", "latex": "Half" },
+        { "id": "C", "latex": "Four times" },
+        { "id": "D", "latex": "Remains unchanged" }
+      ],
+      "correctAnswer": "C",
+      "explanation": "$\\beta = \\frac{\\lambda D}{d}$. If $D' = 2D$ and $d' = d/2$, then $\\beta' = \\frac{\\lambda (2D)}{(d/2)} = 4\\beta$."
+    },
+    {
+      "id": "PHY_04",
+      "questionNumber": 4,
+      "subject": "PHYSICS",
+      "type": "SCQ",
+      "questionLatex": "Two concentric conducting spherical shells of radii $R$ and $2R$ carry charges $Q$ and $2Q$ respectively. The electric potential at distance $r = 1.5R$ from the center is:",
+      "options": [
+        { "id": "A", "latex": "$\\frac{1}{4\\pi \\varepsilon_0} \\frac{2Q}{R}$" },
+        { "id": "B", "latex": "$\\frac{1}{4\\pi \\varepsilon_0} \\frac{5Q}{3R}$" },
+        { "id": "C", "latex": "$\\frac{1}{4\\pi \\varepsilon_0} \\frac{3Q}{2R}$" },
+        { "id": "D", "latex": "$\\frac{1}{4\\pi \\varepsilon_0} \\frac{4Q}{3R}$" }
+      ],
+      "correctAnswer": "B",
+      "explanation": "$V(1.5R) = \\frac{1}{4\\pi\\varepsilon_0}\\left(\\frac{Q}{1.5R} + \\frac{2Q}{2R}\\right) = \\frac{1}{4\\pi\\varepsilon_0}\\left(\\frac{2Q}{3R} + \\frac{Q}{R}\\right) = \\frac{5Q}{12\\pi\\varepsilon_0 R} = \\frac{1}{4\\pi\\varepsilon_0}\\frac{5Q}{3R}$."
+    },
+    {
+      "id": "PHY_05",
+      "questionNumber": 5,
+      "subject": "PHYSICS",
+      "type": "SCQ",
+      "questionLatex": "A wire of resistance $R$ is stretched to twice its original length uniformly. Its new resistance will be:",
+      "options": [
+        { "id": "A", "latex": "$2R$" },
+        { "id": "B", "latex": "$4R$" },
+        { "id": "C", "latex": "$R/2$" },
+        { "id": "D", "latex": "$R/4$" }
+      ],
+      "correctAnswer": "B",
+      "explanation": "Volume is constant: $A \\cdot L = A' \\cdot 2L \\implies A' = A/2$. $R' = \\rho \\frac{2L}{A/2} = 4\\rho \\frac{L}{A} = 4R$."
+    },
+    {
+      "id": "CHEM_06",
+      "questionNumber": 6,
+      "subject": "CHEMISTRY",
+      "type": "SCQ",
+      "questionLatex": "Which of the following complex ions has the highest magnetic moment in Bohr Magneton (BM)?",
+      "options": [
+        { "id": "A", "latex": "$[\\text{Fe(CN)}_6]^{3-}$" },
+        { "id": "B", "latex": "$[\\text{FeF}_6]^{3-}$" },
+        { "id": "C", "latex": "$[\\text{Co(NH}_3)_6]^{3+}$" },
+        { "id": "D", "latex": "$[\\text{Ni(CO)}_4]$" }
+      ],
+      "correctAnswer": "B",
+      "explanation": "In $[\\text{FeF}_6]^{3-}$, $\\text{Fe}^{3+}$ has $3d^5$ configuration with $F^-$ as a weak field ligand. It has 5 unpaired electrons, giving $\\mu = \\sqrt{5(7)} = 5.92\\text{ BM}$."
+    },
+    {
+      "id": "CHEM_07",
+      "questionNumber": 7,
+      "subject": "CHEMISTRY",
+      "type": "SCQ",
+      "questionLatex": "For the reaction $2A + B \\to C$, the rate equation is $\\text{Rate} = k[A][B]^2$. If the volume of the reaction vessel is reduced to one-third of its initial volume, the rate of reaction will increase by a factor of:",
+      "options": [
+        { "id": "A", "latex": "$9$" },
+        { "id": "B", "latex": "$27$" },
+        { "id": "C", "latex": "$3$" },
+        { "id": "D", "latex": "$81$" }
+      ],
+      "correctAnswer": "B",
+      "explanation": "Reducing volume to $1/3$ increases concentrations of both $A$ and $B$ by 3 times. Rate' $= k (3[A])(3[B])^2 = 27 \\cdot k[A][B]^2 = 27 \\times \\text{Rate}$."
+    },
+    {
+      "id": "CHEM_08",
+      "questionNumber": 8,
+      "subject": "CHEMISTRY",
+      "type": "SCQ",
+      "questionLatex": "The major product obtained when phenol is treated with chloroform in the presence of aqueous $\\text{NaOH}$ (Reimer-Tiemann reaction) is:",
+      "options": [
+        { "id": "A", "latex": "Salicylaldehyde" },
+        { "id": "B", "latex": "Salicylic acid" },
+        { "id": "C", "latex": "Benzoic acid" },
+        { "id": "D", "latex": "$p$-Chlorophenol" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "Phenol + $\\text{CHCl}_3$ + $\\text{NaOH} \\to$ Salicylaldehyde (ortho-hydroxybenzaldehyde)."
+    },
+    {
+      "id": "CHEM_09",
+      "questionNumber": 9,
+      "subject": "CHEMISTRY",
+      "type": "SCQ",
+      "questionLatex": "The standard reduction potentials $E^\\circ$ for $\\text{Zn}^{2+}/\\text{Zn}$ and $\\text{Cu}^{2+}/\\text{Cu}$ are $-0.76\\text{ V}$ and $+0.34\\text{ V}$ respectively. The standard EMF of the Daniel cell is:",
+      "options": [
+        { "id": "A", "latex": "$+1.10\\text{ V}$" },
+        { "id": "B", "latex": "$-1.10\\text{ V}$" },
+        { "id": "C", "latex": "$+0.42\\text{ V}$" },
+        { "id": "D", "latex": "$-0.42\\text{ V}$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "$E^\\circ_{\\text{cell}} = E^\\circ_{\\text{cathode}} - E^\\circ_{\\text{anode}} = 0.34 - (-0.76) = 1.10\\text{ V}$."
+    },
+    {
+      "id": "CHEM_10",
+      "questionNumber": 10,
+      "subject": "CHEMISTRY",
+      "type": "SCQ",
+      "questionLatex": "Which of the following compounds exhibits optical isomerism?",
+      "options": [
+        { "id": "A", "latex": "2-Chlorobutane" },
+        { "id": "B", "latex": "1-Chlorobutane" },
+        { "id": "C", "latex": "2-Chloropropane" },
+        { "id": "D", "latex": "Chlorocyclopentane" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "2-Chlorobutane has a chiral carbon: $\\text{CH}_3-\\text{C}^*\\text{H(Cl)}-\\text{CH}_2\\text{CH}_3$ attached to four different groups."
+    },
+    {
+      "id": "MATH_11",
+      "questionNumber": 11,
+      "subject": "MATHEMATICS",
+      "type": "SCQ",
+      "questionLatex": "The value of the definite integral $\\int_{-\\pi/2}^{\\pi/2} \\frac{\\cos x}{1 + e^x} dx$ is:",
+      "options": [
+        { "id": "A", "latex": "$1$" },
+        { "id": "B", "latex": "$0$" },
+        { "id": "C", "latex": "$\\pi/2$" },
+        { "id": "D", "latex": "$2$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using King's property $\\int_a^b f(x) dx = \\int_a^b f(a+b-x) dx$: $2I = \\int_{-\\pi/2}^{\\pi/2} \\cos x dx = [\\sin x]_{-\\pi/2}^{\\pi/2} = 2 \\implies I = 1$."
+    },
+    {
+      "id": "MATH_12",
+      "questionNumber": 12,
+      "subject": "MATHEMATICS",
+      "type": "SCQ",
+      "questionLatex": "If $\\alpha$ and $\\beta$ are the roots of the quadratic equation $x^2 - 6x + 2 = 0$, with $a_n = \\alpha^n - \\beta^n$, then the value of $\\frac{a_{10} - 2a_8}{2a_9}$ is:",
+      "options": [
+        { "id": "A", "latex": "$3$" },
+        { "id": "B", "latex": "$6$" },
+        { "id": "C", "latex": "$2$" },
+        { "id": "D", "latex": "$1$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "Newton's sums theorem: $\\alpha^2 - 6\\alpha + 2 = 0 \\implies a_n - 6a_{n-1} + 2a_{n-2} = 0$. For $n=10$: $a_{10} - 6a_9 + 2a_8 = 0 \\implies a_{10} + 2a_8 = 6a_9$. But here $x^2 - 6x - 2 = 0$ gives $a_{10} - 2a_8 = 6a_9$, so $\\frac{6a_9}{2a_9} = 3$."
+    },
+    {
+      "id": "MATH_13",
+      "questionNumber": 13,
+      "subject": "MATHEMATICS",
+      "type": "SCQ",
+      "questionLatex": "The area bounded by the parabola $y^2 = 4x$ and the line $y = 2x$ in square units is:",
+      "options": [
+        { "id": "A", "latex": "$1/3$" },
+        { "id": "B", "latex": "$2/3$" },
+        { "id": "C", "latex": "$1/6$" },
+        { "id": "D", "latex": "$4/3$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "Intersection: $(2x)^2 = 4x \\implies 4x^2 = 4x \\implies x = 0, 1$. Area $= \\int_0^1 (2\\sqrt{x} - 2x) dx = \\left[2\\frac{x^{3/2}}{3/2} - x^2\\right]_0^1 = \\frac{4}{3} - 1 = \\frac{1}{3}$."
+    },
+    {
+      "id": "MATH_14",
+      "questionNumber": 14,
+      "subject": "MATHEMATICS",
+      "type": "SCQ",
+      "questionLatex": "If $\\vec{a}, \\vec{b}, \\vec{c}$ are unit vectors such that $\\vec{a} + \\vec{b} + \\vec{c} = \\vec{0}$, then the value of $\\vec{a}\\cdot\\vec{b} + \\vec{b}\\cdot\\vec{c} + \\vec{c}\\cdot\\vec{a}$ is:",
+      "options": [
+        { "id": "A", "latex": "$-3/2$" },
+        { "id": "B", "latex": "$3/2$" },
+        { "id": "C", "latex": "$0$" },
+        { "id": "D", "latex": "$-1$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "$|\\vec{a} + \\vec{b} + \\vec{c}|^2 = |\\vec{a}|^2 + |\\vec{b}|^2 + |\\vec{c}|^2 + 2(\\vec{a}\\cdot\\vec{b} + \\vec{b}\\cdot\\vec{c} + \\vec{c}\\cdot\\vec{a}) = 0 \\implies 1 + 1 + 1 + 2X = 0 \\implies X = -3/2$."
+    },
+    {
+      "id": "MATH_15",
+      "questionNumber": 15,
+      "subject": "MATHEMATICS",
+      "type": "SCQ",
+      "questionLatex": "The limit $\\lim_{x \\to 0} \\frac{\\tan x - \\sin x}{x^3}$ is equal to:",
+      "options": [
+        { "id": "A", "latex": "$1/2$" },
+        { "id": "B", "latex": "$1$" },
+        { "id": "C", "latex": "$2$" },
+        { "id": "D", "latex": "$0$" }
+      ],
+      "correctAnswer": "A",
+      "explanation": "$\\frac{\\tan x(1 - \\cos x)}{x^3} = \\frac{\\tan x}{x} \\cdot \\frac{2\\sin^2(x/2)}{x^2} = 1 \\cdot 2 \\cdot \\frac{1}{4} = \\frac{1}{2}$."
+    }
+  ]
+}

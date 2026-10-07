@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institute Admin Portal — JEE CBT Platform</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Demo Navigation Bar */
+        .top-nav {
+            background: #111827;
+            color: #f3f4f6;
+            padding: 8px 24px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #374151;
+        }
+
+        .top-nav a {
+            color: #93c5fd;
+            text-decoration: none;
+            margin-left: 14px;
+            font-weight: 500;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Institute Header */
+        header.inst-header {
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .inst-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .inst-logo {
+            background: #2563eb;
+            color: #fff;
+            font-weight: 800;
+            padding: 8px 14px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+            font-size: 18px;
+        }
+
+        .inst-selector {
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid #475569;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        /* Dashboard Container */
+        .dashboard-layout {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Sidebar */
+        aside.sidebar {
+            width: 240px;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.15s;
+        }
+
+        .nav-item:hover {
+            background: #f1f5f9;
+            color: var(--text-dark);
+        }
+
+        .nav-item.active {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        /* Main Content Canvas */
+        main.main-content {
+            flex: 1;
+            padding: 24px 32px;
+            overflow-y: auto;
+        }
+
+        .page-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        /* Metric KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .kpi-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .kpi-trend {
+            font-size: 12px;
+            color: var(--success);
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* Tables & Cards */
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-heading {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        table.data-table th {
+            background: #f8fafc;
+            padding: 12px 18px;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table.data-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dark);
+        }
+
+        table.data-table tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+
+        /* Action Buttons */
+        .btn-action {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            background: var(--accent);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active-panel {
+            display: block;
+        }
+
+        /* Interactive Modals */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-backdrop.show {
+            display: flex;
+        }
+        .modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 24px 28px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .modal-card h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+        .form-row {
+            margin-bottom: 14px;
+        }
+        .form-row label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        .form-row input, .form-row select, .form-row textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+            border-color: #2563eb;
+        }
+        .modal-btn-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn-cancel {
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-confirm {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-danger-sm {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-danger-sm:hover {
+            background: #dc2626;
+            color: #fff;
+        }
+        .btn-remark-sm {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+        .btn-remark-sm:hover {
+            background: #2563eb;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Demo Navigation Bar -->
+    <div class="top-nav">
+        <div>
+            <strong>🏢 Institute Admin Console</strong> (Private Isolated Tenant DB: <span id="tenantDbName" style="color: #60a5fa; font-family: monospace;">institute_tenant_apex_patna</span>)
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <span id="adminSessionInfo" style="color: #cbd5e1; font-size: 12px;">Authenticated Staff: <strong id="adminStaffName" style="color: #fff;">Director S. K. Roy</strong></span>
+            <a href="/dashboards/tips-paper-builder.html" style="color: #fde047; font-weight: 700; text-decoration: none;">⚡ TIPS Builder</a>
+            <button onclick="handleLogout()" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">🚪 Logout</button>
+        </div>
+    </div>
+
+    <!-- Institute Header -->
+    <header class="inst-header">
+        <div class="inst-brand">
+            <div class="inst-logo" id="instLogo">APEX</div>
+            <div>
+                <h2 id="instName" style="font-size: 18px; font-weight: 800;">Apex IIT-JEE Academy, Patna</h2>
+                <div style="font-size: 12px; color: #93c5fd;">Private Institutional Examination Administration Console</div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 12px; color: #cbd5e1;">Tenant Security:</span>
+            <span style="font-size: 11px; background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); padding: 4px 10px; border-radius: 9999px; font-weight: 700;">
+                🔒 Strictly Isolated Database (Zero Cross-Tenant Leakage)
+            </span>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="nav-item active" onclick="switchTab('overview')">📊 Overview & KPIs</div>
+            <div class="nav-item" onclick="switchTab('students')">👥 Students & Login Logs</div>
+            <div class="nav-item" onclick="switchTab('tests')">📝 Tests & Question Bank</div>
+            <div class="nav-item" onclick="switchTab('results')">📈 Marks & AI Diagnostics</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- TAB 1: OVERVIEW -->
+            <section id="panel-overview" class="tab-panel active-panel">
+                <div class="page-title-row">
+                    <h1 class="page-title">Executive Dashboard</h1>
+                    <button class="btn-action" onclick="location.href='/dashboards/tips-paper-builder.html'">⚡ Launch TIPS Test Builder</button>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Enrolled Students</div>
+                        <div class="kpi-value" id="kpiStudents">412</div>
+                        <div class="kpi-trend">↑ 18 this month</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Tests Scheduled</div>
+                        <div class="kpi-value">14</div>
+                        <div class="kpi-trend">Active JEE 2026 Cohort</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Batch Average Score</div>
+                        <div class="kpi-value">168 <span style="font-size: 14px; color: #64748b;">/ 300</span></div>
+                        <div class="kpi-trend">Top 88th Percentile</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Multi-Device Alerts</div>
+                        <div class="kpi-value" style="color: #16a34a;">0</div>
+                        <div class="kpi-trend" style="color: #64748b;">All sessions verified</div>
+                    </div>
+                </div>
+
+                <!-- Recent Test Attempts Overview -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-heading">Recent Test Attempts & Offline Sync Audits</div>
+                        <span class="badge badge-success">● Sync Engine Active</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Enrollment No</th>
+                                <th>Test Title</th>
+                                <th>Score</th>
+                                <th>Sync Status</th>
+                                <th>Time Taken</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentAttemptsBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 2: STUDENTS & LOGIN AUDIT -->
+            <section id="panel-students" class="tab-panel">
+                <div class="page-title-row">
+                    <h1 class="page-title">Enrolled Students & Device Fingerprint Audit</h1>
+                    <button class="btn-action" onclick="openAddStudentModal()">+ Add New Student</button>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-heading">Active Student Database (Tenant-Isolated)</div>
+                        <input type="text" id="studentSearchInput" oninput="filterStudents(this.value)" placeholder="🔍 Search name or Roll No..." style="padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; width: 240px;">
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Enrollment ID</th>
+                                <th>Student Name</th>
+                                <th>Batch</th>
+                                <th>Tests</th>
+                                <th>Last Login IP</th>
+                                <th>Teacher Remarks</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 3: TESTS & PAPERS -->
+            <section id="panel-tests" class="tab-panel">
+                <div class="page-title-row">
+                    <h1 class="page-title">Test Papers & Question Bank</h1>
+                    <button class="btn-action" onclick="location.href='/dashboards/tips-paper-builder.html'">+ Open TIPS Paper Studio</button>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-heading">Published Examinations</div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Test Code</th>
+                                <th>Exam Title</th>
+                                <th>Duration</th>
+                                <th>Marks</th>
+                                <th>Status</th>
+                                <th>Submissions</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>JEE-M-01</strong></td>
+                                <td>All India JEE Main Grand Mock Test - 01</td>
+                                <td>180 Mins</td>
+                                <td>300</td>
+                                <td><span class="badge badge-success">ACTIVE</span></td>
+                                <td>384 / 412</td>
+                                <td><a href="/index.html" target="_blank" style="color: #2563eb; font-weight: 600; text-decoration: none;">Launch CBT Player →</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>JEE-ADV-01</strong></td>
+                                <td>JEE Advanced Paper 1 (Rotational Mechanics & Organic Chemistry)</td>
+                                <td>180 Mins</td>
+                                <td>180</td>
+                                <td><span class="badge badge-blue">UPCOMING</span></td>
+                                <td>0 / 412</td>
+                                <td><span style="color: #64748b;">Scheduled for Sunday</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 4: RESULTS & AI DIAGNOSTICS -->
+            <section id="panel-results" class="tab-panel">
+                <div class="page-title-row">
+                    <h1 class="page-title">Test Results & AI Diagnostic Prescriptions</h1>
+                    <button class="btn-action" onclick="alert('Exporting PDF Scorecards...')">Export Scorecards PDF</button>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-heading">Grand Mock Test 01 — Ranked Results</div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Student Name</th>
+                                <th>Physics</th>
+                                <th>Chemistry</th>
+                                <th>Maths</th>
+                                <th>Total Score</th>
+                                <th>Accuracy</th>
+                                <th>AI Diagnostic Alert</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL: ADD NEW STUDENT -->
+    <div id="addStudentModal" class="modal-backdrop">
+        <div class="modal-card">
+            <h3>+ Register New Student</h3>
+            <div class="form-row">
+                <label>Student Full Name</label>
+                <input type="text" id="newStudentName" placeholder="e.g. Vikramaditya Singh" required>
+            </div>
+            <div class="form-row">
+                <label>Enrollment ID / Roll No</label>
+                <input type="text" id="newStudentId" placeholder="e.g. APEX-2026-0416">
+            </div>
+            <div class="form-row">
+                <label>Assigned Batch</label>
+                <select id="newStudentBatch">
+                    <option value="JEE 2026 Dropper Elite">JEE 2026 Dropper Elite</option>
+                    <option value="Class 12th Super-40">Class 12th Super-40</option>
+                    <option value="Class 11th Foundation">Class 11th Foundation</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>Primary Device / Email</label>
+                <input type="text" id="newStudentDevice" placeholder="vikram@student.in (Chrome / Win 11)">
+            </div>
+            <div class="form-row">
+                <label>Initial Teacher Remark / Assessment</label>
+                <input type="text" id="newStudentRemark" placeholder="e.g. Admitted via scholarship. Strong in Physics.">
+            </div>
+            <div class="modal-btn-row">
+                <button class="btn-cancel" onclick="closeAddStudentModal()">Cancel</button>
+                <button class="btn-confirm" onclick="saveNewStudent()">Register Student →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT TEACHER REMARK -->
+    <div id="editRemarkModal" class="modal-backdrop">
+        <div class="modal-card">
+            <h3>📝 Teacher Academic Remark</h3>
+            <p id="remarkStudentLabel" style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;"></p>
+            <input type="hidden" id="remarkTargetStudentId">
+            <div class="form-row">
+                <label>Faculty Guidance & Diagnostic Remarks</label>
+                <textarea id="remarkText" rows="4" placeholder="Enter teacher feedback, strengths, weak areas, or test strategy adjustments..."></textarea>
+            </div>
+            <div class="modal-btn-row">
+                <button class="btn-cancel" onclick="closeRemarkModal()">Cancel</button>
+                <button class="btn-confirm" onclick="saveRemark()">Save Remark</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCurrentSession, enforceAccess, USER_ROLES, clearAuthSession } from '../auth/session-auth-guard.js';
+
+        // Enforce Authentication Guard (Strictly checks for valid staff session)
+        const session = enforceAccess([USER_ROLES.INSTITUTE_ADMIN, USER_ROLES.SUPER_ADMIN], '/login.html');
+
+        const tenantData = {
+            apex: {
+                name: "Apex IIT-JEE Academy, Patna",
+                logo: "APEX",
+                db: "institute_tenant_apex_patna",
+                studentsCount: "412",
+                students: [
+                    { id: "APEX-2026-0412", name: "RannVijay Kumar", batch: "JEE 2026 Dropper Elite", tests: 8, ip: "103.212.14.88", device: "Chrome / Windows 11", status: "ACTIVE" },
+                    { id: "APEX-2026-0413", name: "Pooja Verma", batch: "JEE 2026 Dropper Elite", tests: 7, ip: "103.212.14.92", device: "Safari / macOS", status: "ACTIVE" },
+                    { id: "APEX-2026-0414", name: "Rohan Singh", batch: "Class 12th Super-40", tests: 9, ip: "103.212.15.10", device: "Edge / Windows 10", status: "ACTIVE" },
+                    { id: "APEX-2026-0415", name: "Aman Raj", batch: "Class 12th Super-40", tests: 6, ip: "103.212.14.77", device: "Chrome / Android", status: "ACTIVE" }
+                ],
+                results: [
+                    { rank: 1, name: "RannVijay Kumar", phy: 68, chem: 72, math: 64, total: 204, acc: "88%", diag: "Consistent High Performer. High speed in Calculus." },
+                    { rank: 2, name: "Pooja Verma", phy: 64, chem: 76, math: 56, total: 196, acc: "82%", diag: "Strong in Organic Chemistry. Review Electrostatics." },
+                    { rank: 3, name: "Rohan Singh", phy: 52, chem: 60, math: 48, total: 160, acc: "71%", diag: "⚠️ Negative marking penalty in Math single choice." },
+                    { rank: 4, name: "Aman Raj", phy: 44, chem: 52, math: 40, total: 136, acc: "65%", diag: "⚠️ Time wasted on tough Kinematics problem (>5 mins)." }
+                ]
+            },
+            chanakya: {
+                name: "Chanakya Science Institute, Kota",
+                logo: "CHANAKYA",
+                db: "institute_tenant_chanakya_kota",
+                studentsCount: "850",
+                students: [
+                    { id: "CHK-2026-101", name: "Aditya Sharma", batch: "Kota Top-Batch A", tests: 12, ip: "49.36.12.105", device: "Firefox / Ubuntu", status: "ACTIVE" },
+                    { id: "CHK-2026-102", name: "Neha Patel", batch: "Kota Top-Batch A", tests: 11, ip: "49.36.12.110", device: "Chrome / Windows 11", status: "ACTIVE" }
+                ],
+                results: [
+                    { rank: 1, name: "Aditya Sharma", phy: 80, chem: 84, math: 76, total: 240, acc: "94%", diag: "99.8th percentile trajectory." },
+                    { rank: 2, name: "Neha Patel", phy: 72, chem: 78, math: 70, total: 220, acc: "90%", diag: "Solid speed & elimination technique." }
+                ]
+            }
+        };
+
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active-panel'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-panel'));
+            document.getElementById(`panel-${tabId}`).classList.add('active-panel');
+
+            const navItems = document.querySelectorAll('.sidebar .nav-item');
+            navItems.forEach(item => {
+                if (item.getAttribute('onclick')?.includes(tabId)) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        };
+
+        window.handleLogout = function() {
+            clearAuthSession();
+            alert('Successfully logged out of institutional terminal.');
+            window.location.href = '/login.html';
+        };
+
+        let currentTenantData = null;
+
+        function renderStudentsList(students) {
+            const sBody = document.getElementById('studentsTableBody');
+            sBody.innerHTML = '';
+            if (students.length === 0) {
+                sBody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">No students match your search criteria.</td></tr>`;
+                return;
+            }
+            students.forEach(s => {
+                sBody.innerHTML += `
+                    <tr>
+                        <td><strong>${s.id}</strong></td>
+                        <td>${s.name}</td>
+                        <td>${s.batch}</td>
+                        <td>${s.tests}</td>
+                        <td><code>${s.ip}</code></td>
+                        <td style="max-width: 200px; font-size: 12px; color: ${s.remarks?.includes('⚠️') ? '#dc2626' : '#334155'};">
+                            ${s.remarks || '<span style="color:#94a3b8; font-style:italic;">No remarks yet</span>'}
+                        </td>
+                        <td><span class="badge badge-success">${s.status}</span></td>
+                        <td style="text-align: right; white-space: nowrap;">
+                            <button class="btn-remark-sm" onclick="openRemarkModal('${s.id}')">📝 Remark</button>
+                            <button class="btn-danger-sm" onclick="deleteStudent('${s.id}')">🗑️ Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        window.openAddStudentModal = function() {
+            document.getElementById('newStudentName').value = '';
+            document.getElementById('newStudentId').value = 'APEX-2026-04' + (currentTenantData.students.length + 12);
+            document.getElementById('newStudentDevice').value = '';
+            document.getElementById('newStudentRemark').value = '';
+            document.getElementById('addStudentModal').classList.add('show');
+        };
+
+        window.closeAddStudentModal = function() {
+            document.getElementById('addStudentModal').classList.remove('show');
+        };
+
+        window.saveNewStudent = function() {
+            const name = document.getElementById('newStudentName').value.trim();
+            if (!name) {
+                alert('Please enter student full name.');
+                return;
+            }
+            let id = document.getElementById('newStudentId').value.trim();
+            if (!id) id = 'APEX-' + Math.floor(1000 + Math.random() * 9000);
+            const batch = document.getElementById('newStudentBatch').value;
+            const device = document.getElementById('newStudentDevice').value.trim() || 'Chrome / Mobile';
+            const remarks = document.getElementById('newStudentRemark').value.trim() || 'Newly enrolled.';
+
+            const newStudent = {
+                id,
+                name,
+                batch,
+                tests: 0,
+                ip: '103.212.14.' + Math.floor(50 + Math.random() * 150),
+                device,
+                status: 'ACTIVE',
+                remarks
+            };
+
+            currentTenantData.students.unshift(newStudent);
+            currentTenantData.studentsCount = (parseInt(currentTenantData.studentsCount) + 1).toString();
+            document.getElementById('kpiStudents').textContent = currentTenantData.studentsCount;
+
+            renderStudentsList(currentTenantData.students);
+            closeAddStudentModal();
+            alert(`✅ Student "${name}" (${id}) registered successfully into ${currentTenantData.name}!`);
+        };
+
+        window.deleteStudent = function(studentId) {
+            const student = currentTenantData.students.find(s => s.id === studentId);
+            if (!student) return;
+
+            if (confirm(`⚠️ Are you sure you want to delete student account:\n${student.name} (${student.id})?\n\nThis will remove their test access and records from this tenant database.`)) {
+                currentTenantData.students = currentTenantData.students.filter(s => s.id !== studentId);
+                currentTenantData.studentsCount = (parseInt(currentTenantData.studentsCount) - 1).toString();
+                document.getElementById('kpiStudents').textContent = currentTenantData.studentsCount;
+                renderStudentsList(currentTenantData.students);
+                alert(`🗑️ Student account ${student.name} deleted.`);
+            }
+        };
+
+        window.openRemarkModal = function(studentId) {
+            const student = currentTenantData.students.find(s => s.id === studentId);
+            if (!student) return;
+
+            document.getElementById('remarkTargetStudentId').value = student.id;
+            document.getElementById('remarkStudentLabel').textContent = `Student: ${student.name} (${student.id}) | Batch: ${student.batch}`;
+            document.getElementById('remarkText').value = student.remarks || '';
+            document.getElementById('editRemarkModal').classList.add('show');
+        };
+
+        window.closeRemarkModal = function() {
+            document.getElementById('editRemarkModal').classList.remove('show');
+        };
+
+        window.saveRemark = function() {
+            const studentId = document.getElementById('remarkTargetStudentId').value;
+            const text = document.getElementById('remarkText').value.trim();
+            const student = currentTenantData.students.find(s => s.id === studentId);
+            if (student) {
+                student.remarks = text;
+                renderStudentsList(currentTenantData.students);
+                closeRemarkModal();
+                alert(`✅ Faculty remark updated for ${student.name}!`);
+            }
+        };
+
+        window.filterStudents = function(query) {
+            const q = (query || '').toLowerCase().trim();
+            if (!q) {
+                renderStudentsList(currentTenantData.students);
+                return;
+            }
+            const filtered = currentTenantData.students.filter(s => 
+                s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || s.batch.toLowerCase().includes(q)
+            );
+            renderStudentsList(filtered);
+        };
+
+        function initTenantDashboard() {
+            if (!session) return;
+
+            // Determine locked tenant key
+            let tenantKey = 'apex';
+            if (session.instituteId && tenantData[session.instituteId]) {
+                tenantKey = session.instituteId;
+            }
+
+            const data = tenantData[tenantKey];
+            if (!data) return;
+
+            // Attach remarks to mock students if not set
+            data.students.forEach(s => {
+                if (!s.remarks) {
+                    if (s.id.includes('0412')) s.remarks = "Consistent High Performer. High speed in Calculus.";
+                    else if (s.id.includes('0413')) s.remarks = "Strong in Organic Chemistry. Review Electrostatics.";
+                    else if (s.id.includes('0414')) s.remarks = "⚠️ High negative marking penalty in Math.";
+                    else s.remarks = "⚠️ Time management weak on tough Kinematics (>5m).";
+                }
+            });
+
+            currentTenantData = data;
+
+            document.getElementById('instName').textContent = data.name;
+            document.getElementById('instLogo').textContent = data.logo;
+            document.getElementById('tenantDbName').textContent = data.db;
+            document.getElementById('kpiStudents').textContent = data.studentsCount;
+            document.getElementById('adminStaffName').textContent = session.name || 'Institutional Director';
+
+            // Render Students Table (Strictly isolated to this institute)
+            renderStudentsList(data.students);
+
+            // Render Recent Attempts
+            const rBody = document.getElementById('recentAttemptsBody');
+            rBody.innerHTML = '';
+            data.results.forEach(r => {
+                rBody.innerHTML += `
+                    <tr>
+                        <td><strong>${r.name}</strong></td>
+                        <td>${data.students[0]?.id || 'ID-001'}</td>
+                        <td>All India JEE Main Grand Mock Test - 01</td>
+                        <td><strong style="color: #1e3a8a;">${r.total} / 300</strong></td>
+                        <td><span class="badge badge-success">SYNCED (IndexedDB)</span></td>
+                        <td>2h 44m</td>
+                    </tr>
+                `;
+            });
+
+            // Render Results Table
+            const resBody = document.getElementById('resultsTableBody');
+            resBody.innerHTML = '';
+            data.results.forEach(r => {
+                resBody.innerHTML += `
+                    <tr>
+                        <td><strong>#${r.rank}</strong></td>
+                        <td><strong>${r.name}</strong></td>
+                        <td>${r.phy}</td>
+                        <td>${r.chem}</td>
+                        <td>${r.math}</td>
+                        <td><strong style="color: #2563eb;">${r.total}</strong></td>
+                        <td><span class="badge badge-blue">${r.acc}</span></td>
+                        <td style="font-size: 12px; color: ${r.diag.includes('⚠️') ? '#dc2626' : '#166534'};">${r.diag}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Initialize Isolated Tenant
+        initTenantDashboard();
+    </script>
+</body>
+</html>

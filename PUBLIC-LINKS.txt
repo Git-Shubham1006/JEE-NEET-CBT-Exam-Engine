@@ -1,0 +1,34 @@
+=============================================================================
+🚀 JEE CBT & AI MENTORSHIP PLATFORM — PUBLIC SHAREABLE LINKS
+=============================================================================
+
+These links work on any device worldwide (phones, laptops, tablets) without login:
+
+1. 🏢 Isolated Institute Portal (Apex Patna White-Labeled):
+   https://watch-scene-productions-introductory.trycloudflare.com/login.html?org=apex
+
+2. 🔐 Unified Secure Portal Entry (Role-Based Login):
+   https://watch-scene-productions-introductory.trycloudflare.com/login.html
+
+3. 🎓 Main Student CBT Exam Player (1:1 NTA Exact Clone):
+   https://watch-scene-productions-introductory.trycloudflare.com/index.html
+
+4. 📚 Student Self-Study & PYQ Practice Hub (MARKS-style):
+   https://watch-scene-productions-introductory.trycloudflare.com/dashboards/student-practice-hub.html
+
+5. ⚡ TIPS Test Paper Builder (Teacher Exam Creator & Merger):
+   https://watch-scene-productions-introductory.trycloudflare.com/dashboards/tips-paper-builder.html
+
+6. 🏢 Institute-Admin Portal (Database 2 — Isolated Director Dashboard):
+   https://watch-scene-productions-introductory.trycloudflare.com/dashboards/institute-admin.html
+
+7. 👑 Super-Admin Master Portal (Database 1 — RannVijay Operations Console):
+   https://watch-scene-productions-introductory.trycloudflare.com/dashboards/super-admin.html
+
+=============================================================================
+🔒 TENANT ISOLATION GUARANTEE:
+Institute Admins see ONLY their institute's data, tests, students, and marks.
+No institute can see other institutes, switch tenants, or access super-admin.
+=============================================================================
+Powered by Cloudflare Secure Tunnel (SSL / HTTPS Encrypted)
+=============================================================================

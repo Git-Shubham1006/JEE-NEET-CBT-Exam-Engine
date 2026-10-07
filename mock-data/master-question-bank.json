@@ -1,0 +1,274 @@
+[
+  {
+    "id": "PHY_KIN_001",
+    "subject": "Physics",
+    "chapter": "Kinematics & Projectile Motion",
+    "topic": "Horizontal Projection & Trajectory",
+    "type": "SCQ",
+    "difficulty": "EASY",
+    "questionLatex": "A ball is projected horizontally from the top of a tower of height $h = 45\\text{ m}$ with an initial velocity $u = 15\\text{ m/s}$. Taking $g = 10\\text{ m/s}^2$, the time taken to reach the ground is:",
+    "options": [
+      { "id": "A", "latex": "$3\\text{ s}$" },
+      { "id": "B", "latex": "$4.5\\text{ s}$" },
+      { "id": "C", "latex": "$2\\text{ s}$" },
+      { "id": "D", "latex": "$6\\text{ s}$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "$h = \\frac{1}{2}gt^2 \\implies 45 = \\frac{1}{2}(10)t^2 \\implies t^2 = 9 \\implies t = 3\\text{ s}$."
+  },
+  {
+    "id": "PHY_KIN_002",
+    "subject": "Physics",
+    "chapter": "Kinematics & Projectile Motion",
+    "topic": "Relative Motion in 2D",
+    "type": "SCQ",
+    "difficulty": "MEDIUM",
+    "questionLatex": "Rain is falling vertically downwards with speed $v_r = 30\\text{ m/s}$. A cyclist rides horizontally with speed $v_c = 10\\sqrt{3}\\text{ m/s}$ towards east. The angle with vertical at which the cyclist should hold his umbrella is:",
+    "options": [
+      { "id": "A", "latex": "$30^\\circ\\text{ towards east}$" },
+      { "id": "B", "latex": "$60^\\circ\\text{ towards east}$" },
+      { "id": "C", "latex": "$30^\\circ\\text{ towards west}$" },
+      { "id": "D", "latex": "$45^\\circ\\text{ towards east}$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "$\\tan\\theta = \\frac{v_c}{v_r} = \\frac{10\\sqrt{3}}{30} = \\frac{1}{\\sqrt{3}} \\implies \\theta = 30^\\circ$ towards east."
+  },
+  {
+    "id": "PHY_THERMO_001",
+    "subject": "Physics",
+    "chapter": "Thermodynamics & KTG",
+    "topic": "Carnot Engine & Efficiency",
+    "type": "SCQ",
+    "difficulty": "EASY",
+    "questionLatex": "A Carnot engine works between two temperatures $T_1 = 500\\text{ K}$ (source) and $T_2 = 300\\text{ K}$ (sink). Its thermal efficiency $\\eta$ is:",
+    "options": [
+      { "id": "A", "latex": "$40\\%$" },
+      { "id": "B", "latex": "$60\\%$" },
+      { "id": "C", "latex": "$50\\%$" },
+      { "id": "D", "latex": "$25\\%$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "$\\eta = 1 - \\frac{T_2}{T_1} = 1 - \\frac{300}{500} = 0.4 = 40\\%$."
+  },
+  {
+    "id": "PHY_THERMO_002",
+    "subject": "Physics",
+    "chapter": "Thermodynamics & KTG",
+    "topic": "Adiabatic Expansion & Polytropic Processes",
+    "type": "SCQ",
+    "difficulty": "HARD",
+    "questionLatex": "An ideal diatomic gas ($\\gamma = 1.4$) expands adiabatically such that its volume becomes $32$ times its initial volume. If the initial temperature was $T_0$, the final temperature will be:",
+    "options": [
+      { "id": "A", "latex": "$T_0 / 4$" },
+      { "id": "B", "latex": "$T_0 / 8$" },
+      { "id": "C", "latex": "$T_0 / 16$" },
+      { "id": "D", "latex": "$T_0 / 2$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "$T V^{\\gamma-1} = \\text{const} \\implies T_f = T_0 \\left(\\frac{V_0}{32 V_0}\\right)^{1.4 - 1} = T_0 (2^{-5})^{0.4} = T_0 (2^{-2}) = \\frac{T_0}{4}$."
+  },
+  {
+    "id": "PHY_ELEC_001",
+    "subject": "Physics",
+    "chapter": "Electrostatics & Capacitance",
+    "topic": "Electric Field & Gauss Law",
+    "type": "SCQ",
+    "difficulty": "MEDIUM",
+    "questionLatex": "A solid conducting sphere of radius $R$ has a uniform charge $Q$. The ratio of electric field at distance $r = R/2$ to that at $r = 2R$ from the center is:",
+    "options": [
+      { "id": "A", "latex": "$0$" },
+      { "id": "B", "latex": "$4$" },
+      { "id": "C", "latex": "$1/4$" },
+      { "id": "D", "latex": "$2$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "For a conductor, electric field inside is zero everywhere: $E(R/2) = 0$. Hence the ratio is $0$."
+  },
+  {
+    "id": "CHEM_BOND_001",
+    "subject": "Chemistry",
+    "chapter": "Chemical Bonding & Molecular Structure",
+    "topic": "VSEPR & Hybridization",
+    "type": "SCQ",
+    "difficulty": "EASY",
+    "questionLatex": "According to VSEPR theory, the molecular geometry and hybridization of the central atom in $\\text{XeF}_4$ is:",
+    "options": [
+      { "id": "A", "latex": "Square planar, $sp^3d^2$" },
+      { "id": "B", "latex": "Tetrahedral, $sp^3$" },
+      { "id": "C", "latex": "See-saw, $sp^3d$" },
+      { "id": "D", "latex": "Square pyramidal, $sp^3d^2$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "Xe has 8 valence electrons. With 4 single bonds and 2 lone pairs, steric number $= 6$ ($sp^3d^2$), octahedral electron geometry, square planar molecular shape."
+  },
+  {
+    "id": "CHEM_BOND_002",
+    "subject": "Chemistry",
+    "chapter": "Chemical Bonding & Molecular Structure",
+    "topic": "Molecular Orbital Theory (MOT)",
+    "type": "SCQ",
+    "difficulty": "MEDIUM",
+    "questionLatex": "Which of the following species has the highest bond order according to Molecular Orbital Theory?",
+    "options": [
+      { "id": "A", "latex": "$\\text{N}_2$" },
+      { "id": "B", "latex": "$\\text{O}_2$" },
+      { "id": "C", "latex": "$\\text{O}_2^+$" },
+      { "id": "D", "latex": "$\\text{N}_2^-$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "Bond orders: $\\text{N}_2 = 3.0$, $\\text{O}_2 = 2.0$, $\\text{O}_2^+ = 2.5$, $\\text{N}_2^- = 2.5$. Highest is $\\text{N}_2$ with $3.0$."
+  },
+  {
+    "id": "CHEM_THERMO_001",
+    "subject": "Chemistry",
+    "chapter": "Chemical Thermodynamics",
+    "topic": "Gibbs Free Energy & Spontaneity",
+    "type": "SCQ",
+    "difficulty": "MEDIUM",
+    "questionLatex": "For a spontaneous reaction at all temperatures, the thermodynamic condition is:",
+    "options": [
+      { "id": "A", "latex": "$\\Delta H < 0$ and $\\Delta S > 0$" },
+      { "id": "B", "latex": "$\\Delta H > 0$ and $\\Delta S < 0$" },
+      { "id": "C", "latex": "$\\Delta H > 0$ and $\\Delta S > 0$" },
+      { "id": "D", "latex": "$\\Delta H < 0$ and $\\Delta S < 0$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "$\\Delta G = \\Delta H - T\\Delta S$. If $\\Delta H < 0$ and $\\Delta S > 0$, $\\Delta G$ is always negative at any temperature $T > 0$."
+  },
+  {
+    "id": "CHEM_COORD_001",
+    "subject": "Chemistry",
+    "chapter": "Coordination Compounds",
+    "topic": "Crystal Field Theory (CFT)",
+    "type": "SCQ",
+    "difficulty": "HARD",
+    "questionLatex": "The crystal field stabilization energy (CFSE) of a high-spin $d^6$ octahedral complex in terms of $\\Delta_o$ is:",
+    "options": [
+      { "id": "A", "latex": "$-0.4\\,\\Delta_o$" },
+      { "id": "B", "latex": "$-2.4\\,\\Delta_o$" },
+      { "id": "C", "latex": "$-1.2\\,\\Delta_o$" },
+      { "id": "D", "latex": "$-0.8\\,\\Delta_o$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "High spin $d^6$ configuration is $t_{2g}^4 e_g^2$. $\\text{CFSE} = 4(-0.4) + 2(0.6) = -1.6 + 1.2 = -0.4\\,\\Delta_o$."
+  },
+  {
+    "id": "MATH_CALC_001",
+    "subject": "Mathematics",
+    "chapter": "Integral Calculus & Differential Equations",
+    "topic": "Definite Integrals & Properties",
+    "type": "SCQ",
+    "difficulty": "EASY",
+    "questionLatex": "The value of $\\int_{-a}^a \\frac{x^5}{1 + x^2} dx$ is:",
+    "options": [
+      { "id": "A", "latex": "$0$" },
+      { "id": "B", "latex": "$2a$" },
+      { "id": "C", "latex": "$\\pi$" },
+      { "id": "D", "latex": "$a^2/2$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "$f(x) = \\frac{x^5}{1+x^2}$ is an odd function because $f(-x) = -f(x)$. The integral of an odd function from $-a$ to $a$ is always $0$."
+  },
+  {
+    "id": "MATH_CALC_002",
+    "subject": "Mathematics",
+    "chapter": "Integral Calculus & Differential Equations",
+    "topic": "Leibniz Rule & Differentiation under Integral",
+    "type": "SCQ",
+    "difficulty": "HARD",
+    "questionLatex": "If $f(x) = \\int_0^{x^2} \\sqrt{1 + t^3}\\,dt$, then the derivative $f'(1)$ is equal to:",
+    "options": [
+      { "id": "A", "latex": "$2\\sqrt{2}$" },
+      { "id": "B", "latex": "$\\sqrt{2}$" },
+      { "id": "C", "latex": "$4\\sqrt{2}$" },
+      { "id": "D", "latex": "$1$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "By Leibniz rule: $f'(x) = \\sqrt{1 + (x^2)^3} \\cdot \\frac{d}{dx}(x^2) = 2x\\sqrt{1 + x^6}$. At $x=1$: $f'(1) = 2(1)\\sqrt{1 + 1} = 2\\sqrt{2}$."
+  },
+  {
+    "id": "MATH_VEC_001",
+    "subject": "Mathematics",
+    "chapter": "Vectors & 3D Geometry",
+    "topic": "Dot & Cross Product Relations",
+    "type": "SCQ",
+    "difficulty": "MEDIUM",
+    "questionLatex": "If $|\\vec{a} \\times \\vec{b}| = \\vec{a} \\cdot \\vec{b}$ for non-zero vectors $\\vec{a}$ and $\\vec{b}$, then the angle between $\\vec{a}$ and $\\vec{b}$ is:",
+    "options": [
+      { "id": "A", "latex": "$\\pi/4$" },
+      { "id": "B", "latex": "$\\pi/2$" },
+      { "id": "C", "latex": "$\\pi/3$" },
+      { "id": "D", "latex": "$\\pi/6$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "$|\\vec{a}||\\vec{b}|\\sin\\theta = |\\vec{a}||\\vec{b}|\\cos\\theta \\implies \\tan\\theta = 1 \\implies \\theta = \\pi/4$."
+  },
+  {
+    "id": "BIO_BOT_001",
+    "subject": "Biology",
+    "chapter": "Genetics & Molecular Basis of Inheritance",
+    "topic": "Mendelian Dihybrid Cross & Recombination",
+    "type": "SCQ",
+    "difficulty": "EASY",
+    "questionLatex": "In a typical Mendelian dihybrid cross involving pea plants heterozygous for two genes ($RrYy \\times RrYy$), the expected phenotypic ratio in the $F_2$ generation is:",
+    "options": [
+      { "id": "A", "latex": "$9:3:3:1$" },
+      { "id": "B", "latex": "$1:2:1$" },
+      { "id": "C", "latex": "$9:7$" },
+      { "id": "D", "latex": "$12:3:1$" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "According to the Law of Independent Assortment, a dihybrid cross of two heterozygous individuals yields 9 Round-Yellow : 3 Round-Green : 3 Wrinkled-Yellow : 1 Wrinkled-Green ($9:3:3:1$)."
+  },
+  {
+    "id": "BIO_BOT_002",
+    "subject": "Biology",
+    "chapter": "Plant Physiology (Photosynthesis)",
+    "topic": "Calvin Cycle & $C_4$ Pathway",
+    "type": "SCQ",
+    "difficulty": "MEDIUM",
+    "questionLatex": "In $C_4$ plants (such as maize and sugarcane), the initial fixation of atmospheric $\\text{CO}_2$ takes place in the mesophyll cells and is catalyzed by the enzyme:",
+    "options": [
+      { "id": "A", "latex": "PEP carboxylase (PEPcase)" },
+      { "id": "B", "latex": "RuBisCO" },
+      { "id": "C", "latex": "Carbonic anhydrase" },
+      { "id": "D", "latex": "Pyruvate dehydrogenase" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "In $C_4$ plants, PEP carboxylase fixes $\\text{CO}_2$ with Phosphoenolpyruvate (PEP) in mesophyll cells to form oxaloacetate ($4C$). RuBisCO operates later in bundle sheath cells."
+  },
+  {
+    "id": "BIO_ZOO_001",
+    "subject": "Biology",
+    "chapter": "Human Physiology & Circulation",
+    "topic": "Electrocardiogram (ECG) Analysis",
+    "type": "SCQ",
+    "difficulty": "EASY",
+    "questionLatex": "In a standard normal human Electrocardiogram (ECG), the depolarization of the ventricles is represented by the:",
+    "options": [
+      { "id": "A", "latex": "QRS complex" },
+      { "id": "B", "latex": "P wave" },
+      { "id": "C", "latex": "T wave" },
+      { "id": "D", "latex": "P-R interval" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "The P wave represents atrial depolarization. The QRS complex represents ventricular depolarization (leading to ventricular contraction). The T wave represents ventricular repolarization."
+  },
+  {
+    "id": "BIO_ZOO_002",
+    "subject": "Biology",
+    "chapter": "Biotechnology: Principles & Processes",
+    "topic": "Recombinant DNA Technology & Restriction Enzymes",
+    "type": "SCQ",
+    "difficulty": "HARD",
+    "questionLatex": "During molecular cloning, restriction endonucleases make staggered cuts in the double-stranded DNA leaving single-stranded overhanging sequences known as:",
+    "options": [
+      { "id": "A", "latex": "Sticky / Cohesive ends" },
+      { "id": "B", "latex": "Blunt ends" },
+      { "id": "C", "latex": "Okazaki fragments" },
+      { "id": "D", "latex": "Poly-A tails" }
+    ],
+    "correctAnswer": "A",
+    "solutionLatex": "Enzymes like EcoRI cut palindromic recognition sequences staggered away from the center of symmetry, creating single-stranded sticky ends that readily form hydrogen bonds with complementary fragments."
+  }
+]

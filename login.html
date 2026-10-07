@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Portal Login — JEE CBT & AI Mentorship Platform</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-accent: #2563eb;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --border: #334155;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 520px;
+            padding: 32px 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand-logo-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Role Switcher Tabs */
+        .role-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            background: #0f172a;
+            padding: 6px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .role-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .role-tab-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #1d4ed8;
+        }
+
+        /* Preset Quick Login Buttons (For Seamless Testing) */
+        .preset-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .preset-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .preset-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            color: #e2e8f0;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.15s;
+        }
+
+        .preset-btn:hover {
+            border-color: #3b82f6;
+            background: #1e293b;
+        }
+
+        .preset-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .tag-inst { background: rgba(37, 99, 235, 0.2); color: #60a5fa; }
+        .tag-super { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        .tag-student { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="brand-header">
+            <div class="brand-logo-badge" id="portalBadge">JEE CBT ENTERPRISE</div>
+            <h1 style="font-size: 20px; font-weight: 800;" id="portalHeading">Secure Institutional Gateway</h1>
+            <div class="brand-subtitle" id="portalSubtitle">Private Isolated Database & Role-Based Access Control</div>
+        </div>
+
+        <!-- Role Tabs (Only Staff and Student shown by default) -->
+        <div class="role-tabs" id="roleTabsContainer" style="grid-template-columns: repeat(2, 1fr);">
+            <button class="role-tab-btn active" id="tabInst" onclick="switchRoleTab('INST')">🏢 Institute Staff</button>
+            <button class="role-tab-btn" id="tabStudent" onclick="switchRoleTab('STUDENT')">🎓 Student</button>
+            <button class="role-tab-btn" id="tabSuper" onclick="switchRoleTab('SUPER')" style="display: none;">👑 Master</button>
+        </div>
+
+        <!-- Form Container -->
+        <form id="loginForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-group" id="instCodeGroup">
+                <label id="instCodeLabel">Institute Code (Optional if using full email)</label>
+                <input type="text" id="instCodeInput" placeholder="e.g. APEX or CHANAKYA" style="text-transform: uppercase;">
+            </div>
+
+            <div class="form-group">
+                <label id="idLabel">Official Email / Staff ID</label>
+                <input type="text" id="usernameInput" value="director@apexpatna.in" placeholder="director@apexpatna.in" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password / Access Key</label>
+                <input type="password" id="passwordInput" value="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+                Enter Isolated Institute Portal →
+            </button>
+        </form>
+
+        <!-- 1-Click Quick Testing Presets (Isolated) -->
+        <div class="preset-section">
+            <div class="preset-title">⚡ 1-Click Role Verification Presets</div>
+            <div class="preset-grid">
+                <div class="preset-btn" onclick="quickLogin('director@apexpatna.in')">
+                    <span>🏢 Login to <strong>Apex IIT-JEE Academy</strong> (Patna)</span>
+                    <span class="preset-tag tag-inst">Tenant Isolated</span>
+                </div>
+                <div class="preset-btn" onclick="quickLogin('admin@chanakyakota.in')">
+                    <span>🏢 Login to <strong>Chanakya Science Institute</strong> (Kota)</span>
+                    <span class="preset-tag tag-inst">Tenant Isolated</span>
+                </div>
+                <div class="preset-btn" onclick="quickLogin('student@apexpatna.in')">
+                    <span>🎓 Login as <strong>Apex Student</strong> (RannVijay Kumar)</span>
+                    <span class="preset-tag tag-student">CBT & Practice</span>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 18px;">
+                <a href="javascript:void(0)" onclick="revealMasterLogin()" style="color: #64748b; font-size: 11px; text-decoration: none;">🔒 Platform Infrastructure Owner Login (RannVijay)</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Authentication Handlers -->
+    <script type="module">
+        import { setAuthSession, PRESET_ACCOUNTS, USER_ROLES } from './auth/session-auth-guard.js';
+
+        let activeTab = 'INST';
+        const urlParams = new URLSearchParams(window.location.search);
+        const orgParam = (urlParams.get('org') || urlParams.get('tenant') || '').toLowerCase();
+        const masterParam = urlParams.get('master') || urlParams.get('super');
+
+        // Automatic White-Label Tenant Branding if specified via URL
+        if (orgParam === 'apex') {
+            document.getElementById('portalBadge').textContent = 'APEX ACADEMY';
+            document.getElementById('portalHeading').textContent = 'Apex IIT-JEE Academy, Patna';
+            document.getElementById('portalSubtitle').textContent = 'Institutional Examination & Evaluation Gateway';
+            document.getElementById('instCodeGroup').style.display = 'none';
+            document.getElementById('usernameInput').value = 'director@apexpatna.in';
+        } else if (orgParam === 'chanakya') {
+            document.getElementById('portalBadge').textContent = 'CHANAKYA KOTA';
+            document.getElementById('portalHeading').textContent = 'Chanakya Science Institute, Kota';
+            document.getElementById('portalSubtitle').textContent = 'Private CBT Examination Administration';
+            document.getElementById('instCodeGroup').style.display = 'none';
+            document.getElementById('usernameInput').value = 'admin@chanakyakota.in';
+        }
+
+        // Reveal Master Login if requested
+        if (masterParam === '1' || masterParam === 'true') {
+            revealMasterLogin();
+        }
+
+        window.revealMasterLogin = function() {
+            const tabSuper = document.getElementById('tabSuper');
+            const tabsContainer = document.getElementById('roleTabsContainer');
+            tabSuper.style.display = 'block';
+            tabsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            switchRoleTab('SUPER');
+        };
+
+        window.switchRoleTab = function(tab) {
+            activeTab = tab;
+            document.querySelectorAll('.role-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            const instCodeGroup = document.getElementById('instCodeGroup');
+            const idLabel = document.getElementById('idLabel');
+            const submitBtn = document.getElementById('submitBtn');
+            const userInput = document.getElementById('usernameInput');
+
+            if (tab === 'INST') {
+                document.getElementById('tabInst').classList.add('active');
+                if (!orgParam) instCodeGroup.style.display = 'block';
+                idLabel.textContent = 'Staff Email / Director ID';
+                submitBtn.textContent = 'Enter Isolated Institute Portal →';
+                userInput.value = orgParam === 'chanakya' ? 'admin@chanakyakota.in' : 'director@apexpatna.in';
+            } else if (tab === 'STUDENT') {
+                document.getElementById('tabStudent').classList.add('active');
+                if (!orgParam) instCodeGroup.style.display = 'block';
+                idLabel.textContent = 'Student Enrollment Roll No / Email';
+                submitBtn.textContent = 'Launch Student CBT Terminal →';
+                userInput.value = 'student@apexpatna.in';
+            } else if (tab === 'SUPER') {
+                document.getElementById('tabSuper').classList.add('active');
+                instCodeGroup.style.display = 'none';
+                idLabel.textContent = 'Platform Owner Master Key';
+                submitBtn.textContent = 'Access God-Mode Master Console →';
+                userInput.value = 'rannvijay@platform.com';
+            }
+        };
+
+        window.handleFormSubmit = function(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            const instCode = (document.getElementById('instCodeInput')?.value || '').trim().toUpperCase();
+
+            if (activeTab === 'SUPER' || username.includes('rannvijay')) {
+                quickLogin('rannvijay@platform.com');
+                return;
+            }
+
+            if (activeTab === 'STUDENT') {
+                quickLogin('student@apexpatna.in');
+                return;
+            }
+
+            // Route strictly to the appropriate isolated tenant
+            if (instCode === 'CHANAKYA' || username.includes('chanakya') || orgParam === 'chanakya') {
+                quickLogin('admin@chanakyakota.in');
+            } else {
+                quickLogin('director@apexpatna.in');
+            }
+        };
+
+        window.quickLogin = function(accountEmail) {
+            const account = PRESET_ACCOUNTS[accountEmail];
+            if (!account) return;
+
+            setAuthSession(account, true);
+
+            if (account.role === USER_ROLES.SUPER_ADMIN) {
+                alert(`👑 Welcome RannVijay! Platform Master Console Authorized.`);
+                window.location.href = '/dashboards/super-admin.html';
+            } else if (account.role === USER_ROLES.INSTITUTE_ADMIN) {
+                alert(`🏢 Welcome ${account.name}!\n\nAccessing strictly isolated database:\n[${account.dbName}]\nZero visibility into any other institute.`);
+                window.location.href = '/dashboards/institute-admin.html';
+            } else if (account.role === USER_ROLES.STUDENT) {
+                alert(`🎓 Welcome ${account.name}! Launching your exam terminal.`);
+                window.location.href = '/index.html';
+            }
+        };
+    </script>
+</body>
+</html>

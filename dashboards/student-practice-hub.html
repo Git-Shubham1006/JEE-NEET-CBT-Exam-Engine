@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Self-Study & PYQ Practice Hub — JEE & NEET</title>
+    <!-- KaTeX for ultra-crisp mathematical vector rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #1589ee;
+            --primary-dark: #0b6bc4;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Demo Navigation Bar */
+        .top-nav {
+            background: #111827;
+            color: #9ca3af;
+            padding: 8px 24px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #374151;
+        }
+
+        .top-nav a {
+            color: #93c5fd;
+            text-decoration: none;
+            margin-left: 14px;
+            font-weight: 500;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Student Header */
+        header.practice-header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 14px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-badge {
+            background: linear-gradient(135deg, #1589ee 0%, #0369a1 100%);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Container Layout */
+        .hub-container {
+            max-width: 1240px;
+            margin: 24px auto;
+            padding: 0 20px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+            flex: 1;
+        }
+
+        /* Left Navigation & Syllabus Tree */
+        aside.syllabus-sidebar {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+        }
+
+        .subject-toggle-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .sub-btn {
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: #475569;
+            text-align: center;
+            transition: all 0.15s;
+        }
+
+        .sub-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chapter-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.15s;
+        }
+
+        .chapter-item:hover {
+            border-color: #93c5fd;
+            background: #eff6ff;
+        }
+
+        .chapter-item.active {
+            background: #eff6ff;
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .pyq-badge {
+            font-size: 11px;
+            background: #e2e8f0;
+            color: #475569;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        /* Right Practice Canvas */
+        main.practice-canvas {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .banner-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .banner-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .banner-sub {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .progress-pill {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        /* Question Practice Card */
+        .q-practice-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            position: relative;
+        }
+
+        .q-meta-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .q-year-tag {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2563eb;
+            background: #eff6ff;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .q-actions-top {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #475569;
+        }
+
+        .btn-icon.bookmarked {
+            background: #fef3c7;
+            border-color: #f59e0b;
+            color: #b45309;
+        }
+
+        .q-statement {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        .practice-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .practice-opt {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .practice-opt:hover {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+        }
+
+        .practice-opt.correct {
+            background: #f0fdf4 !important;
+            border-color: #22c55e !important;
+        }
+
+        .practice-opt.wrong {
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+        }
+
+        .opt-letter {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .practice-opt.correct .opt-letter {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #fff;
+        }
+
+        .practice-opt.wrong .opt-letter {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #fff;
+        }
+
+        /* Instant Solution Box */
+        .solution-box {
+            display: none;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.7;
+            margin-top: 14px;
+        }
+
+        /* Formula Cheat Sheet Drawer */
+        .formula-card {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .formula-title {
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Demo Navigation -->
+    <div class="top-nav">
+        <div>
+            <strong>📚 Student Practice Hub (Inspired by MARKS App)</strong>
+        </div>
+        <div>
+            <span>Switch Portal:</span>
+            <a href="/index.html">🎓 Student CBT Terminal</a>
+            <a href="/dashboards/student-practice-hub.html" style="font-weight: 700; color: #fff;">📚 Practice Hub</a>
+            <a href="/dashboards/tips-paper-builder.html">⚡ TIPS Builder</a>
+            <a href="/dashboards/institute-admin.html">🏢 Institute Admin</a>
+            <a href="/dashboards/super-admin.html">👑 Super-Admin</a>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="practice-header">
+        <div class="brand-box">
+            <div class="app-badge">MARKS-HUB</div>
+            <div>
+                <h2 style="font-size: 18px; font-weight: 800;">Chapter-wise PYQ Drilling & Revision Engine</h2>
+                <div style="font-size: 12px; color: var(--text-muted);">Self-Paced Practice with Instant Solutions & Formula Sheets</div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="text-align: right; font-size: 12px;">
+                <div style="font-weight: 700; color: #0f172a;">Candidate: Shubham Kumar</div>
+                <div style="color: var(--success);">🔥 4-Day Practice Streak</div>
+            </div>
+            <a href="/index.html" style="background: var(--primary); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700;">
+                Go to CBT Mock Exam →
+            </a>
+        </div>
+    </header>
+
+    <div class="hub-container">
+        
+        <!-- Left: Syllabus & Chapter Picker -->
+        <aside class="syllabus-sidebar">
+            <div class="sidebar-title">Select Subject & Chapter</div>
+
+            <div class="subject-toggle-row">
+                <button class="sub-btn active" onclick="switchSubject('Physics')">⚛️ Physics</button>
+                <button class="sub-btn" onclick="switchSubject('Chemistry')">🧪 Chemistry</button>
+                <button class="sub-btn" onclick="switchSubject('Mathematics')">📐 Maths</button>
+                <button class="sub-btn" onclick="switchSubject('Biology')">🧬 Biology</button>
+            </div>
+
+            <div class="chapter-list" id="chapterListContainer">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Quick Formula Cheat Sheet -->
+            <div class="formula-card" style="margin-top: 20px;">
+                <div class="formula-title">💡 Instant Chapter Cheat-Sheet:</div>
+                <div id="formulaSnippetText" style="line-height: 1.6; font-size: 12px;">
+                    Loading chapter formulas...
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right: Interactive Question Practice Canvas -->
+        <main class="practice-canvas">
+            
+            <div class="banner-card">
+                <div>
+                    <div class="banner-title" id="activeChapterTitle">Kinematics & Projectile Motion</div>
+                    <div class="banner-sub" id="activeChapterSub">Official JEE Main & Advanced Past Year Questions</div>
+                </div>
+                <div class="progress-pill">
+                    <div style="font-size: 18px; font-weight: 800; color: #38bdf8;" id="statsScore">0 / 0 Solved</div>
+                    <div style="font-size: 11px; color: #cbd5e1;">Target: 100% Mastery</div>
+                </div>
+            </div>
+
+            <div id="questionsContainer">
+                <!-- Questions rendered dynamically -->
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Script Engine -->
+    <script type="module">
+        import { extractSyllabusTaxonomy } from '../core/tips-algorithmic-generator.js';
+
+        let masterBank = [];
+        let taxonomy = {};
+        let activeSubject = 'Physics';
+        let activeChapter = '';
+        let bookmarkedIds = new Set();
+
+        const formulaSnippets = {
+            "Kinematics & Projectile Motion": "• $H_{max} = \\frac{u^2 \\sin^2\\theta}{2g}$<br>• $T = \\frac{2u\\sin\\theta}{g}$<br>• $R = \\frac{u^2\\sin 2\\theta}{g}$",
+            "Thermodynamics & KTG": "• $\\eta = 1 - \\frac{T_2}{T_1}$<br>• $PV^\\gamma = \\text{const}$<br>• $\\Delta U = n C_v \\Delta T$",
+            "Chemical Bonding & Molecular Structure": "• Steric No $= \\text{Bond Pairs} + \\text{Lone Pairs}$<br>• Bond Order $= \\frac{N_b - N_a}{2}$",
+            "Integral Calculus & Differential Equations": "• King's Rule: $\\int_a^b f(x)dx = \\int_a^b f(a+b-x)dx$<br>• Leibniz Rule for Differentiation under Integral",
+            "Genetics & Molecular Basis of Inheritance": "• Dihybrid Phenotypic Ratio: $9:3:3:1$<br>• Test Cross Ratio: $1:1:1:1$"
+        };
+
+        async function init() {
+            const res = await fetch('../mock-data/master-question-bank.json');
+            masterBank = await res.json();
+            taxonomy = extractSyllabusTaxonomy(masterBank);
+
+            // Default chapter
+            const physicsChapters = Object.keys(taxonomy['Physics'] || {});
+            activeChapter = physicsChapters[0] || '';
+
+            renderChapters();
+            renderQuestions();
+            updateFormulaSnippet();
+        }
+
+        window.switchSubject = function(subject) {
+            activeSubject = subject;
+            document.querySelectorAll('.sub-btn').forEach(btn => {
+                if (btn.textContent.includes(subject)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            const chapters = Object.keys(taxonomy[activeSubject] || {});
+            activeChapter = chapters[0] || '';
+            renderChapters();
+            renderQuestions();
+            updateFormulaSnippet();
+        };
+
+        window.selectChapter = function(chapter) {
+            activeChapter = chapter;
+            renderChapters();
+            renderQuestions();
+            updateFormulaSnippet();
+        };
+
+        function renderChapters() {
+            const container = document.getElementById('chapterListContainer');
+            container.innerHTML = '';
+
+            const chapters = Object.keys(taxonomy[activeSubject] || {});
+            chapters.forEach(ch => {
+                const count = masterBank.filter(q => q.chapter === ch).length;
+                const item = document.createElement('div');
+                item.className = 'chapter-item' + (ch === activeChapter ? ' active' : '');
+                item.innerHTML = `
+                    <span>${ch}</span>
+                    <span class="pyq-badge">${count} PYQs</span>
+                `;
+                item.onclick = () => selectChapter(ch);
+                container.appendChild(item);
+            });
+
+            document.getElementById('activeChapterTitle').textContent = activeChapter || activeSubject;
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            const chapterQuestions = masterBank.filter(q => q.chapter === activeChapter);
+            document.getElementById('statsScore').textContent = `0 / ${chapterQuestions.length} Solved`;
+
+            if (chapterQuestions.length === 0) {
+                container.innerHTML = `<div style="text-align: center; padding: 40px; color: #64748b;">No questions available in this chapter yet.</div>`;
+                return;
+            }
+
+            chapterQuestions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'q-practice-card';
+                card.id = `q-card-${q.id}`;
+                const isBookmarked = bookmarkedIds.has(q.id);
+
+                card.innerHTML = `
+                    <div class="q-meta-strip">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="q-year-tag">JEE PYQ • ${q.difficulty}</span>
+                            <span style="font-size: 12px; color: #64748b;">Question #${idx + 1}</span>
+                        </div>
+                        <div class="q-actions-top">
+                            <button class="btn-icon ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark('${q.id}')">
+                                ${isBookmarked ? '★ Bookmarked' : '☆ Bookmark'}
+                            </button>
+                            <button class="btn-icon" onclick="toggleSolution('${q.id}')">
+                                💡 View Solution
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="q-statement">${q.questionLatex}</div>
+
+                    <div class="practice-options-grid" id="opt-group-${q.id}">
+                        ${q.options.map(opt => `
+                            <div class="practice-opt" onclick="checkAnswer('${q.id}', '${opt.id}', '${q.correctAnswer}')">
+                                <div class="opt-letter">${opt.id}</div>
+                                <div style="font-size: 14px;">${opt.latex}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="solution-box" id="sol-box-${q.id}">
+                        <strong>Step-by-Step Mathematical Derivation:</strong>
+                        <div style="margin-top: 6px;">${q.solutionLatex}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Trigger KaTeX rendering
+            if (window.renderMathInElement) {
+                renderMathInElement(container, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        window.checkAnswer = function(qId, selectedOpt, correctOpt) {
+            const group = document.getElementById(`opt-group-${qId}`);
+            const options = Array.from(group.children);
+
+            options.forEach(opt => {
+                const letter = opt.querySelector('.opt-letter').textContent.trim();
+                opt.classList.remove('correct', 'wrong');
+
+                if (letter === correctOpt) {
+                    opt.classList.add('correct');
+                } else if (letter === selectedOpt && selectedOpt !== correctOpt) {
+                    opt.classList.add('wrong');
+                }
+            });
+
+            // Auto-reveal solution on attempt
+            document.getElementById(`sol-box-${qId}`).style.display = 'block';
+        };
+
+        window.toggleSolution = function(qId) {
+            const box = document.getElementById(`sol-box-${qId}`);
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        };
+
+        window.toggleBookmark = function(qId) {
+            if (bookmarkedIds.has(qId)) {
+                bookmarkedIds.delete(qId);
+            } else {
+                bookmarkedIds.add(qId);
+            }
+            renderQuestions();
+        };
+
+        function updateFormulaSnippet() {
+            const snippet = formulaSnippets[activeChapter] || "• Formula sheet for this chapter is being compiled.";
+            const snippetBox = document.getElementById('formulaSnippetText');
+            snippetBox.innerHTML = snippet;
+            if (window.renderMathInElement) {
+                renderMathInElement(snippetBox, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

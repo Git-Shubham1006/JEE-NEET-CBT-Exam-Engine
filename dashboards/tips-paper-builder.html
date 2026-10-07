@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIPS Test Paper Builder — Test Integration Platform System</title>
+    <!-- KaTeX for crisp LaTeX equation rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --success: #16a34a;
+            --purple: #7c3aed;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Demo Navigation */
+        .top-nav {
+            background: #111827;
+            color: #9ca3af;
+            padding: 8px 24px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #374151;
+        }
+
+        .top-nav a {
+            color: #93c5fd;
+            text-decoration: none;
+            margin-left: 14px;
+            font-weight: 500;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Header */
+        header.tips-header {
+            background: #172554;
+            color: #fff;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .tips-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .tips-badge {
+            background: #2563eb;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            font-size: 16px;
+        }
+
+        /* Mode Switcher Banner */
+        .mode-banner {
+            background: #ffffff;
+            border-bottom: 2px solid var(--border);
+            padding: 12px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mode-tab-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: #475569;
+            transition: all 0.15s;
+        }
+
+        .mode-tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 2px 6px rgba(30, 58, 138, 0.25);
+        }
+
+        /* Layout Container */
+        .builder-container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Semantic Section Card */
+        .builder-section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 26px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            position: relative;
+        }
+
+        .section-header-tag {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #2563eb;
+            background: #eff6ff;
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        /* Form Grid */
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .form-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group select {
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-dark);
+            background: #fff;
+        }
+
+        /* Subject Pill Selector */
+        .subject-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .subject-card-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px 16px;
+            background: #f8fafc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.15s;
+        }
+
+        .subject-card-option:hover {
+            border-color: #93c5fd;
+            background: #eff6ff;
+        }
+
+        .subject-card-option.selected {
+            border-color: var(--primary);
+            background: #eff6ff;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .subject-icon {
+            font-size: 24px;
+        }
+
+        .subject-card-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #0f172a;
+        }
+
+        .subject-card-subtitle {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        /* Chapters Grid */
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .chapter-checkbox-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .chapter-checkbox-card:hover {
+            border-color: #93c5fd;
+            background: #eff6ff;
+        }
+
+        .chapter-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .chapter-topic-count {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Difficulty Allocation Row */
+        .difficulty-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .diff-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .diff-badge {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .diff-easy { background: #dcfce7; color: #166534; }
+        .diff-med { background: #fef3c7; color: #92400e; }
+        .diff-hard { background: #fee2e2; color: #991b1b; }
+
+        /* Action Buttons */
+        .btn-generate {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: all 0.15s;
+            margin-top: 16px;
+        }
+
+        .btn-generate:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* Assembled Paper Question Canvas */
+        .question-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .q-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .q-meta-tag {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .btn-swap {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-swap:hover {
+            background: #dbeafe;
+        }
+
+        .q-body {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            color: #0f172a;
+        }
+
+        .q-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .q-opt-pill {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .q-solution-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #166534;
+        }
+
+        /* Merger Hub Specific Cards */
+        .draft-item-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            transition: all 0.15s;
+        }
+
+        .draft-item-card.included {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        /* Export Bar */
+        .export-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        /* Printable Style for Classroom White-Label PDF */
+        @media print {
+            .top-nav, header.tips-header, .mode-banner, .builder-section-card:not(#sec-paper-canvas), .btn-swap, .export-bar {
+                display: none !important;
+            }
+            body, .builder-container {
+                background: #fff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            .question-card {
+                border: 1px solid #000 !important;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Demo Navigation -->
+    <div class="top-nav">
+        <div>
+            <strong>⚡ TIPS Engine: Test Integration Platform System</strong>
+        </div>
+        <div>
+            <span>Switch Portal:</span>
+            <a href="/index.html">🎓 Student CBT</a>
+            <a href="/dashboards/student-practice-hub.html" style="color: #38bdf8; font-weight: 700;">📚 Practice Hub</a>
+            <a href="/dashboards/tips-paper-builder.html" style="font-weight: 700; color: #fff;">⚡ TIPS Paper Builder</a>
+            <a href="/dashboards/institute-admin.html">🏢 Institute Admin</a>
+            <a href="/dashboards/super-admin.html">👑 Super-Admin</a>
+        </div>
+    </div>
+
+    <!-- TIPS Module Header -->
+    <header class="tips-header">
+        <div class="tips-brand">
+            <div class="tips-badge">TIPS STUDIO</div>
+            <div>
+                <h2 style="font-size: 18px; font-weight: 800;">Algorithmic Question Paper Builder</h2>
+                <div style="font-size: 12px; color: #93c5fd;">Collaborative Subject Specialist & Multi-Subject Exam Merger</div>
+            </div>
+        </div>
+
+        <div>
+            <span style="font-size: 12px; color: #cbd5e1;">Active Institute:</span>
+            <strong style="color: #fff; margin-left: 6px;">Apex IIT-JEE Academy, Patna</strong>
+        </div>
+    </header>
+
+    <!-- Operational Mode Switcher Bar -->
+    <div class="mode-banner">
+        <div>
+            <span style="font-size: 13px; font-weight: 700; color: #1e293b;">Select Paper Authoring Mode:</span>
+        </div>
+        <div class="mode-tabs">
+            <button class="mode-tab-btn active" id="btnModeSingle" onclick="setAuthoringMode('SINGLE_SUBJECT')">
+                👤 Mode 1: Single-Subject Test (Specialist HOD)
+            </button>
+            <button class="mode-tab-btn" id="btnModeMulti" onclick="setAuthoringMode('MULTI_SUBJECT')">
+                🌐 Mode 2: Multi-Subject Full Mock (All-in-One)
+            </button>
+            <button class="mode-tab-btn" id="btnModeMerger" onclick="setAuthoringMode('MERGER_HUB')">
+                🔗 Mode 3: Subject Merger Hub (Merge Teacher Drafts)
+            </button>
+        </div>
+    </div>
+
+    <div class="builder-container">
+
+        <!-- ==================================================================== -->
+        <!-- VIEW 1 & 2: COMPILER VIEW (Single Subject or Multi-Subject)          -->
+        <!-- ==================================================================== -->
+        <div id="compilerContainer">
+
+            <!-- SECTION 1: EXAMINATION IDENTITY & SETTINGS -->
+            <section class="builder-section-card" id="sec-exam-identity">
+                <span class="section-header-tag">Section 1</span>
+                <h2 class="section-title">Examination Profile & Identity</h2>
+
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label>Paper Code (Unique)</label>
+                        <input type="text" id="paperCodeInput" value="JEE-SUB-PHYSICS-01">
+                    </div>
+                    <div class="form-group">
+                        <label>Examination Title</label>
+                        <input type="text" id="paperTitleInput" value="Physics Specialized Topic Mock: Kinematics & Thermodynamics">
+                    </div>
+                    <div class="form-group">
+                        <label>Exam Pattern</label>
+                        <select id="examPatternSelect">
+                            <option value="JEE_MAIN">JEE Main (+4 / -1 / 0)</option>
+                            <option value="JEE_ADVANCED">JEE Advanced (Partial Marking)</option>
+                            <option value="NEET">NEET (+4 / -1 / 0 - 180 Qs)</option>
+                            <option value="BITSAT">BITSAT (+3 / -1 / 0)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid-3" style="margin-top: 14px;">
+                    <div class="form-group">
+                        <label>Duration (Minutes)</label>
+                        <input type="number" id="durationInput" value="60">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Cohort / Batch</label>
+                        <select>
+                            <option>JEE 2026 Dropper Elite</option>
+                            <option>Class 12th Super-30</option>
+                            <option>Medical Foundation NEET 2026</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Question Freshness Filter</label>
+                        <select id="freshnessSelect">
+                            <option value="UNUSED_ONLY">Exclude questions already attempted by this batch</option>
+                            <option value="INCLUDE_ALL">Include all questions (allow revision)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: SUBJECT AUTHORIZATION & SYLLABUS DRILLDOWN -->
+            <section class="builder-section-card" id="sec-syllabus-taxonomy">
+                <span class="section-header-tag">Section 2</span>
+                <h2 class="section-title" id="subjectSectionTitle">Step A: Choose Target Subject(s)</h2>
+
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
+                    Pick the subject(s) this teacher/paper is responsible for:
+                </div>
+
+                <div class="subject-selector-grid">
+                    <div class="subject-card-option selected" id="subCard-Physics" onclick="toggleSubjectSelection('Physics')">
+                        <div class="subject-icon">⚛️</div>
+                        <div>
+                            <div class="subject-card-title">Physics</div>
+                            <div class="subject-card-subtitle">Mechanics, Thermo, Electrodynamics</div>
+                        </div>
+                    </div>
+                    <div class="subject-card-option" id="subCard-Chemistry" onclick="toggleSubjectSelection('Chemistry')">
+                        <div class="subject-icon">🧪</div>
+                        <div>
+                            <div class="subject-card-title">Chemistry</div>
+                            <div class="subject-card-subtitle">Physical, Organic, Inorganic</div>
+                        </div>
+                    </div>
+                    <div class="subject-card-option" id="subCard-Mathematics" onclick="toggleSubjectSelection('Mathematics')">
+                        <div class="subject-icon">📐</div>
+                        <div>
+                            <div class="subject-card-title">Mathematics</div>
+                            <div class="subject-card-subtitle">Calculus, Vectors, Algebra</div>
+                        </div>
+                    </div>
+                    <div class="subject-card-option" id="subCard-Biology" onclick="toggleSubjectSelection('Biology')">
+                        <div class="subject-icon">🧬</div>
+                        <div>
+                            <div class="subject-card-title">Biology</div>
+                            <div class="subject-card-subtitle">Botany & Zoology (NEET)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapter Checklist for Selected Subject -->
+                <div style="margin-top: 24px;">
+                    <div style="font-weight: 700; font-size: 14px; margin-bottom: 6px;">
+                        Step B: Select Specific Chapters from <span id="activeSubjectLabel" style="color: var(--primary);">Physics</span>:
+                    </div>
+                    <div class="chapters-grid" id="chaptersContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: QUESTION PATTERN & DIFFICULTY ALLOCATION -->
+            <section class="builder-section-card" id="sec-difficulty-allocation">
+                <span class="section-header-tag">Section 3</span>
+                <h2 class="section-title">Question Pattern & Difficulty Allocation</h2>
+
+                <div class="difficulty-row">
+                    <div class="diff-box">
+                        <span class="diff-badge diff-easy">EASY (Foundation Level)</span>
+                        <label style="font-size: 12px; color: #64748b;">Target Question Count</label>
+                        <input type="number" id="easyCount" value="2" min="0" max="20" style="padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                    </div>
+                    <div class="diff-box">
+                        <span class="diff-badge diff-med">MEDIUM (Main Cutoff Level)</span>
+                        <label style="font-size: 12px; color: #64748b;">Target Question Count</label>
+                        <input type="number" id="medCount" value="2" min="0" max="30" style="padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                    </div>
+                    <div class="diff-box">
+                        <span class="diff-badge diff-hard">HARD (Advanced Rank Decider)</span>
+                        <label style="font-size: 12px; color: #64748b;">Target Question Count</label>
+                        <input type="number" id="hardCount" value="1" min="0" max="20" style="padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                    </div>
+                </div>
+
+                <button class="btn-generate" onclick="generatePaperWithTips()">
+                    <span>⚡ Run TIPS Compiler & Assemble Paper</span>
+                </button>
+            </section>
+
+            <!-- SECTION 4: ASSEMBLED PAPER CANVAS (Live KaTeX Preview & Question Swap) -->
+            <section class="builder-section-card" id="sec-paper-canvas">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div>
+                        <span class="section-header-tag">Section 4</span>
+                        <h2 class="section-title" style="margin-bottom: 0;">Assembled Question Paper Canvas (<span id="assembledCount">0</span> Questions)</h2>
+                    </div>
+                    <div style="font-size: 12px; color: #166534; font-weight: 700; background: #dcfce7; padding: 4px 10px; border-radius: 6px;">
+                        ● KaTeX Vector Engine Active
+                    </div>
+                </div>
+
+                <div id="assembledQuestionsList">
+                    <div style="text-align: center; padding: 30px; color: #64748b; font-size: 14px;">
+                        Select syllabus chapters above and click <strong>"Run TIPS Compiler"</strong> to assemble the question paper.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: DUAL PUBLISHING & DRAFT STAGING -->
+            <section class="builder-section-card" id="sec-publish-export">
+                <span class="section-header-tag">Section 5</span>
+                <h2 class="section-title">Deployment & Staging Options</h2>
+
+                <div class="export-bar">
+                    <div>
+                        <div style="font-weight: 700; font-size: 14px;">Deploy this paper or save for full exam merge?</div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+                            You can publish as a standalone subject test or submit as a draft for the Exam Coordinator to merge.
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button style="background: #ffffff; color: var(--purple); border: 2px solid var(--purple); padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="saveAsSubjectDraft()">
+                            💾 Save as Subject Draft (For Merger)
+                        </button>
+                        <button style="background: #ffffff; color: #1e3a8a; border: 2px solid #1e3a8a; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="window.print()">
+                            📄 Print PDF
+                        </button>
+                        <button style="background: #16a34a; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="publishToCbt()">
+                            🚀 Publish Subject Test
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- VIEW 3: MERGER HUB (Combine submitted subject teacher drafts)         -->
+        <!-- ==================================================================== -->
+        <div id="mergerContainer" style="display: none;">
+            <section class="builder-section-card">
+                <span class="section-header-tag">Section 1</span>
+                <h2 class="section-title">🔗 Subject Paper Merger Hub (Exam Coordinator Console)</h2>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+                    Different subject teachers (Physics, Chemistry, Maths, Biology) have independently prepared their respective sections. 
+                    Select the subject sections below to merge them into a unified, full-length CBT Mock Examination.
+                </p>
+
+                <div id="draftsListContainer">
+                    <!-- Rendered dynamically -->
+                </div>
+
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 18px; margin-top: 20px;">
+                    <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Unified Examination Settings</h3>
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label>Merged Grand Exam Title</label>
+                            <input type="text" id="mergedTitleInput" value="All India Combined JEE Main Full Syllabus Mock Test">
+                        </div>
+                        <div class="form-group">
+                            <label>Merged Exam Code</label>
+                            <input type="text" id="mergedCodeInput" value="JEE-COMBINED-GRAND-01">
+                        </div>
+                        <div class="form-group">
+                            <label>Total Duration</label>
+                            <select id="mergedDurationSelect">
+                                <option value="180">180 Minutes (3.0 Hours)</option>
+                                <option value="200">200 Minutes (NEET Pattern)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-generate" style="margin-top: 18px; width: 100%; background: #16a34a;" onclick="executeMergeAndPublish()">
+                        ⚡ Merge Selected Sections & Launch Full Mock in Student CBT
+                    </button>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Script Execution -->
+    <script type="module">
+        import { extractSyllabusTaxonomy, filterQuestions, assembleTestPaper, swapQuestionInPaper, mergeSubjectSections } from '../core/tips-algorithmic-generator.js';
+
+        let masterBank = [];
+        let taxonomy = {};
+        let currentMode = 'SINGLE_SUBJECT'; // SINGLE_SUBJECT, MULTI_SUBJECT, MERGER_HUB
+        let selectedSubjects = new Set(['Physics']);
+        let activeTaxonomySubject = 'Physics';
+        let selectedChapters = new Set();
+        let assembledPaper = [];
+
+        // Sample teacher drafts ready in staging for the Merger Hub
+        let stagedTeacherDrafts = [
+            {
+                id: 'draft_phy_01',
+                subject: 'Physics',
+                teacherName: 'Prof. A. K. Verma (Physics HOD)',
+                chapterTags: 'Kinematics, Thermodynamics, Electrostatics',
+                questionsCount: 5,
+                included: true
+            },
+            {
+                id: 'draft_chem_01',
+                subject: 'Chemistry',
+                teacherName: 'Dr. R. Sharma (Chemistry Dept)',
+                chapterTags: 'Chemical Bonding, Thermodynamics, Coordination',
+                questionsCount: 4,
+                included: true
+            },
+            {
+                id: 'draft_math_01',
+                subject: 'Mathematics',
+                teacherName: 'Er. S. Gupta (Senior Math Faculty)',
+                chapterTags: 'Calculus, Leibniz Rule, Vectors & 3D',
+                questionsCount: 3,
+                included: true
+            },
+            {
+                id: 'draft_bio_01',
+                subject: 'Biology',
+                teacherName: 'Dr. Meenakshi Banerjee (NEET Biology Head)',
+                chapterTags: 'Genetics, Plant Physiology, ECG, Biotechnology',
+                questionsCount: 4,
+                included: false
+            }
+        ];
+
+        async function init() {
+            const res = await fetch('../mock-data/master-question-bank.json');
+            masterBank = await res.json();
+            taxonomy = extractSyllabusTaxonomy(masterBank);
+
+            // Pre-select first chapters for Physics
+            const chapters = Object.keys(taxonomy['Physics'] || {});
+            chapters.forEach(c => selectedChapters.add(c));
+
+            renderSubjectUI();
+            renderChaptersUI();
+            generatePaperWithTips();
+            renderMergerHubDrafts();
+        }
+
+        window.setAuthoringMode = function(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            if (mode === 'SINGLE_SUBJECT') {
+                document.getElementById('btnModeSingle').classList.add('active');
+                document.getElementById('compilerContainer').style.display = 'block';
+                document.getElementById('mergerContainer').style.display = 'none';
+                document.getElementById('paperTitleInput').value = "Physics Specialized Topic Mock: Kinematics & Thermodynamics";
+                document.getElementById('durationInput').value = "60";
+                // Enforce single subject selection
+                selectedSubjects = new Set(['Physics']);
+                activeTaxonomySubject = 'Physics';
+                renderSubjectUI();
+                renderChaptersUI();
+            } else if (mode === 'MULTI_SUBJECT') {
+                document.getElementById('btnModeMulti').classList.add('active');
+                document.getElementById('compilerContainer').style.display = 'block';
+                document.getElementById('mergerContainer').style.display = 'none';
+                document.getElementById('paperTitleInput').value = "JEE Main Combined Grand Mock (PCM All-in-One)";
+                document.getElementById('durationInput').value = "180";
+                // Multi-subject default: PCM
+                selectedSubjects = new Set(['Physics', 'Chemistry', 'Mathematics']);
+                activeTaxonomySubject = 'Physics';
+                renderSubjectUI();
+                renderChaptersUI();
+            } else if (mode === 'MERGER_HUB') {
+                document.getElementById('btnModeMerger').classList.add('active');
+                document.getElementById('compilerContainer').style.display = 'none';
+                document.getElementById('mergerContainer').style.display = 'block';
+            }
+        };
+
+        window.toggleSubjectSelection = function(subject) {
+            if (currentMode === 'SINGLE_SUBJECT') {
+                selectedSubjects.clear();
+                selectedSubjects.add(subject);
+                activeTaxonomySubject = subject;
+            } else {
+                if (selectedSubjects.has(subject)) {
+                    if (selectedSubjects.size > 1) selectedSubjects.delete(subject);
+                } else {
+                    selectedSubjects.add(subject);
+                }
+                activeTaxonomySubject = subject;
+            }
+            renderSubjectUI();
+            renderChaptersUI();
+        };
+
+        function renderSubjectUI() {
+            ['Physics', 'Chemistry', 'Mathematics', 'Biology'].forEach(sub => {
+                const card = document.getElementById(`subCard-${sub}`);
+                if (selectedSubjects.has(sub)) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+            document.getElementById('activeSubjectLabel').textContent = activeTaxonomySubject;
+        }
+
+        function renderChaptersUI() {
+            const container = document.getElementById('chaptersContainer');
+            container.innerHTML = '';
+
+            const chapters = taxonomy[activeTaxonomySubject] || {};
+            for (const ch in chapters) {
+                const isChecked = selectedChapters.has(ch);
+                const topicsCount = chapters[ch].length;
+
+                const card = document.createElement('label');
+                card.className = 'chapter-checkbox-card';
+                card.innerHTML = `
+                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleChapter('${ch}', this.checked)" style="margin-top: 3px;">
+                    <div>
+                        <div class="chapter-name">${ch}</div>
+                        <div class="chapter-topic-count">${topicsCount} sub-topics available</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        window.toggleChapter = function(chapter, isChecked) {
+            if (isChecked) {
+                selectedChapters.add(chapter);
+            } else {
+                selectedChapters.delete(chapter);
+            }
+        };
+
+        window.generatePaperWithTips = function() {
+            const easy = parseInt(document.getElementById('easyCount').value) || 0;
+            const med = parseInt(document.getElementById('medCount').value) || 0;
+            const hard = parseInt(document.getElementById('hardCount').value) || 0;
+            const totalRequested = easy + med + hard;
+
+            // Candidate pool filtered by active selected subjects and chapters
+            const candidatePool = filterQuestions(masterBank, {
+                selectedChapters: Array.from(selectedChapters)
+            });
+
+            if (candidatePool.length === 0) {
+                alert(`No questions found for the selected chapters in ${activeTaxonomySubject}. Please select at least one chapter.`);
+                return;
+            }
+
+            assembledPaper = assembleTestPaper(candidatePool, totalRequested);
+            renderAssembledPaper();
+        };
+
+        function renderAssembledPaper() {
+            const container = document.getElementById('assembledQuestionsList');
+            document.getElementById('assembledCount').textContent = assembledPaper.length;
+
+            if (assembledPaper.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px;">No questions assembled.</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            assembledPaper.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML = `
+                    <div class="q-card-header">
+                        <div class="q-meta-tag">Q${idx + 1} • ${q.subject} • ${q.chapter} (${q.difficulty})</div>
+                        <button class="btn-swap" onclick="swapQuestion(${idx})">🔄 Swap Question</button>
+                    </div>
+                    <div class="q-body">${q.questionLatex}</div>
+                    <div class="q-options-grid">
+                        ${q.options.map(opt => `
+                            <div class="q-opt-pill">
+                                <strong>(${opt.id})</strong> ${opt.latex}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="q-solution-box">
+                        <strong>Solution:</strong> ${q.solutionLatex}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Trigger KaTeX rendering
+            if (window.renderMathInElement) {
+                renderMathInElement(container, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        window.swapQuestion = function(targetIndex) {
+            const result = swapQuestionInPaper(assembledPaper, targetIndex, masterBank);
+            if (result.replacedWith) {
+                assembledPaper = result.updatedPaper;
+                renderAssembledPaper();
+            } else {
+                alert('No alternate questions available in this chapter pool.');
+            }
+        };
+
+        window.saveAsSubjectDraft = function() {
+            const subject = Array.from(selectedSubjects)[0] || 'Physics';
+            const draft = {
+                id: `draft_${Date.now()}`,
+                subject,
+                teacherName: `Logged-in ${subject} Faculty`,
+                chapterTags: Array.from(selectedChapters).slice(0, 3).join(', '),
+                questionsCount: assembledPaper.length,
+                included: true
+            };
+            stagedTeacherDrafts.push(draft);
+            renderMergerHubDrafts();
+            alert(`✅ Saved ${assembledPaper.length} questions as "${subject} Section Draft"! You can now merge it with other subjects in Mode 3.`);
+        };
+
+        window.publishToCbt = function() {
+            const title = document.getElementById('paperTitleInput').value;
+            alert(`🎉 Success! Subject Exam "${title}" published to student CBT terminals! Redirecting...`);
+            window.location.href = '/index.html';
+        };
+
+        // Merger Hub Rendering
+        function renderMergerHubDrafts() {
+            const container = document.getElementById('draftsListContainer');
+            container.innerHTML = '';
+
+            stagedTeacherDrafts.forEach((draft, idx) => {
+                const item = document.createElement('div');
+                item.className = `draft-item-card ${draft.included ? 'included' : ''}`;
+                item.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <input type="checkbox" ${draft.included ? 'checked' : ''} onchange="toggleDraftInclusion(${idx}, this.checked)" style="width: 18px; height: 18px; cursor: pointer;">
+                        <div>
+                            <div style="font-weight: 700; font-size: 15px; color: #0f172a;">${draft.subject} Section — ${draft.teacherName}</div>
+                            <div style="font-size: 12px; color: #64748b; margin-top: 3px;">Coverage: ${draft.chapterTags}</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-weight: 800; font-size: 14px; color: var(--primary);">${draft.questionsCount} Questions</span>
+                        <div style="font-size: 11px; color: #16a34a; font-weight: 600;">Ready for Merger</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        window.toggleDraftInclusion = function(idx, isChecked) {
+            stagedTeacherDrafts[idx].included = isChecked;
+            renderMergerHubDrafts();
+        };
+
+        window.executeMergeAndPublish = function() {
+            const includedDrafts = stagedTeacherDrafts.filter(d => d.included);
+            if (includedDrafts.length < 2) {
+                alert('Please select at least 2 subject sections (e.g. Physics + Chemistry + Math) to create a combined mock exam.');
+                return;
+            }
+
+            const totalQs = includedDrafts.reduce((acc, curr) => acc + curr.questionsCount, 0);
+            const title = document.getElementById('mergedTitleInput').value;
+
+            alert(`🎉 Grand Success! Merged ${includedDrafts.length} Subject Sections (${includedDrafts.map(d => d.subject).join(' + ')}) totaling ${totalQs} questions into "${title}"! Launching full CBT player...`);
+            window.location.href = '/index.html';
+        };
+
+        // Boot
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
