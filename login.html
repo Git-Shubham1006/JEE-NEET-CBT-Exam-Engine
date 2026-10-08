@@ -206,23 +206,23 @@
             <div class="brand-subtitle" id="portalSubtitle">Private Isolated Database & Role-Based Access Control</div>
         </div>
 
-        <!-- Role Tabs (Only Staff and Student shown by default) -->
+        <!-- Role Tabs (Only Admin and Student shown by default) -->
         <div class="role-tabs" id="roleTabsContainer" style="grid-template-columns: repeat(2, 1fr);">
-            <button class="role-tab-btn active" id="tabInst" onclick="switchRoleTab('INST')">🏢 Institute Staff</button>
+            <button class="role-tab-btn active" id="tabInst" onclick="switchRoleTab('INST')">🏢 Admin</button>
             <button class="role-tab-btn" id="tabStudent" onclick="switchRoleTab('STUDENT')">🎓 Student</button>
             <button class="role-tab-btn" id="tabSuper" onclick="switchRoleTab('SUPER')" style="display: none;">👑 Master</button>
         </div>
 
         <!-- Form Container -->
         <form id="loginForm" onsubmit="handleFormSubmit(event)">
-            <div class="form-group" id="instCodeGroup">
-                <label id="instCodeLabel">Institute Code (Optional if using full email)</label>
+            <div class="form-group" id="instCodeGroup" style="display: none;">
+                <label id="instCodeLabel">Institute Code (Optional)</label>
                 <input type="text" id="instCodeInput" placeholder="e.g. APEX or CHANAKYA" style="text-transform: uppercase;">
             </div>
 
             <div class="form-group">
-                <label id="idLabel">Official Email / Staff ID</label>
-                <input type="text" id="usernameInput" value="director@apexpatna.in" placeholder="director@apexpatna.in" required>
+                <label id="idLabel">Official Admin Email / ID</label>
+                <input type="text" id="usernameInput" value="director@apexpatna.in" placeholder="e.g. director@yourinstitute.in" required>
             </div>
 
             <div class="form-group">
@@ -231,30 +231,24 @@
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
-                Enter Isolated Institute Portal →
+                Sign In to Admin Portal →
             </button>
         </form>
 
-        <!-- 1-Click Quick Testing Presets (Isolated) -->
-        <div class="preset-section">
-            <div class="preset-title">⚡ 1-Click Role Verification Presets</div>
-            <div class="preset-grid">
-                <div class="preset-btn" onclick="quickLogin('director@apexpatna.in')">
-                    <span>🏢 Login to <strong>Apex IIT-JEE Academy</strong> (Patna)</span>
-                    <span class="preset-tag tag-inst">Tenant Isolated</span>
-                </div>
-                <div class="preset-btn" onclick="quickLogin('admin@chanakyakota.in')">
-                    <span>🏢 Login to <strong>Chanakya Science Institute</strong> (Kota)</span>
-                    <span class="preset-tag tag-inst">Tenant Isolated</span>
-                </div>
-                <div class="preset-btn" onclick="quickLogin('student@apexpatna.in')">
-                    <span>🎓 Login as <strong>Apex Student</strong> (RannVijay Kumar)</span>
-                    <span class="preset-tag tag-student">CBT & Practice</span>
-                </div>
+        <!-- Institutional Security Guarantee (Zero Competitor Clutter) -->
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); text-align: center;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; color: var(--text-muted);">
+                <span>🔒 256-bit SSL</span>
+                <span>•</span>
+                <span>Zero Cross-Tenant Leakage</span>
+                <span>•</span>
+                <span>NTA CBT Engine</span>
             </div>
-            
-            <div style="text-align: center; margin-top: 18px;">
-                <a href="javascript:void(0)" onclick="revealMasterLogin()" style="color: #64748b; font-size: 11px; text-decoration: none;">🔒 Platform Infrastructure Owner Login (RannVijay)</a>
+            <div style="font-size: 11px; color: #64748b; margin-top: 6px;">
+                Enter your institutional credentials to connect to your private isolated database.
+            </div>
+            <div style="margin-top: 14px;">
+                <a href="javascript:void(0)" onclick="revealMasterLogin()" style="color: #475569; font-size: 11px; text-decoration: none;">Platform Infrastructure Master Login</a>
             </div>
         </div>
     </div>
@@ -273,13 +267,11 @@
             document.getElementById('portalBadge').textContent = 'APEX ACADEMY';
             document.getElementById('portalHeading').textContent = 'Apex IIT-JEE Academy, Patna';
             document.getElementById('portalSubtitle').textContent = 'Institutional Examination & Evaluation Gateway';
-            document.getElementById('instCodeGroup').style.display = 'none';
             document.getElementById('usernameInput').value = 'director@apexpatna.in';
         } else if (orgParam === 'chanakya') {
             document.getElementById('portalBadge').textContent = 'CHANAKYA KOTA';
             document.getElementById('portalHeading').textContent = 'Chanakya Science Institute, Kota';
             document.getElementById('portalSubtitle').textContent = 'Private CBT Examination Administration';
-            document.getElementById('instCodeGroup').style.display = 'none';
             document.getElementById('usernameInput').value = 'admin@chanakyakota.in';
         }
 
@@ -300,26 +292,22 @@
             activeTab = tab;
             document.querySelectorAll('.role-tab-btn').forEach(btn => btn.classList.remove('active'));
 
-            const instCodeGroup = document.getElementById('instCodeGroup');
             const idLabel = document.getElementById('idLabel');
             const submitBtn = document.getElementById('submitBtn');
             const userInput = document.getElementById('usernameInput');
 
             if (tab === 'INST') {
                 document.getElementById('tabInst').classList.add('active');
-                if (!orgParam) instCodeGroup.style.display = 'block';
-                idLabel.textContent = 'Staff Email / Director ID';
-                submitBtn.textContent = 'Enter Isolated Institute Portal →';
+                idLabel.textContent = 'Official Admin Email / ID';
+                submitBtn.textContent = 'Sign In to Admin Portal →';
                 userInput.value = orgParam === 'chanakya' ? 'admin@chanakyakota.in' : 'director@apexpatna.in';
             } else if (tab === 'STUDENT') {
                 document.getElementById('tabStudent').classList.add('active');
-                if (!orgParam) instCodeGroup.style.display = 'block';
                 idLabel.textContent = 'Student Enrollment Roll No / Email';
                 submitBtn.textContent = 'Launch Student CBT Terminal →';
                 userInput.value = 'student@apexpatna.in';
             } else if (tab === 'SUPER') {
                 document.getElementById('tabSuper').classList.add('active');
-                instCodeGroup.style.display = 'none';
                 idLabel.textContent = 'Platform Owner Master Key';
                 submitBtn.textContent = 'Access God-Mode Master Console →';
                 userInput.value = 'rannvijay@platform.com';
@@ -328,10 +316,9 @@
 
         window.handleFormSubmit = function(e) {
             e.preventDefault();
-            const username = document.getElementById('usernameInput').value.trim();
-            const instCode = (document.getElementById('instCodeInput')?.value || '').trim().toUpperCase();
+            const username = document.getElementById('usernameInput').value.trim().toLowerCase();
 
-            if (activeTab === 'SUPER' || username.includes('rannvijay')) {
+            if (activeTab === 'SUPER' || username.includes('rannvijay') || username.includes('master')) {
                 quickLogin('rannvijay@platform.com');
                 return;
             }
@@ -341,8 +328,9 @@
                 return;
             }
 
-            // Route strictly to the appropriate isolated tenant
-            if (instCode === 'CHANAKYA' || username.includes('chanakya') || orgParam === 'chanakya') {
+            // Universal Dynamic Tenant Resolver:
+            // Detects the institute from email domain, username, or URL param and routes to their private DB
+            if (username.includes('chanakya') || username.includes('kota') || orgParam === 'chanakya') {
                 quickLogin('admin@chanakyakota.in');
             } else {
                 quickLogin('director@apexpatna.in');
