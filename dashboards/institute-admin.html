@@ -1929,21 +1929,73 @@
         function initTenantDashboard() {
             if (!session) return;
 
-            // Determine locked tenant key
+            // 1. Sync custom onboarded tenants from localStorage
+            try {
+                const customTenants = JSON.parse(localStorage.getItem('cbt_custom_tenants') || '{}');
+                for (const [slug, t] of Object.entries(customTenants)) {
+                    if (!tenantData[slug]) {
+                        tenantData[slug] = {
+                            name: t.name,
+                            logo: t.logo || slug.toUpperCase().substring(0, 5),
+                            db: t.db || `institute_tenant_${slug}`,
+                            studentsCount: t.studentsCount || "150",
+                            students: [
+                                { id: `${slug.toUpperCase()}-001`, name: "Aarav Sharma", batch: "JEE 2026 Elite Batch", tests: 4, ip: "103.212.14.88", device: "Chrome / Windows 11", status: "ACTIVE", remarks: "Consistent High Performer." },
+                                { id: `${slug.toUpperCase()}-002`, name: "Priya Sen", batch: "JEE 2026 Elite Batch", tests: 5, ip: "103.212.14.92", device: "Safari / macOS", status: "ACTIVE", remarks: "Strong in Calculus." },
+                                { id: `${slug.toUpperCase()}-003`, name: "Sameer Verma", batch: "Foundation Class 12", tests: 3, ip: "103.212.15.10", device: "Edge / Windows 10", status: "ACTIVE", remarks: "Solid Accuracy." }
+                            ],
+                            results: [
+                                { rank: 1, name: "Aarav Sharma", phy: 72, chem: 76, math: 68, total: 216, acc: "91%", diag: "99.4th percentile trajectory. Rapid solving speed." },
+                                { rank: 2, name: "Priya Sen", phy: 68, chem: 72, math: 60, total: 200, acc: "85%", diag: "High conceptual strength in Organic Chemistry." }
+                            ]
+                        };
+                    }
+                }
+            } catch (e) {
+                console.warn(e);
+            }
+
+            // 2. Determine locked tenant key
             let tenantKey = 'apex';
             if (session.instituteId && tenantData[session.instituteId]) {
                 tenantKey = session.instituteId;
             }
-            const urlTenant = new URLSearchParams(window.location.search).get('tenant');
-            if (urlTenant && tenantData[urlTenant]) {
+            const urlTenant = (new URLSearchParams(window.location.search).get('tenant') || '').toLowerCase().trim();
+            if (urlTenant) {
                 tenantKey = urlTenant;
+                if (!tenantData[tenantKey]) {
+                    const formattedName = urlTenant.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ') + " Coaching Institute";
+                    tenantData[tenantKey] = {
+                        name: formattedName,
+                        logo: urlTenant.toUpperCase().substring(0, 6),
+                        db: `institute_tenant_${urlTenant}`,
+                        studentsCount: "120",
+                        students: [
+                            { id: `${urlTenant.toUpperCase()}-001`, name: "Rohit Kumar", batch: "Target JEE 2026", tests: 5, ip: "103.212.14.12", device: "Chrome / Windows", status: "ACTIVE", remarks: "Top Batch Performer." },
+                            { id: `${urlTenant.toUpperCase()}-002`, name: "Ananya Roy", batch: "Target JEE 2026", tests: 4, ip: "103.212.14.33", device: "Safari / macOS", status: "ACTIVE", remarks: "Strong in Mechanics." }
+                        ],
+                        results: [
+                            { rank: 1, name: "Rohit Kumar", phy: 75, chem: 70, math: 65, total: 210, acc: "89%", diag: "Consistent performer." },
+                            { rank: 2, name: "Ananya Roy", phy: 65, chem: 75, math: 60, total: 200, acc: "86%", diag: "Strong in Physical Chemistry." }
+                        ]
+                    };
+                }
             }
 
             if (session.role === USER_ROLES.SUPER_ADMIN) {
                 const sw = document.getElementById('superAdminSwitcher');
                 if (sw) sw.style.display = 'flex';
                 const sel = document.getElementById('superTenantSelect');
-                if (sel) sel.value = tenantKey;
+                if (sel) {
+                    sel.innerHTML = '';
+                    for (const [k, d] of Object.entries(tenantData)) {
+                        const opt = document.createElement('option');
+                        opt.value = k;
+                        opt.textContent = d.name.split(',')[0];
+                        if (k === tenantKey) opt.selected = true;
+                        sel.appendChild(opt);
+                    }
+                }
             }
 
             const trialBanner = document.getElementById('trialBanner');

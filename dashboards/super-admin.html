@@ -530,6 +530,44 @@
         </div>
     </div>
 
+    <!-- Provisioning Success Modal -->
+    <div class="modal-overlay" id="launchSuccessModal">
+        <div class="modal-content" style="max-width: 580px; border-color: #3b82f6;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 42px; margin-bottom: 8px;">🚀</div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #fff;" id="successInstTitle">Institute Successfully Provisioned!</h3>
+                <div style="font-size: 13px; color: #94a3b8;" id="successInstSubtitle">Isolated Tenant Database Activated</div>
+            </div>
+
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 12px; font-weight: 700; color: #93c5fd;">🏢 Dedicated Admin Console URL:</span>
+                    <span style="font-size: 11px; color: #64748b;">(Faculty / Director Portal)</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="successAdminLink" readonly style="flex: 1; background: #1e293b; color: #60a5fa; border: 1px solid #334155; padding: 7px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
+                    <button onclick="copyToClipboard('successAdminLink')" style="background: #2563eb; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">📋 Copy</button>
+                </div>
+            </div>
+
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 12px; font-weight: 700; color: #86efac;">🎓 Student CBT Exam Terminal URL:</span>
+                    <span style="font-size: 11px; color: #64748b;">(Full-Screen Lockdown)</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="successStudentLink" readonly style="flex: 1; background: #1e293b; color: #34d399; border: 1px solid #334155; padding: 7px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
+                    <button onclick="copyToClipboard('successStudentLink')" style="background: #059669; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">📋 Copy</button>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button style="background: #374151; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;" onclick="document.getElementById('launchSuccessModal').style.display = 'none'">Close</button>
+                <a id="successLaunchBtn" href="#" target="_blank" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Open Admin Console ↗</a>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { getCurrentSession, setAuthSession, PRESET_ACCOUNTS, enforceAccess, USER_ROLES, clearAuthSession } from '../auth/session-auth-guard.js';
 
@@ -541,6 +579,67 @@
 
         // Enforce Super-Admin Only Access Guard
         const session = enforceAccess([USER_ROLES.SUPER_ADMIN], '/login.html');
+
+        const CUSTOM_TENANTS_KEY = 'cbt_custom_tenants';
+
+        function getCustomTenants() {
+            try {
+                return JSON.parse(localStorage.getItem(CUSTOM_TENANTS_KEY) || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveCustomTenant(tenant) {
+            const tenants = getCustomTenants();
+            tenants[tenant.slug] = tenant;
+            localStorage.setItem(CUSTOM_TENANTS_KEY, JSON.stringify(tenants));
+        }
+
+        function renderCustomTenants() {
+            const tenants = getCustomTenants();
+            const tbody = document.getElementById('institutesTableBody');
+            let added = 0;
+            for (const [slug, t] of Object.entries(tenants)) {
+                if (document.getElementById(`row-${slug}`)) continue;
+                const row = document.createElement('tr');
+                row.id = `row-${slug}`;
+                row.innerHTML = `
+                    <td><strong>${slug.toUpperCase()}</strong></td>
+                    <td>
+                        <div style="font-weight: 700; color: #fff;">${t.name}</div>
+                        <div style="font-size: 11px; color: #34d399;">Newly Provisioned Tenant</div>
+                    </td>
+                    <td><code>${slug}.jeeplatform.com</code></td>
+                    <td><code style="color: #60a5fa;">tenant_${slug}</code></td>
+                    <td>${t.studentsCount || '0 / 500'}</td>
+                    <td><strong style="color: #60a5fa;">${t.plan || 'PRO'}</strong></td>
+                    <td>₹35,000 / mo</td>
+                    <td><span class="status-pill active">● ACTIVE</span></td>
+                    <td>
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <a href="/dashboards/institute-admin.html?tenant=${slug}" style="color: #818cf8; text-decoration: none; font-weight: 600; font-size: 12px;">Inspect Admin →</a>
+                            <a href="/index.html?tenant=${slug}" target="_blank" style="color: #34d399; text-decoration: none; font-weight: 600; font-size: 11px;">Student CBT ↗</a>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                added++;
+            }
+            if (added > 0) {
+                const countEl = document.getElementById('totalInstitutesCount');
+                if (countEl) countEl.textContent = 4 + Object.keys(tenants).length;
+            }
+        }
+
+        // Initialize custom tenants on load
+        renderCustomTenants();
+
+        window.copyToClipboard = function(elemId) {
+            const val = document.getElementById(elemId).value;
+            navigator.clipboard.writeText(val);
+            alert(`📋 Copied to clipboard:\n${val}`);
+        };
 
         window.openOnboardModal = function() {
             document.getElementById('onboardModal').style.display = 'flex';
@@ -586,38 +685,44 @@
         };
 
         window.submitOnboard = function() {
-            const name = document.getElementById('newInstName').value;
-            const slug = document.getElementById('newInstSlug').value;
+            const name = document.getElementById('newInstName').value.trim();
+            const rawSlug = document.getElementById('newInstSlug').value.trim().toLowerCase();
+            const slug = rawSlug.replace(/[^a-z0-9_-]/g, '-');
             const plan = document.getElementById('newInstPlan').value;
+            const color = document.getElementById('newInstColor')?.value || '#1e40af';
 
             if (!name || !slug) {
                 alert('Please enter institute name and subdomain slug.');
                 return;
             }
 
-            const tbody = document.getElementById('institutesTableBody');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><strong>${slug.toUpperCase()}</strong></td>
-                <td>
-                    <div style="font-weight: 700; color: #fff;">${name}</div>
-                    <div style="font-size: 11px; color: #94a3b8;">Newly Provisioned Tenant</div>
-                </td>
-                <td><code>${slug}.jeeplatform.com</code></td>
-                <td><code style="color: #60a5fa;">tenant_${slug}</code></td>
-                <td>0 / 500</td>
-                <td><strong>${plan} TIER</strong></td>
-                <td>₹35,000 / mo</td>
-                <td><span class="status-pill active">● ACTIVE</span></td>
-                <td><a href="/dashboards/institute-admin.html?tenant=${slug}" style="color: #818cf8; text-decoration: none; font-weight: 600; font-size: 12px;">Inspect Admin →</a></td>
-            `;
-            tbody.appendChild(row);
+            const newTenant = {
+                slug,
+                name,
+                logo: name.split(' ').map(w => w[0]).join('').substring(0, 5).toUpperCase() || slug.toUpperCase(),
+                db: `institute_tenant_${slug}`,
+                plan: `${plan} TIER`,
+                color,
+                studentsCount: '0 / 500',
+                created: new Date().toISOString()
+            };
 
-            const countEl = document.getElementById('totalInstitutesCount');
-            countEl.textContent = parseInt(countEl.textContent) + 1;
-
-            alert(`✅ Successfully provisioned tenant database "tenant_${slug}" and onboarded ${name}!`);
+            saveCustomTenant(newTenant);
+            renderCustomTenants();
             closeOnboardModal();
+
+            // Display Launch Success Modal with All Direct URLs
+            const origin = window.location.origin;
+            const adminUrl = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
+            const studentUrl = `${origin}/index.html?tenant=${slug}`;
+
+            document.getElementById('successInstTitle').textContent = `🏢 ${name} Provisioned!`;
+            document.getElementById('successInstSubtitle').textContent = `Isolated Tenant DB: [${newTenant.db}] Activated`;
+            document.getElementById('successAdminLink').value = adminUrl;
+            document.getElementById('successStudentLink').value = studentUrl;
+            document.getElementById('successLaunchBtn').href = adminUrl;
+
+            document.getElementById('launchSuccessModal').style.display = 'flex';
         };
     </script>
 </body>
