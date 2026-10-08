@@ -1031,6 +1031,15 @@
         </div>
     </header>
 
+    <!-- Trial License Notification Strip -->
+    <div id="trialBanner" style="display: none; background: linear-gradient(90deg, #78350f, #92400e); border-bottom: 1px solid #b45309; color: #fef3c7; padding: 10px 24px; font-size: 13px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 18px;">⚡</span>
+            <span><strong>Apex IIT-JEE Enterprise Pilot Trial:</strong> 11 Days Remaining (Active Pilot Quota: 412/500 Students). Full Access: NTA CBT Engine, TIPS Paper Studio & Proctor Radar Unlocked.</span>
+        </div>
+        <button onclick="alert('Contacting Platform Founder (RannVijay) to activate Annual Enterprise License...')" style="background: #f59e0b; color: #1e1b4b; border: none; padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">Upgrade to Annual Enterprise License →</button>
+    </div>
+
     <div class="dashboard-layout">
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
@@ -1925,12 +1934,21 @@
             if (session.instituteId && tenantData[session.instituteId]) {
                 tenantKey = session.instituteId;
             }
+            const urlTenant = new URLSearchParams(window.location.search).get('tenant');
+            if (urlTenant && tenantData[urlTenant]) {
+                tenantKey = urlTenant;
+            }
 
             if (session.role === USER_ROLES.SUPER_ADMIN) {
                 const sw = document.getElementById('superAdminSwitcher');
                 if (sw) sw.style.display = 'flex';
                 const sel = document.getElementById('superTenantSelect');
                 if (sel) sel.value = tenantKey;
+            }
+
+            const trialBanner = document.getElementById('trialBanner');
+            if (trialBanner) {
+                trialBanner.style.display = (tenantKey === 'apex' || tenantKey === 'target') ? 'flex' : 'none';
             }
 
             const data = tenantData[tenantKey];

