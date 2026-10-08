@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TIPS Test Paper Builder — Test Integration Platform System</title>
+    <title>TIPS Test Paper Builder — 5-Year JEE PYQ Bank & Faculty Customizer</title>
     <!-- KaTeX for crisp LaTeX equation rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -12,6 +12,7 @@
     <style>
         :root {
             --primary: #1e3a8a;
+            --primary-dark: #172554;
             --accent: #2563eb;
             --bg: #f8fafc;
             --card-bg: #ffffff;
@@ -20,6 +21,9 @@
             --text-muted: #64748b;
             --success: #16a34a;
             --purple: #7c3aed;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --btn-radius: 8px;
         }
 
         * {
@@ -35,6 +39,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            padding-bottom: 90px; /* Space for sticky staged paper drawer */
         }
 
         /* Top Demo Navigation */
@@ -95,16 +100,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .mode-tabs {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .mode-tab-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 9px 16px;
+            border-radius: var(--btn-radius);
             font-size: 13px;
             font-weight: 700;
             cursor: pointer;
@@ -123,8 +131,8 @@
 
         /* Layout Container */
         .builder-container {
-            max-width: 1200px;
-            margin: 24px auto;
+            max-width: 1280px;
+            margin: 20px auto;
             padding: 0 20px;
             width: 100%;
             display: flex;
@@ -132,14 +140,514 @@
             gap: 20px;
         }
 
-        /* Semantic Section Card */
-        .builder-section-card {
+        /* Filter Controls Card */
+        .filter-panel-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .filter-row-primary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .subject-pill-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sub-pill-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            background: #f8fafc;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sub-pill-btn.active {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .filter-grid-secondary {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1fr 2fr;
+            gap: 14px;
+            align-items: flex-end;
+        }
+
+        .form-control-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-control-wrap label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .form-select, .form-input {
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            background: #fff;
+            color: #0f172a;
+            outline: none;
+            width: 100%;
+        }
+
+        .form-select:focus, .form-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 1px #2563eb;
+        }
+
+        /* Difficulty Toggle Strip */
+        .diff-pill-strip {
+            display: flex;
+            gap: 6px;
+        }
+
+        .diff-pill {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .diff-pill.all { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+        .diff-pill.all.active { background: #334155; color: #fff; }
+
+        .diff-pill.easy { background: #dcfce7; color: #166534; border-color: #86efac; }
+        .diff-pill.easy.active { background: #16a34a; color: #fff; border-color: #15803d; }
+
+        .diff-pill.med { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+        .diff-pill.med.active { background: #d97706; color: #fff; border-color: #b45309; }
+
+        .diff-pill.hard { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+        .diff-pill.hard.active { background: #dc2626; color: #fff; border-color: #b91c1c; }
+
+        /* Stats & Counter Bar */
+        .pyq-stats-bar {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .stats-highlight {
+            font-weight: 700;
+            color: #1e40af;
+        }
+
+        /* PYQ Question Cards List */
+        .pyq-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .pyq-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: border-color 0.15s, box-shadow 0.15s;
+            position: relative;
+        }
+
+        .pyq-card:hover {
+            border-color: #93c5fd;
+            box-shadow: 0 4px 12px -2px rgba(37, 99, 235, 0.08);
+        }
+
+        .pyq-card.selected-in-paper {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .pyq-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pyq-badges {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-year {
+            background: #1e293b;
+            color: #f8fafc;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-chapter {
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-diff {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-diff-EASY { background: #dcfce7; color: #166534; }
+        .badge-diff-MEDIUM { background: #fef3c7; color: #92400e; }
+        .badge-diff-HARD { background: #fee2e2; color: #991b1b; }
+
+        .badge-type {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .card-action-btns {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-edit-q {
+            background: #ffffff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-edit-q:hover {
+            background: #eff6ff;
+            border-color: #2563eb;
+        }
+
+        .btn-select-q {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-select-q:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-select-q.selected {
+            background: #16a34a;
+        }
+
+        .pyq-question-text {
+            font-size: 15px;
+            line-height: 1.65;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+
+        .pyq-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .pyq-option-pill {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pyq-option-pill.correct-answer {
+            background: #f0fdf4;
+            border-color: #86efac;
+            color: #166534;
+        }
+
+        .opt-letter {
+            font-weight: 800;
+            color: #334155;
+            font-size: 12px;
+        }
+
+        .solution-toggle-btn {
+            background: transparent;
+            border: none;
+            color: #2563eb;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pyq-solution-box {
+            display: none;
+            background: #f8fafc;
+            border-left: 3px solid #2563eb;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .pyq-solution-box.show {
+            display: block;
+        }
+
+        /* Sticky Bottom Staged Paper Drawer Bar */
+        .sticky-paper-drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0f172a;
+            color: #f8fafc;
+            border-top: 2px solid #3b82f6;
+            padding: 12px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .drawer-metrics {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .drawer-count-badge {
+            background: #2563eb;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        .drawer-breakdown {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .drawer-breakdown strong {
+            color: #fff;
+        }
+
+        .drawer-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-drawer-review {
+            background: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-drawer-review:hover {
+            background: #334155;
+        }
+
+        .btn-drawer-launch {
+            background: #16a34a;
+            color: #fff;
+            border: none;
+            padding: 9px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
+            transition: all 0.15s;
+        }
+
+        .btn-drawer-launch:hover {
+            background: #15803d;
+            transform: translateY(-1px);
+        }
+
+        /* Question Editor Modal */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-backdrop.show {
+            display: flex;
+        }
+
+        .editor-modal-card {
+            background: #ffffff;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 820px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 26px 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+        }
+
+        .editor-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .katex-preview-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-top: 6px;
+            font-size: 14px;
+            color: #1e293b;
+            min-height: 40px;
+        }
+
+        .editor-row {
+            margin-bottom: 16px;
+        }
+
+        .editor-row label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .editor-row textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            min-height: 80px;
+        }
+
+        .editor-row textarea:focus {
+            border-color: #2563eb;
+        }
+
+        /* Review Staged Drawer Modal */
+        .review-modal-card {
+            background: #ffffff;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 24px 28px;
+        }
+
+        /* Legacy Compiler & Merger Sections */
+        .legacy-builder-section {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 22px 26px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            position: relative;
+            margin-bottom: 20px;
         }
 
         .section-header-tag {
@@ -162,124 +670,12 @@
             margin-bottom: 16px;
         }
 
-        /* Form Grid */
         .form-grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
         }
 
-        .form-grid-4 {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .form-group input, .form-group select {
-            padding: 9px 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--text-dark);
-            background: #fff;
-        }
-
-        /* Subject Pill Selector */
-        .subject-selector-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .subject-card-option {
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 14px 16px;
-            background: #f8fafc;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.15s;
-        }
-
-        .subject-card-option:hover {
-            border-color: #93c5fd;
-            background: #eff6ff;
-        }
-
-        .subject-card-option.selected {
-            border-color: var(--primary);
-            background: #eff6ff;
-            box-shadow: 0 0 0 1px var(--primary);
-        }
-
-        .subject-icon {
-            font-size: 24px;
-        }
-
-        .subject-card-title {
-            font-weight: 700;
-            font-size: 14px;
-            color: #0f172a;
-        }
-
-        .subject-card-subtitle {
-            font-size: 11px;
-            color: #64748b;
-        }
-
-        /* Chapters Grid */
-        .chapters-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .chapter-checkbox-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 12px;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .chapter-checkbox-card:hover {
-            border-color: #93c5fd;
-            background: #eff6ff;
-        }
-
-        .chapter-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .chapter-topic-count {
-            font-size: 11px;
-            color: #64748b;
-            margin-top: 2px;
-        }
-
-        /* Difficulty Allocation Row */
         .difficulty-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -296,20 +692,6 @@
             gap: 6px;
         }
 
-        .diff-badge {
-            font-size: 11px;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 4px;
-            display: inline-block;
-            width: fit-content;
-        }
-
-        .diff-easy { background: #dcfce7; color: #166534; }
-        .diff-med { background: #fef3c7; color: #92400e; }
-        .diff-hard { background: #fee2e2; color: #991b1b; }
-
-        /* Action Buttons */
         .btn-generate {
             background: #2563eb;
             color: #fff;
@@ -319,133 +701,45 @@
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-            transition: all 0.15s;
             margin-top: 16px;
+            width: 100%;
         }
 
         .btn-generate:hover {
             background: #1d4ed8;
-            transform: translateY(-1px);
         }
 
-        /* Assembled Paper Question Canvas */
-        .question-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 18px;
-            margin-bottom: 16px;
-            position: relative;
-        }
-
-        .q-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-
-        .q-meta-tag {
-            font-size: 12px;
-            font-weight: 700;
-            color: #1e3a8a;
-        }
-
-        .btn-swap {
-            background: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #bfdbfe;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .btn-swap:hover {
-            background: #dbeafe;
-        }
-
-        .q-body {
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 14px;
-            color: #0f172a;
-        }
-
-        .q-options-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .q-opt-pill {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-size: 13px;
-        }
-
-        .q-solution-box {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 6px;
-            padding: 10px 14px;
-            font-size: 12px;
-            color: #166534;
-        }
-
-        /* Merger Hub Specific Cards */
-        .draft-item-card {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            transition: all 0.15s;
-        }
-
-        .draft-item-card.included {
-            border-color: #22c55e;
-            background: #f0fdf4;
-        }
-
-        /* Export Bar */
-        .export-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-        }
-
-        /* Printable Style for Classroom White-Label PDF */
+        /* Print Layout for NTA Paper */
         @media print {
-            .top-nav, header.tips-header, .mode-banner, .builder-section-card:not(#sec-paper-canvas), .btn-swap, .export-bar {
+            .top-nav, header.tips-header, .mode-banner, .filter-panel-card, .sticky-paper-drawer, .card-action-btns, .solution-toggle-btn, .pyq-solution-box {
                 display: none !important;
             }
-            body, .builder-container {
+            body {
                 background: #fff !important;
+                padding-bottom: 0 !important;
+            }
+            .builder-container {
+                max-width: 100% !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                width: 100% !important;
             }
-            .question-card {
-                border: 1px solid #000 !important;
+            .pyq-card {
+                border: 1px solid #94a3b8 !important;
                 page-break-inside: avoid;
+                margin-bottom: 20px;
+                box-shadow: none !important;
             }
+            .print-exam-header {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 14px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .print-exam-header {
+            display: none;
         }
     </style>
 </head>
@@ -454,7 +748,7 @@
     <!-- Top Demo Navigation -->
     <div class="top-nav">
         <div>
-            <strong>⚡ TIPS Engine: Test Integration Platform System</strong>
+            <strong>⚡ TIPS Engine: Test Integration Platform System & 5-Year PYQ Repository</strong>
         </div>
         <div>
             <span>Switch Portal:</span>
@@ -471,277 +765,432 @@
         <div class="tips-brand">
             <div class="tips-badge">TIPS STUDIO</div>
             <div>
-                <h2 style="font-size: 18px; font-weight: 800;">Algorithmic Question Paper Builder</h2>
-                <div style="font-size: 12px; color: #93c5fd;">Collaborative Subject Specialist & Multi-Subject Exam Merger</div>
+                <h2 style="font-size: 18px; font-weight: 800;" id="tipsMainHeading">5-Year JEE Main PYQ Bank & Faculty Paper Customizer</h2>
+                <div style="font-size: 12px; color: #93c5fd;">Curated Chapter-wise Archive (2020–2024) with Easy, Medium & Hard Categorization</div>
             </div>
         </div>
 
-        <div>
-            <span style="font-size: 12px; color: #cbd5e1;">Active Institute:</span>
-            <strong style="color: #fff; margin-left: 6px;">Apex IIT-JEE Academy, Patna</strong>
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="text-align: right; font-size: 12px;">
+                <div style="color: #cbd5e1;">Active White-Label Institute:</div>
+                <strong style="color: #fff;" id="activeTenantName">Apex IIT-JEE Academy, Patna</strong>
+            </div>
+            <a href="/index.html" style="background: rgba(37, 99, 235, 0.4); border: 1px solid #60a5fa; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; text-decoration: none;">
+                Launch CBT Player →
+            </a>
         </div>
     </header>
 
     <!-- Operational Mode Switcher Bar -->
     <div class="mode-banner">
         <div>
-            <span style="font-size: 13px; font-weight: 700; color: #1e293b;">Select Paper Authoring Mode:</span>
+            <span style="font-size: 13px; font-weight: 700; color: #1e293b;">Select Authoring Mode:</span>
         </div>
         <div class="mode-tabs">
-            <button class="mode-tab-btn active" id="btnModeSingle" onclick="setAuthoringMode('SINGLE_SUBJECT')">
-                👤 Mode 1: Single-Subject Test (Specialist HOD)
+            <button class="mode-tab-btn active" id="btnModePicker" onclick="setAuthoringMode('PYQ_PICKER')">
+                🎯 Mode 1: 5-Year PYQ Bank & Faculty Editor (Pick & Customize)
+            </button>
+            <button class="mode-tab-btn" id="btnModeSingle" onclick="setAuthoringMode('SINGLE_SUBJECT')">
+                👤 Mode 2: Algorithmic Quota Compiler
             </button>
             <button class="mode-tab-btn" id="btnModeMulti" onclick="setAuthoringMode('MULTI_SUBJECT')">
-                🌐 Mode 2: Multi-Subject Full Mock (All-in-One)
+                🌐 Mode 3: Multi-Subject Mock
             </button>
             <button class="mode-tab-btn" id="btnModeMerger" onclick="setAuthoringMode('MERGER_HUB')">
-                🔗 Mode 3: Subject Merger Hub (Merge Teacher Drafts)
+                🔗 Mode 4: Subject Merger Hub
             </button>
+        </div>
+    </div>
+
+    <!-- Printable Header for Classroom Paper Export -->
+    <div class="print-exam-header" id="printExamHeader">
+        <h1 style="font-size: 22px; font-weight: 800;">APEX IIT-JEE ACADEMY, PATNA</h1>
+        <h2 style="font-size: 16px; font-weight: 700; margin-top: 4px;" id="printPaperTitle">Specialized JEE Main Chapter Mock Examination</h2>
+        <div style="display: flex; justify-content: space-around; margin-top: 10px; font-size: 13px; font-weight: 600;">
+            <span>Time Allowed: <strong id="printDuration">60 Minutes</strong></span>
+            <span>Pattern: <strong>JEE Main (+4 / -1 / 0)</strong></span>
+            <span>Total Questions: <strong id="printTotalQs">15</strong></span>
+            <span>Maximum Marks: <strong id="printMaxMarks">60</strong></span>
         </div>
     </div>
 
     <div class="builder-container">
 
         <!-- ==================================================================== -->
-        <!-- VIEW 1 & 2: COMPILER VIEW (Single Subject or Multi-Subject)          -->
+        <!-- MODE 1: 5-YEAR PYQ BANK & FACULTY QUESTION CUSTOMIZER (PRIMARY)      -->
         <!-- ==================================================================== -->
-        <div id="compilerContainer">
+        <div id="pyqPickerContainer">
 
-            <!-- SECTION 1: EXAMINATION IDENTITY & SETTINGS -->
-            <section class="builder-section-card" id="sec-exam-identity">
-                <span class="section-header-tag">Section 1</span>
-                <h2 class="section-title">Examination Profile & Identity</h2>
-
-                <div class="form-grid-3">
-                    <div class="form-group">
-                        <label>Paper Code (Unique)</label>
-                        <input type="text" id="paperCodeInput" value="JEE-SUB-PHYSICS-01">
-                    </div>
-                    <div class="form-group">
-                        <label>Examination Title</label>
-                        <input type="text" id="paperTitleInput" value="Physics Specialized Topic Mock: Kinematics & Thermodynamics">
-                    </div>
-                    <div class="form-group">
-                        <label>Exam Pattern</label>
-                        <select id="examPatternSelect">
-                            <option value="JEE_MAIN">JEE Main (+4 / -1 / 0)</option>
-                            <option value="JEE_ADVANCED">JEE Advanced (Partial Marking)</option>
-                            <option value="NEET">NEET (+4 / -1 / 0 - 180 Qs)</option>
-                            <option value="BITSAT">BITSAT (+3 / -1 / 0)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-grid-3" style="margin-top: 14px;">
-                    <div class="form-group">
-                        <label>Duration (Minutes)</label>
-                        <input type="number" id="durationInput" value="60">
-                    </div>
-                    <div class="form-group">
-                        <label>Target Cohort / Batch</label>
-                        <select>
-                            <option>JEE 2026 Dropper Elite</option>
-                            <option>Class 12th Super-30</option>
-                            <option>Medical Foundation NEET 2026</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Question Freshness Filter</label>
-                        <select id="freshnessSelect">
-                            <option value="UNUSED_ONLY">Exclude questions already attempted by this batch</option>
-                            <option value="INCLUDE_ALL">Include all questions (allow revision)</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 2: SUBJECT AUTHORIZATION & SYLLABUS DRILLDOWN -->
-            <section class="builder-section-card" id="sec-syllabus-taxonomy">
-                <span class="section-header-tag">Section 2</span>
-                <h2 class="section-title" id="subjectSectionTitle">Step A: Choose Target Subject(s)</h2>
-
-                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
-                    Pick the subject(s) this teacher/paper is responsible for:
-                </div>
-
-                <div class="subject-selector-grid">
-                    <div class="subject-card-option selected" id="subCard-Physics" onclick="toggleSubjectSelection('Physics')">
-                        <div class="subject-icon">⚛️</div>
-                        <div>
-                            <div class="subject-card-title">Physics</div>
-                            <div class="subject-card-subtitle">Mechanics, Thermo, Electrodynamics</div>
-                        </div>
-                    </div>
-                    <div class="subject-card-option" id="subCard-Chemistry" onclick="toggleSubjectSelection('Chemistry')">
-                        <div class="subject-icon">🧪</div>
-                        <div>
-                            <div class="subject-card-title">Chemistry</div>
-                            <div class="subject-card-subtitle">Physical, Organic, Inorganic</div>
-                        </div>
-                    </div>
-                    <div class="subject-card-option" id="subCard-Mathematics" onclick="toggleSubjectSelection('Mathematics')">
-                        <div class="subject-icon">📐</div>
-                        <div>
-                            <div class="subject-card-title">Mathematics</div>
-                            <div class="subject-card-subtitle">Calculus, Vectors, Algebra</div>
-                        </div>
-                    </div>
-                    <div class="subject-card-option" id="subCard-Biology" onclick="toggleSubjectSelection('Biology')">
-                        <div class="subject-icon">🧬</div>
-                        <div>
-                            <div class="subject-card-title">Biology</div>
-                            <div class="subject-card-subtitle">Botany & Zoology (NEET)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chapter Checklist for Selected Subject -->
-                <div style="margin-top: 24px;">
-                    <div style="font-weight: 700; font-size: 14px; margin-bottom: 6px;">
-                        Step B: Select Specific Chapters from <span id="activeSubjectLabel" style="color: var(--primary);">Physics</span>:
-                    </div>
-                    <div class="chapters-grid" id="chaptersContainer">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 3: QUESTION PATTERN & DIFFICULTY ALLOCATION -->
-            <section class="builder-section-card" id="sec-difficulty-allocation">
-                <span class="section-header-tag">Section 3</span>
-                <h2 class="section-title">Question Pattern & Difficulty Allocation</h2>
-
-                <div class="difficulty-row">
-                    <div class="diff-box">
-                        <span class="diff-badge diff-easy">EASY (Foundation Level)</span>
-                        <label style="font-size: 12px; color: #64748b;">Target Question Count</label>
-                        <input type="number" id="easyCount" value="2" min="0" max="20" style="padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                    </div>
-                    <div class="diff-box">
-                        <span class="diff-badge diff-med">MEDIUM (Main Cutoff Level)</span>
-                        <label style="font-size: 12px; color: #64748b;">Target Question Count</label>
-                        <input type="number" id="medCount" value="2" min="0" max="30" style="padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                    </div>
-                    <div class="diff-box">
-                        <span class="diff-badge diff-hard">HARD (Advanced Rank Decider)</span>
-                        <label style="font-size: 12px; color: #64748b;">Target Question Count</label>
-                        <input type="number" id="hardCount" value="1" min="0" max="20" style="padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                    </div>
-                </div>
-
-                <button class="btn-generate" onclick="generatePaperWithTips()">
-                    <span>⚡ Run TIPS Compiler & Assemble Paper</span>
-                </button>
-            </section>
-
-            <!-- SECTION 4: ASSEMBLED PAPER CANVAS (Live KaTeX Preview & Question Swap) -->
-            <section class="builder-section-card" id="sec-paper-canvas">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <!-- Filter Panel -->
+            <div class="filter-panel-card">
+                <!-- Row 1: Subject Toggle Pills -->
+                <div class="filter-row-primary">
                     <div>
-                        <span class="section-header-tag">Section 4</span>
-                        <h2 class="section-title" style="margin-bottom: 0;">Assembled Question Paper Canvas (<span id="assembledCount">0</span> Questions)</h2>
-                    </div>
-                    <div style="font-size: 12px; color: #166534; font-weight: 700; background: #dcfce7; padding: 4px 10px; border-radius: 6px;">
-                        ● KaTeX Vector Engine Active
-                    </div>
-                </div>
-
-                <div id="assembledQuestionsList">
-                    <div style="text-align: center; padding: 30px; color: #64748b; font-size: 14px;">
-                        Select syllabus chapters above and click <strong>"Run TIPS Compiler"</strong> to assemble the question paper.
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 5: DUAL PUBLISHING & DRAFT STAGING -->
-            <section class="builder-section-card" id="sec-publish-export">
-                <span class="section-header-tag">Section 5</span>
-                <h2 class="section-title">Deployment & Staging Options</h2>
-
-                <div class="export-bar">
-                    <div>
-                        <div style="font-weight: 700; font-size: 14px;">Deploy this paper or save for full exam merge?</div>
-                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-                            You can publish as a standalone subject test or submit as a draft for the Exam Coordinator to merge.
+                        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #2563eb; letter-spacing: 0.5px;">Filter by Subject:</span>
+                        <div class="subject-pill-group" style="margin-top: 6px;">
+                            <button class="sub-pill-btn active" id="subBtn-Physics" onclick="switchPyqSubject('Physics')">
+                                <span>⚛️</span> Physics <span id="countPillPhysics" style="font-size: 11px; opacity: 0.8;">(18)</span>
+                            </button>
+                            <button class="sub-pill-btn" id="subBtn-Chemistry" onclick="switchPyqSubject('Chemistry')">
+                                <span>🧪</span> Chemistry <span id="countPillChemistry" style="font-size: 11px; opacity: 0.8;">(12)</span>
+                            </button>
+                            <button class="sub-pill-btn" id="subBtn-Mathematics" onclick="switchPyqSubject('Mathematics')">
+                                <span>📐</span> Mathematics <span id="countPillMath" style="font-size: 11px; opacity: 0.8;">(12)</span>
+                            </button>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 10px;">
-                        <button style="background: #ffffff; color: var(--purple); border: 2px solid var(--purple); padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="saveAsSubjectDraft()">
-                            💾 Save as Subject Draft (For Merger)
-                        </button>
-                        <button style="background: #ffffff; color: #1e3a8a; border: 2px solid #1e3a8a; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="window.print()">
-                            📄 Print PDF
-                        </button>
-                        <button style="background: #16a34a; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="publishToCbt()">
-                            🚀 Publish Subject Test
-                        </button>
+                    <!-- Difficulty Tiers Strip -->
+                    <div>
+                        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #2563eb; letter-spacing: 0.5px;">Categorize by Difficulty (3 Parts):</span>
+                        <div class="diff-pill-strip" style="margin-top: 6px;">
+                            <button class="diff-pill all active" id="diffPill-ALL" onclick="setDiffFilter('ALL')">All Tiers</button>
+                            <button class="diff-pill easy" id="diffPill-EASY" onclick="setDiffFilter('EASY')">🟢 Easy (Foundation)</button>
+                            <button class="diff-pill med" id="diffPill-MEDIUM" onclick="setDiffFilter('MEDIUM')">🟡 Medium (JEE Cutoff)</button>
+                            <button class="diff-pill hard" id="diffPill-HARD" onclick="setDiffFilter('HARD')">🔴 Hard (Rank Decider)</button>
+                        </div>
                     </div>
                 </div>
-            </section>
+
+                <!-- Row 2: Chapter, Year & Search Input -->
+                <div class="filter-grid-secondary">
+                    <div class="form-control-wrap">
+                        <label>Select Chapter (Syllabus Drilldown)</label>
+                        <select class="form-select" id="chapterFilterSelect" onchange="applyPyqFilters()">
+                            <option value="ALL">All Chapters in Selected Subject</option>
+                        </select>
+                    </div>
+
+                    <div class="form-control-wrap">
+                        <label>Previous Year Papers (5 Years)</label>
+                        <select class="form-select" id="yearFilterSelect" onchange="applyPyqFilters()">
+                            <option value="ALL">All 5 Years (2020–2024)</option>
+                            <option value="2024">2024 (Latest NTA Pattern)</option>
+                            <option value="2023">2023 (Jan & Apr Shifts)</option>
+                            <option value="2022">2022 (Jun & Jul Shifts)</option>
+                            <option value="2021">2021 (Feb & Jul Shifts)</option>
+                            <option value="2020">2020 (Sep Shifts)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-control-wrap">
+                        <label>Question Type</label>
+                        <select class="form-select" id="typeFilterSelect" onchange="applyPyqFilters()">
+                            <option value="ALL">All (MCQ & NVQ)</option>
+                            <option value="SCQ">Single Choice (+4/-1)</option>
+                            <option value="NVQ">Numerical (+4/0)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-control-wrap">
+                        <label>Search Questions (Formula / Concept / Topic)</label>
+                        <input type="text" class="form-input" id="searchKeywordInput" placeholder="e.g. Carnot, VSEPR, King's Rule..." oninput="applyPyqFilters()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="pyq-stats-bar">
+                <div>
+                    Showing <span class="stats-highlight" id="filteredMatchCount">0</span> questions in 
+                    <strong id="activeSubjectName" style="color: #1e3a8a;">Physics</strong>: 
+                    <span style="margin-left: 8px; font-size: 12px; color: #475569;">
+                        (<span style="color: #166534; font-weight: 700;" id="countMatchEasy">0 Easy</span> • 
+                        <span style="color: #92400e; font-weight: 700;" id="countMatchMed">0 Medium</span> • 
+                        <span style="color: #991b1b; font-weight: 700;" id="countMatchHard">0 Hard</span>)
+                    </span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="selectAllFilteredQuestions()" style="background: #2563eb; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                        + Select All Filtered into Paper
+                    </button>
+                    <button onclick="clearAllFilters()" style="background: #fff; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                        Reset Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rendered Questions List -->
+            <div class="pyq-list-container" id="pyqCardsList">
+                <!-- Dynamically populated -->
+            </div>
 
         </div>
 
         <!-- ==================================================================== -->
-        <!-- VIEW 3: MERGER HUB (Combine submitted subject teacher drafts)         -->
+        <!-- MODE 2 & 3: COMPILER VIEW (Single & Multi Subject Quotas)            -->
+        <!-- ==================================================================== -->
+        <div id="compilerContainer" style="display: none;">
+            <div class="legacy-builder-section">
+                <span class="section-header-tag">Section 1</span>
+                <h2 class="section-title">Algorithmic Quota Assembly</h2>
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label style="font-size: 12px; font-weight: 700; color: #64748b;">Paper Title</label>
+                        <input type="text" id="paperTitleInput" class="form-input" value="Specialized Algorithmic Topic Mock">
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 12px; font-weight: 700; color: #64748b;">Duration (Minutes)</label>
+                        <input type="number" id="durationInput" class="form-input" value="60">
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 12px; font-weight: 700; color: #64748b;">Pattern</label>
+                        <select id="examPatternSelect" class="form-select">
+                            <option value="JEE_MAIN">JEE Main (+4 / -1 / 0)</option>
+                            <option value="JEE_ADVANCED">JEE Advanced</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="difficulty-row" style="margin-top: 16px;">
+                    <div class="diff-box">
+                        <span style="font-size: 11px; font-weight: 800; color: #166534;">EASY QUOTA</span>
+                        <input type="number" id="easyCount" class="form-input" value="2" min="0" max="20">
+                    </div>
+                    <div class="diff-box">
+                        <span style="font-size: 11px; font-weight: 800; color: #92400e;">MEDIUM QUOTA</span>
+                        <input type="number" id="medCount" class="form-input" value="2" min="0" max="30">
+                    </div>
+                    <div class="diff-box">
+                        <span style="font-size: 11px; font-weight: 800; color: #991b1b;">HARD QUOTA</span>
+                        <input type="number" id="hardCount" class="form-input" value="1" min="0" max="20">
+                    </div>
+                </div>
+
+                <button class="btn-generate" onclick="generateAlgorithmicPaper()">
+                    ⚡ Run Algorithmic Quota Assembly & Stage Questions
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- MODE 4: MERGER HUB                                                   -->
         <!-- ==================================================================== -->
         <div id="mergerContainer" style="display: none;">
-            <section class="builder-section-card">
+            <div class="legacy-builder-section">
                 <span class="section-header-tag">Section 1</span>
                 <h2 class="section-title">🔗 Subject Paper Merger Hub (Exam Coordinator Console)</h2>
                 <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
-                    Different subject teachers (Physics, Chemistry, Maths, Biology) have independently prepared their respective sections. 
-                    Select the subject sections below to merge them into a unified, full-length CBT Mock Examination.
+                    Merge independent teacher draft sections (Physics, Chemistry, Maths) into a grand combined CBT Mock.
                 </p>
 
                 <div id="draftsListContainer">
-                    <!-- Rendered dynamically -->
+                    <!-- Populated dynamically -->
                 </div>
 
-                <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 18px; margin-top: 20px;">
-                    <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Unified Examination Settings</h3>
-                    <div class="form-grid-3">
-                        <div class="form-group">
-                            <label>Merged Grand Exam Title</label>
-                            <input type="text" id="mergedTitleInput" value="All India Combined JEE Main Full Syllabus Mock Test">
-                        </div>
-                        <div class="form-group">
-                            <label>Merged Exam Code</label>
-                            <input type="text" id="mergedCodeInput" value="JEE-COMBINED-GRAND-01">
-                        </div>
-                        <div class="form-group">
-                            <label>Total Duration</label>
-                            <select id="mergedDurationSelect">
-                                <option value="180">180 Minutes (3.0 Hours)</option>
-                                <option value="200">200 Minutes (NEET Pattern)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <button class="btn-generate" style="margin-top: 18px; width: 100%; background: #16a34a;" onclick="executeMergeAndPublish()">
-                        ⚡ Merge Selected Sections & Launch Full Mock in Student CBT
-                    </button>
-                </div>
-            </section>
+                <button class="btn-generate" style="background: #16a34a; margin-top: 16px;" onclick="executeMergeAndPublish()">
+                    ⚡ Merge Selected Sections & Launch Full Mock in Student CBT
+                </button>
+            </div>
         </div>
 
     </div>
 
-    <!-- Script Execution -->
+    <!-- ==================================================================== -->
+    <!-- STICKY BOTTOM DRAWER: STAGED EXAM BASKET                             -->
+    <!-- ==================================================================== -->
+    <div class="sticky-paper-drawer" id="stickyDrawer">
+        <div class="drawer-metrics">
+            <div class="drawer-count-badge" id="stagedDrawerCountBadge">0 Selected</div>
+            <div class="drawer-breakdown">
+                <div>Exam Staging Basket: <strong id="drawerSummaryText">0 Questions Selected</strong></div>
+                <div style="font-size: 11px; margin-top: 2px;">
+                    <span style="color: #4ade80;" id="drawerEasyCount">0 Easy</span> • 
+                    <span style="color: #fde047;" id="drawerMedCount">0 Med</span> • 
+                    <span style="color: #f87171;" id="drawerHardCount">0 Hard</span> • 
+                    Total Marks: <strong style="color: #38bdf8;" id="drawerMarksCount">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="drawer-actions">
+            <button class="btn-drawer-review" onclick="openStagedReviewModal()">
+                👀 Review Staged Paper (<span id="stagedCountBtn">0</span>)
+            </button>
+            <button class="btn-drawer-review" onclick="window.print()" style="border-color: #60a5fa; color: #93c5fd;">
+                📄 Print PDF Paper
+            </button>
+            <button class="btn-drawer-launch" onclick="publishStagedExamToCbt()">
+                <span>🚀 Launch in Student CBT Engine →</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- MODAL 1: INTERACTIVE QUESTION EDITOR & LATEX STUDIO                  -->
+    <!-- ==================================================================== -->
+    <div class="modal-backdrop" id="questionEditorModal">
+        <div class="editor-modal-card">
+            <div class="editor-header">
+                <div>
+                    <div class="editor-title">✏️ Edit & Customize Question — Live KaTeX Studio</div>
+                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                        Modify the question statement, options, or difficulty. Changes update in real-time.
+                    </div>
+                </div>
+                <button onclick="closeQuestionEditor()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: #64748b;">✕</button>
+            </div>
+
+            <input type="hidden" id="editQId">
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+                <div class="editor-row" style="margin-bottom: 0;">
+                    <label>Subject</label>
+                    <input type="text" id="editQSubject" class="form-input" disabled style="background: #f1f5f9;">
+                </div>
+                <div class="editor-row" style="margin-bottom: 0;">
+                    <label>Chapter</label>
+                    <input type="text" id="editQChapter" class="form-input">
+                </div>
+                <div class="editor-row" style="margin-bottom: 0;">
+                    <label>Difficulty Tier</label>
+                    <select id="editQDiff" class="form-select">
+                        <option value="EASY">🟢 EASY (Foundation Level)</option>
+                        <option value="MEDIUM">🟡 MEDIUM (JEE Main Cutoff Level)</option>
+                        <option value="HARD">🔴 HARD (Advanced Rank Decider)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Question Statement -->
+            <div class="editor-row">
+                <label>Question Statement (LaTeX supported with $...$):</label>
+                <textarea id="editQLatex" oninput="updateEditorPreviews()"></textarea>
+                <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-top: 4px;">Live Equation Preview:</div>
+                <div class="katex-preview-box" id="previewQLatex"></div>
+            </div>
+
+            <!-- 4 Options -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                <div class="editor-row">
+                    <label>Option (A):</label>
+                    <input type="text" id="editOptA" class="form-input" oninput="updateEditorPreviews()">
+                    <div class="katex-preview-box" id="previewOptA"></div>
+                </div>
+                <div class="editor-row">
+                    <label>Option (B):</label>
+                    <input type="text" id="editOptB" class="form-input" oninput="updateEditorPreviews()">
+                    <div class="katex-preview-box" id="previewOptB"></div>
+                </div>
+                <div class="editor-row">
+                    <label>Option (C):</label>
+                    <input type="text" id="editOptC" class="form-input" oninput="updateEditorPreviews()">
+                    <div class="katex-preview-box" id="previewOptC"></div>
+                </div>
+                <div class="editor-row">
+                    <label>Option (D):</label>
+                    <input type="text" id="editOptD" class="form-input" oninput="updateEditorPreviews()">
+                    <div class="katex-preview-box" id="previewOptD"></div>
+                </div>
+            </div>
+
+            <!-- Correct Answer & Solution -->
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-top: 8px;">
+                <div class="editor-row">
+                    <label>Correct Answer Key</label>
+                    <select id="editQCorrect" class="form-select">
+                        <option value="A">Option (A)</option>
+                        <option value="B">Option (B)</option>
+                        <option value="C">Option (C)</option>
+                        <option value="D">Option (D)</option>
+                    </select>
+                </div>
+                <div class="editor-row">
+                    <label>Exam Shift Metadata</label>
+                    <input type="text" id="editQShift" class="form-input">
+                </div>
+            </div>
+
+            <div class="editor-row">
+                <label>Detailed Solution & Teacher Shortcut:</label>
+                <textarea id="editQSolution" oninput="updateEditorPreviews()"></textarea>
+                <div class="katex-preview-box" id="previewQSolution"></div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+                <button onclick="closeQuestionEditor()" style="background: #e2e8f0; color: #475569; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+                    Cancel
+                </button>
+                <button onclick="saveQuestionEdits()" style="background: #2563eb; color: #fff; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+                    💾 Save Changes & Apply to Paper
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- MODAL 2: STAGED PAPER REVIEW & LAUNCH DRAWER                         -->
+    <!-- ==================================================================== -->
+    <div class="modal-backdrop" id="stagedReviewModal">
+        <div class="review-modal-card">
+            <div class="editor-header">
+                <div>
+                    <div class="editor-title">📋 Review Staged Examination Paper (<span id="modalReviewCount">0</span> Questions)</div>
+                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                        Verify question order and configure test parameters before launching to students.
+                    </div>
+                </div>
+                <button onclick="closeStagedReviewModal()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: #64748b;">✕</button>
+            </div>
+
+            <!-- Exam Parameters Row -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label style="font-size: 12px; font-weight: 700; color: #475569;">Examination Title</label>
+                        <input type="text" id="finalExamTitleInput" class="form-input" value="Custom JEE Main Curated PYQ Paper">
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 12px; font-weight: 700; color: #475569;">Duration (Minutes)</label>
+                        <input type="number" id="finalDurationInput" class="form-input" value="60">
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 12px; font-weight: 700; color: #475569;">Target Cohort / Batch</label>
+                        <select class="form-select">
+                            <option>JEE 2026 Dropper Elite</option>
+                            <option>Class 12th Super-30</option>
+                            <option>Foundation Batch</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staged Questions Accordion / List -->
+            <div id="stagedQuestionsReviewList" style="display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 6px;">
+                <!-- Dynamically populated -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+                <button onclick="clearStagedPaper()" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 10px 16px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+                    🗑️ Clear Staged Basket
+                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="closeStagedReviewModal()" style="background: #e2e8f0; color: #475569; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+                        Back to Picker
+                    </button>
+                    <button onclick="publishStagedExamToCbt()" style="background: #16a34a; color: #fff; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 800; cursor: pointer;">
+                        🚀 Confirm & Launch in Student CBT Engine
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Application Logic -->
     <script type="module">
-        import { extractSyllabusTaxonomy, filterQuestions, assembleTestPaper, swapQuestionInPaper, mergeSubjectSections } from '../core/tips-algorithmic-generator.js';
+        import { extractSyllabusTaxonomy } from '../core/tips-algorithmic-generator.js';
         import { getTenantTheme, applyThemeToDOM } from '../config/tenant-theme-schema.js';
         import { getCurrentSession } from '../auth/session-auth-guard.js';
 
+        // Master State
         let masterBank = [];
         let taxonomy = {};
-        let currentMode = 'SINGLE_SUBJECT'; // SINGLE_SUBJECT, MULTI_SUBJECT, MERGER_HUB
-        let selectedSubjects = new Set(['Physics']);
-        let activeTaxonomySubject = 'Physics';
-        let selectedChapters = new Set();
-        let assembledPaper = [];
+        let activeSubject = 'Physics';
+        let activeDiffFilter = 'ALL'; // ALL, EASY, MEDIUM, HARD
+        let stagedQuestions = []; // Array of question objects selected by faculty
+        let filteredQuestions = [];
 
-        // Sample teacher drafts ready in staging for the Merger Hub
+        // Staged Teacher Drafts for Merger Hub
         let stagedTeacherDrafts = [
             {
                 id: 'draft_phy_01',
@@ -755,197 +1204,24 @@
                 id: 'draft_chem_01',
                 subject: 'Chemistry',
                 teacherName: 'Dr. R. Sharma (Chemistry Dept)',
-                chapterTags: 'Chemical Bonding, Thermodynamics, Coordination',
-                questionsCount: 4,
+                chapterTags: 'Chemical Bonding, Thermodynamics, Equilibrium',
+                questionsCount: 5,
                 included: true
             },
             {
                 id: 'draft_math_01',
                 subject: 'Mathematics',
                 teacherName: 'Er. S. Gupta (Senior Math Faculty)',
-                chapterTags: 'Calculus, Leibniz Rule, Vectors & 3D',
-                questionsCount: 3,
+                chapterTags: 'Matrices, Limits, Definite Integrals, Vectors',
+                questionsCount: 5,
                 included: true
-            },
-            {
-                id: 'draft_bio_01',
-                subject: 'Biology',
-                teacherName: 'Dr. Meenakshi Banerjee (NEET Biology Head)',
-                chapterTags: 'Genetics, Plant Physiology, ECG, Biotechnology',
-                questionsCount: 4,
-                included: false
             }
         ];
 
-        async function init() {
-            // Apply Dynamic White-Label Theme
-            const session = getCurrentSession();
-            const tenantId = session?.instituteId || 'apex';
-            const theme = getTenantTheme(tenantId);
-            applyThemeToDOM(theme);
-
-            const res = await fetch('../mock-data/master-question-bank.json');
-            masterBank = await res.json();
-            taxonomy = extractSyllabusTaxonomy(masterBank);
-
-            // Pre-select first chapters for Physics
-            const chapters = Object.keys(taxonomy['Physics'] || {});
-            chapters.forEach(c => selectedChapters.add(c));
-
-            renderSubjectUI();
-            renderChaptersUI();
-            generatePaperWithTips();
-            renderMergerHubDrafts();
-        }
-
-        window.setAuthoringMode = function(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.mode-tab-btn').forEach(btn => btn.classList.remove('active'));
-
-            if (mode === 'SINGLE_SUBJECT') {
-                document.getElementById('btnModeSingle').classList.add('active');
-                document.getElementById('compilerContainer').style.display = 'block';
-                document.getElementById('mergerContainer').style.display = 'none';
-                document.getElementById('paperTitleInput').value = "Physics Specialized Topic Mock: Kinematics & Thermodynamics";
-                document.getElementById('durationInput').value = "60";
-                // Enforce single subject selection
-                selectedSubjects = new Set(['Physics']);
-                activeTaxonomySubject = 'Physics';
-                renderSubjectUI();
-                renderChaptersUI();
-            } else if (mode === 'MULTI_SUBJECT') {
-                document.getElementById('btnModeMulti').classList.add('active');
-                document.getElementById('compilerContainer').style.display = 'block';
-                document.getElementById('mergerContainer').style.display = 'none';
-                document.getElementById('paperTitleInput').value = "JEE Main Combined Grand Mock (PCM All-in-One)";
-                document.getElementById('durationInput').value = "180";
-                // Multi-subject default: PCM
-                selectedSubjects = new Set(['Physics', 'Chemistry', 'Mathematics']);
-                activeTaxonomySubject = 'Physics';
-                renderSubjectUI();
-                renderChaptersUI();
-            } else if (mode === 'MERGER_HUB') {
-                document.getElementById('btnModeMerger').classList.add('active');
-                document.getElementById('compilerContainer').style.display = 'none';
-                document.getElementById('mergerContainer').style.display = 'block';
-            }
-        };
-
-        window.toggleSubjectSelection = function(subject) {
-            if (currentMode === 'SINGLE_SUBJECT') {
-                selectedSubjects.clear();
-                selectedSubjects.add(subject);
-                activeTaxonomySubject = subject;
-            } else {
-                if (selectedSubjects.has(subject)) {
-                    if (selectedSubjects.size > 1) selectedSubjects.delete(subject);
-                } else {
-                    selectedSubjects.add(subject);
-                }
-                activeTaxonomySubject = subject;
-            }
-            renderSubjectUI();
-            renderChaptersUI();
-        };
-
-        function renderSubjectUI() {
-            ['Physics', 'Chemistry', 'Mathematics', 'Biology'].forEach(sub => {
-                const card = document.getElementById(`subCard-${sub}`);
-                if (selectedSubjects.has(sub)) {
-                    card.classList.add('selected');
-                } else {
-                    card.classList.remove('selected');
-                }
-            });
-            document.getElementById('activeSubjectLabel').textContent = activeTaxonomySubject;
-        }
-
-        function renderChaptersUI() {
-            const container = document.getElementById('chaptersContainer');
-            container.innerHTML = '';
-
-            const chapters = taxonomy[activeTaxonomySubject] || {};
-            for (const ch in chapters) {
-                const isChecked = selectedChapters.has(ch);
-                const topicsCount = chapters[ch].length;
-
-                const card = document.createElement('label');
-                card.className = 'chapter-checkbox-card';
-                card.innerHTML = `
-                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleChapter('${ch}', this.checked)" style="margin-top: 3px;">
-                    <div>
-                        <div class="chapter-name">${ch}</div>
-                        <div class="chapter-topic-count">${topicsCount} sub-topics available</div>
-                    </div>
-                `;
-                container.appendChild(card);
-            }
-        }
-
-        window.toggleChapter = function(chapter, isChecked) {
-            if (isChecked) {
-                selectedChapters.add(chapter);
-            } else {
-                selectedChapters.delete(chapter);
-            }
-        };
-
-        window.generatePaperWithTips = function() {
-            const easy = parseInt(document.getElementById('easyCount').value) || 0;
-            const med = parseInt(document.getElementById('medCount').value) || 0;
-            const hard = parseInt(document.getElementById('hardCount').value) || 0;
-            const totalRequested = easy + med + hard;
-
-            // Candidate pool filtered by active selected subjects and chapters
-            const candidatePool = filterQuestions(masterBank, {
-                selectedChapters: Array.from(selectedChapters)
-            });
-
-            if (candidatePool.length === 0) {
-                alert(`No questions found for the selected chapters in ${activeTaxonomySubject}. Please select at least one chapter.`);
-                return;
-            }
-
-            assembledPaper = assembleTestPaper(candidatePool, totalRequested);
-            renderAssembledPaper();
-        };
-
-        function renderAssembledPaper() {
-            const container = document.getElementById('assembledQuestionsList');
-            document.getElementById('assembledCount').textContent = assembledPaper.length;
-
-            if (assembledPaper.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 20px;">No questions assembled.</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-            assembledPaper.forEach((q, idx) => {
-                const card = document.createElement('div');
-                card.className = 'question-card';
-                card.innerHTML = `
-                    <div class="q-card-header">
-                        <div class="q-meta-tag">Q${idx + 1} • ${q.subject} • ${q.chapter} (${q.difficulty})</div>
-                        <button class="btn-swap" onclick="swapQuestion(${idx})">🔄 Swap Question</button>
-                    </div>
-                    <div class="q-body">${q.questionLatex}</div>
-                    <div class="q-options-grid">
-                        ${q.options.map(opt => `
-                            <div class="q-opt-pill">
-                                <strong>(${opt.id})</strong> ${opt.latex}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="q-solution-box">
-                        <strong>Solution:</strong> ${q.solutionLatex}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-            // Trigger KaTeX rendering
-            if (window.renderMathInElement) {
-                renderMathInElement(container, {
+        // Safe KaTeX Helper
+        function triggerKatex(element) {
+            if (window.renderMathInElement && element) {
+                renderMathInElement(element, {
                     delimiters: [
                         { left: '$$', right: '$$', display: true },
                         { left: '$', right: '$', display: false }
@@ -955,82 +1231,573 @@
             }
         }
 
-        window.swapQuestion = function(targetIndex) {
-            const result = swapQuestionInPaper(assembledPaper, targetIndex, masterBank);
-            if (result.replacedWith) {
-                assembledPaper = result.updatedPaper;
-                renderAssembledPaper();
+        async function init() {
+            // Apply Dynamic White-Label Theme
+            const session = getCurrentSession();
+            const tenantId = session?.instituteId || 'apex';
+            const theme = getTenantTheme(tenantId);
+            applyThemeToDOM(theme);
+
+            // Fetch enriched 5-year JEE Main PYQ Bank
+            const res = await fetch('../mock-data/master-question-bank.json');
+            masterBank = await res.json();
+
+            // Load any previously saved staged paper from localStorage
+            try {
+                const savedStaged = localStorage.getItem('cbt_active_custom_exam');
+                if (savedStaged) {
+                    const parsed = JSON.parse(savedStaged);
+                    if (parsed.questions && parsed.questions.length > 0) {
+                        stagedQuestions = parsed.questions;
+                    }
+                }
+            } catch (e) {
+                console.warn('No cached staged exam', e);
+            }
+
+            taxonomy = extractSyllabusTaxonomy(masterBank);
+
+            // Update subject counts
+            updateSubjectPillCounts();
+            populateChapterDropdown();
+            applyPyqFilters();
+            updateDrawerUI();
+            renderMergerHubDrafts();
+        }
+
+        function updateSubjectPillCounts() {
+            const phyCount = masterBank.filter(q => q.subject === 'Physics').length;
+            const chemCount = masterBank.filter(q => q.subject === 'Chemistry').length;
+            const mathCount = masterBank.filter(q => q.subject === 'Mathematics').length;
+
+            document.getElementById('countPillPhysics').textContent = `(${phyCount})`;
+            document.getElementById('countPillChemistry').textContent = `(${chemCount})`;
+            document.getElementById('countPillMath').textContent = `(${mathCount})`;
+        }
+
+        function populateChapterDropdown() {
+            const select = document.getElementById('chapterFilterSelect');
+            select.innerHTML = '<option value="ALL">All Chapters in Selected Subject</option>';
+
+            const chapters = taxonomy[activeSubject] || {};
+            for (const ch in chapters) {
+                const opt = document.createElement('option');
+                opt.value = ch;
+                const count = masterBank.filter(q => q.subject === activeSubject && q.chapter === ch).length;
+                opt.textContent = `${ch} (${count} Qs)`;
+                select.appendChild(opt);
+            }
+        }
+
+        window.switchPyqSubject = function(subject) {
+            activeSubject = subject;
+            document.querySelectorAll('.sub-pill-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`subBtn-${subject}`).classList.add('active');
+            document.getElementById('activeSubjectName').textContent = subject;
+
+            populateChapterDropdown();
+            applyPyqFilters();
+        };
+
+        window.setDiffFilter = function(diff) {
+            activeDiffFilter = diff;
+            document.querySelectorAll('.diff-pill').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`diffPill-${diff}`).classList.add('active');
+            applyPyqFilters();
+        };
+
+        window.applyPyqFilters = function() {
+            const chVal = document.getElementById('chapterFilterSelect').value;
+            const yearVal = document.getElementById('yearFilterSelect').value;
+            const typeVal = document.getElementById('typeFilterSelect').value;
+            const keyword = document.getElementById('searchKeywordInput').value.trim().toLowerCase();
+
+            filteredQuestions = masterBank.filter(q => {
+                // Subject filter
+                if (q.subject !== activeSubject) return false;
+
+                // Chapter filter
+                if (chVal !== 'ALL' && q.chapter !== chVal) return false;
+
+                // Difficulty filter
+                if (activeDiffFilter !== 'ALL' && q.difficulty !== activeDiffFilter) return false;
+
+                // Year filter
+                if (yearVal !== 'ALL' && String(q.year) !== yearVal) return false;
+
+                // Question type filter
+                if (typeVal !== 'ALL' && q.type !== typeVal) return false;
+
+                // Search keyword filter
+                if (keyword) {
+                    const matchText = (q.questionLatex + ' ' + (q.chapter || '') + ' ' + (q.topic || '') + ' ' + (q.solutionLatex || '')).toLowerCase();
+                    if (!matchText.includes(keyword)) return false;
+                }
+
+                return true;
+            });
+
+            // Update stats
+            document.getElementById('filteredMatchCount').textContent = filteredQuestions.length;
+            const easy = filteredQuestions.filter(q => q.difficulty === 'EASY').length;
+            const med = filteredQuestions.filter(q => q.difficulty === 'MEDIUM').length;
+            const hard = filteredQuestions.filter(q => q.difficulty === 'HARD').length;
+
+            document.getElementById('countMatchEasy').textContent = `${easy} Easy`;
+            document.getElementById('countMatchMed').textContent = `${med} Medium`;
+            document.getElementById('countMatchHard').textContent = `${hard} Hard`;
+
+            renderPyqCardsList();
+        };
+
+        function renderPyqCardsList() {
+            const container = document.getElementById('pyqCardsList');
+            container.innerHTML = '';
+
+            if (filteredQuestions.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; background: #fff; border: 1px solid var(--border); border-radius: 12px; color: #64748b;">
+                        <div style="font-size: 24px; margin-bottom: 8px;">🔍</div>
+                        <div style="font-weight: 700; font-size: 16px;">No questions match your active filters</div>
+                        <div style="font-size: 13px; margin-top: 4px;">Try selecting "All Chapters", switching difficulty, or clearing your search term.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const stagedIds = new Set(stagedQuestions.map(q => q.id));
+
+            filteredQuestions.forEach((q, idx) => {
+                const isSelected = stagedIds.has(q.id);
+                const card = document.createElement('div');
+                card.className = `pyq-card ${isSelected ? 'selected-in-paper' : ''}`;
+                card.id = `pyq-card-${q.id}`;
+
+                card.innerHTML = `
+                    <div class="pyq-card-header">
+                        <div class="pyq-badges">
+                            <span class="badge-year">${q.year || 'PYQ'} • ${q.examShift || 'JEE Main'}</span>
+                            <span class="badge-chapter">${q.chapter}</span>
+                            <span class="badge-diff badge-diff-${q.difficulty}">
+                                ${q.difficulty === 'EASY' ? '🟢 EASY' : (q.difficulty === 'MEDIUM' ? '🟡 MEDIUM' : '🔴 HARD')}
+                            </span>
+                            <span class="badge-type">[${q.type || 'SCQ'} • +4 / -1]</span>
+                        </div>
+                        <div class="card-action-btns">
+                            <button class="btn-edit-q" onclick="openQuestionEditor('${q.id}')">
+                                ✏️ Edit Question
+                            </button>
+                            <button class="btn-select-q ${isSelected ? 'selected' : ''}" id="selectBtn-${q.id}" onclick="toggleQuestionStaging('${q.id}')">
+                                ${isSelected ? '✓ Added to Paper' : '+ Add to Exam Paper'}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pyq-question-text">${q.questionLatex}</div>
+
+                    <div class="pyq-options-grid">
+                        ${(q.options || []).map(opt => `
+                            <div class="pyq-option-pill ${opt.id === q.correctAnswer ? 'correct-answer' : ''}">
+                                <span class="opt-letter">(${opt.id})</span>
+                                <span>${opt.latex}</span>
+                                ${opt.id === q.correctAnswer ? '<span style="margin-left: auto; font-size: 11px; font-weight: 700;">✓ Correct</span>' : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div>
+                        <button class="solution-toggle-btn" onclick="toggleSolutionBox('${q.id}')">
+                            💡 View Detailed Solution & Shortcut Formula
+                        </button>
+                        <div class="pyq-solution-box" id="solBox-${q.id}">
+                            <strong>Step-by-step Solution:</strong><br>
+                            ${q.solutionLatex || 'Direct application of standard concepts.'}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Trigger KaTeX rendering on the container
+            triggerKatex(container);
+        }
+
+        window.toggleSolutionBox = function(qId) {
+            const box = document.getElementById(`solBox-${qId}`);
+            if (box) box.classList.toggle('show');
+        };
+
+        window.toggleQuestionStaging = function(qId) {
+            const question = masterBank.find(q => q.id === qId);
+            if (!question) return;
+
+            const existingIdx = stagedQuestions.findIndex(q => q.id === qId);
+            if (existingIdx >= 0) {
+                // Remove
+                stagedQuestions.splice(existingIdx, 1);
             } else {
-                alert('No alternate questions available in this chapter pool.');
+                // Add
+                stagedQuestions.push({ ...question });
+            }
+
+            updateDrawerUI();
+            updateCardStagingState(qId);
+        };
+
+        function updateCardStagingState(qId) {
+            const card = document.getElementById(`pyq-card-${qId}`);
+            const btn = document.getElementById(`selectBtn-${qId}`);
+            const isSelected = stagedQuestions.some(q => q.id === qId);
+
+            if (card) {
+                if (isSelected) {
+                    card.classList.add('selected-in-paper');
+                } else {
+                    card.classList.remove('selected-in-paper');
+                }
+            }
+
+            if (btn) {
+                if (isSelected) {
+                    btn.classList.add('selected');
+                    btn.textContent = '✓ Added to Paper';
+                } else {
+                    btn.classList.remove('selected');
+                    btn.textContent = '+ Add to Exam Paper';
+                }
+            }
+        }
+
+        window.selectAllFilteredQuestions = function() {
+            filteredQuestions.forEach(q => {
+                if (!stagedQuestions.some(sq => sq.id === q.id)) {
+                    stagedQuestions.push({ ...q });
+                }
+            });
+            updateDrawerUI();
+            renderPyqCardsList();
+        };
+
+        window.clearAllFilters = function() {
+            document.getElementById('chapterFilterSelect').value = 'ALL';
+            document.getElementById('yearFilterSelect').value = 'ALL';
+            document.getElementById('typeFilterSelect').value = 'ALL';
+            document.getElementById('searchKeywordInput').value = '';
+            setDiffFilter('ALL');
+        };
+
+        function updateDrawerUI() {
+            const count = stagedQuestions.length;
+            document.getElementById('stagedDrawerCountBadge').textContent = `${count} Selected`;
+            document.getElementById('drawerSummaryText').textContent = `${count} Questions Selected`;
+            document.getElementById('stagedCountBtn').textContent = count;
+
+            const easy = stagedQuestions.filter(q => q.difficulty === 'EASY').length;
+            const med = stagedQuestions.filter(q => q.difficulty === 'MEDIUM').length;
+            const hard = stagedQuestions.filter(q => q.difficulty === 'HARD').length;
+
+            document.getElementById('drawerEasyCount').textContent = `${easy} Easy`;
+            document.getElementById('drawerMedCount').textContent = `${med} Med`;
+            document.getElementById('drawerHardCount').textContent = `${hard} Hard`;
+            document.getElementById('drawerMarksCount').textContent = `+${count * 4}`;
+
+            // Update print header info
+            document.getElementById('printTotalQs').textContent = count;
+            document.getElementById('printMaxMarks').textContent = count * 4;
+        }
+
+        // ====================================================================
+        // QUESTION EDITOR MODAL LOGIC
+        // ====================================================================
+        window.openQuestionEditor = function(qId) {
+            const question = masterBank.find(q => q.id === qId);
+            if (!question) return;
+
+            document.getElementById('editQId').value = qId;
+            document.getElementById('editQSubject').value = question.subject;
+            document.getElementById('editQChapter').value = question.chapter;
+            document.getElementById('editQDiff').value = question.difficulty;
+            document.getElementById('editQShift').value = question.examShift || '';
+            document.getElementById('editQLatex').value = question.questionLatex;
+
+            const opts = question.options || [];
+            document.getElementById('editOptA').value = opts.find(o => o.id === 'A')?.latex || '';
+            document.getElementById('editOptB').value = opts.find(o => o.id === 'B')?.latex || '';
+            document.getElementById('editOptC').value = opts.find(o => o.id === 'C')?.latex || '';
+            document.getElementById('editOptD').value = opts.find(o => o.id === 'D')?.latex || '';
+
+            document.getElementById('editQCorrect').value = question.correctAnswer || 'A';
+            document.getElementById('editQSolution').value = question.solutionLatex || '';
+
+            updateEditorPreviews();
+            document.getElementById('questionEditorModal').classList.add('show');
+        };
+
+        window.closeQuestionEditor = function() {
+            document.getElementById('questionEditorModal').classList.remove('show');
+        };
+
+        window.updateEditorPreviews = function() {
+            const qLatex = document.getElementById('editQLatex').value;
+            const optA = document.getElementById('editOptA').value;
+            const optB = document.getElementById('editOptB').value;
+            const optC = document.getElementById('editOptC').value;
+            const optD = document.getElementById('editOptD').value;
+            const sol = document.getElementById('editQSolution').value;
+
+            const pQ = document.getElementById('previewQLatex');
+            pQ.textContent = qLatex;
+            triggerKatex(pQ);
+
+            const pA = document.getElementById('previewOptA'); pA.textContent = optA; triggerKatex(pA);
+            const pB = document.getElementById('previewOptB'); pB.textContent = optB; triggerKatex(pB);
+            const pC = document.getElementById('previewOptC'); pC.textContent = optC; triggerKatex(pC);
+            const pD = document.getElementById('previewOptD'); pD.textContent = optD; triggerKatex(pD);
+
+            const pSol = document.getElementById('previewQSolution');
+            pSol.textContent = sol;
+            triggerKatex(pSol);
+        };
+
+        window.saveQuestionEdits = function() {
+            const qId = document.getElementById('editQId').value;
+            const targetQ = masterBank.find(q => q.id === qId);
+            if (!targetQ) return;
+
+            targetQ.chapter = document.getElementById('editQChapter').value;
+            targetQ.difficulty = document.getElementById('editQDiff').value;
+            targetQ.examShift = document.getElementById('editQShift').value;
+            targetQ.questionLatex = document.getElementById('editQLatex').value;
+
+            targetQ.options = [
+                { id: 'A', latex: document.getElementById('editOptA').value },
+                { id: 'B', latex: document.getElementById('editOptB').value },
+                { id: 'C', latex: document.getElementById('editOptC').value },
+                { id: 'D', latex: document.getElementById('editOptD').value }
+            ];
+
+            targetQ.correctAnswer = document.getElementById('editQCorrect').value;
+            targetQ.solutionLatex = document.getElementById('editQSolution').value;
+
+            // Also update in staged paper if present
+            const stagedIdx = stagedQuestions.findIndex(q => q.id === qId);
+            if (stagedIdx >= 0) {
+                stagedQuestions[stagedIdx] = { ...targetQ };
+            }
+
+            closeQuestionEditor();
+            applyPyqFilters();
+            updateDrawerUI();
+            alert(`✅ Successfully updated question [${qId}]! Modifications applied to active paper.`);
+        };
+
+        // ====================================================================
+        // STAGED REVIEW MODAL LOGIC
+        // ====================================================================
+        window.openStagedReviewModal = function() {
+            document.getElementById('modalReviewCount').textContent = stagedQuestions.length;
+            const container = document.getElementById('stagedQuestionsReviewList');
+            container.innerHTML = '';
+
+            if (stagedQuestions.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 30px; color: #64748b;">No questions selected yet. Browse questions and click "+ Add to Exam Paper".</div>';
+            } else {
+                stagedQuestions.forEach((q, idx) => {
+                    const row = document.createElement('div');
+                    row.style.cssText = 'background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;';
+                    row.innerHTML = `
+                        <div style="flex: 1; padding-right: 14px;">
+                            <div style="font-size: 11px; font-weight: 700; color: #2563eb;">Q${idx + 1} • ${q.subject} • ${q.chapter} (${q.difficulty})</div>
+                            <div style="font-size: 13px; color: #0f172a; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 550px;">
+                                ${q.questionLatex}
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="openQuestionEditor('${q.id}')" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">
+                                ✏️ Edit
+                            </button>
+                            <button onclick="removeQuestionFromStaged(${idx})" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">
+                                ✕ Remove
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            document.getElementById('stagedReviewModal').classList.add('show');
+        };
+
+        window.closeStagedReviewModal = function() {
+            document.getElementById('stagedReviewModal').classList.remove('show');
+        };
+
+        window.removeQuestionFromStaged = function(index) {
+            const removed = stagedQuestions.splice(index, 1)[0];
+            if (removed) {
+                updateCardStagingState(removed.id);
+            }
+            openStagedReviewModal();
+            updateDrawerUI();
+        };
+
+        window.clearStagedPaper = function() {
+            if (confirm('Clear all selected questions from staged paper?')) {
+                stagedQuestions = [];
+                updateDrawerUI();
+                renderPyqCardsList();
+                closeStagedReviewModal();
             }
         };
 
-        window.saveAsSubjectDraft = function() {
-            const subject = Array.from(selectedSubjects)[0] || 'Physics';
-            const draft = {
-                id: `draft_${Date.now()}`,
-                subject,
-                teacherName: `Logged-in ${subject} Faculty`,
-                chapterTags: Array.from(selectedChapters).slice(0, 3).join(', '),
-                questionsCount: assembledPaper.length,
-                included: true
+        // ====================================================================
+        // PUBLISH TO STUDENT CBT ENGINE
+        // ====================================================================
+        window.publishStagedExamToCbt = function() {
+            if (stagedQuestions.length === 0) {
+                alert('Please select at least 1 question into your exam paper before launching.');
+                return;
+            }
+
+            const title = document.getElementById('finalExamTitleInput')?.value || "Custom JEE Main Curated PYQ Paper";
+            const duration = parseInt(document.getElementById('finalDurationInput')?.value) || 60;
+
+            // Group into sections by subject
+            const sections = [];
+            const groupedQuestions = [];
+            const subjectsInPaper = Array.from(new Set(stagedQuestions.map(q => q.subject)));
+
+            let currentIndex = 0;
+            subjectsInPaper.forEach(sub => {
+                const subQs = stagedQuestions.filter(q => q.subject === sub);
+                const startIndex = currentIndex;
+                const endIndex = startIndex + subQs.length - 1;
+
+                sections.push({
+                    id: sub.toUpperCase(),
+                    name: sub,
+                    startIndex,
+                    endIndex
+                });
+
+                subQs.forEach((q, sIdx) => {
+                    groupedQuestions.push({
+                        ...q,
+                        questionNumber: currentIndex + 1,
+                        subject: sub.toUpperCase()
+                    });
+                    currentIndex++;
+                });
+            });
+
+            const examPayload = {
+                testId: `JEE_CUSTOM_${Date.now()}`,
+                title: title,
+                durationMinutes: duration,
+                totalQuestions: groupedQuestions.length,
+                sections: sections,
+                questions: groupedQuestions,
+                generatedAt: new Date().toISOString()
             };
-            stagedTeacherDrafts.push(draft);
-            renderMergerHubDrafts();
-            alert(`✅ Saved ${assembledPaper.length} questions as "${subject} Section Draft"! You can now merge it with other subjects in Mode 3.`);
+
+            // Save to both sessionStorage and localStorage for seamless persistence
+            const serialized = JSON.stringify(examPayload);
+            sessionStorage.setItem('cbt_active_custom_exam', serialized);
+            localStorage.setItem('cbt_active_custom_exam', serialized);
+
+            alert(`🎉 Success! Published custom exam "${title}" (${groupedQuestions.length} Questions) to Student CBT Engine!\n\nLaunching examination terminal now...`);
+            window.location.href = '/index.html';
         };
 
-        window.publishToCbt = function() {
-            const title = document.getElementById('paperTitleInput').value;
-            alert(`🎉 Success! Subject Exam "${title}" published to student CBT terminals! Redirecting...`);
-            window.location.href = '/index.html';
+        // Authoring Mode Switching
+        window.setAuthoringMode = function(mode) {
+            document.querySelectorAll('.mode-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('pyqPickerContainer').style.display = 'none';
+            document.getElementById('compilerContainer').style.display = 'none';
+            document.getElementById('mergerContainer').style.display = 'none';
+
+            if (mode === 'PYQ_PICKER') {
+                document.getElementById('btnModePicker').classList.add('active');
+                document.getElementById('pyqPickerContainer').style.display = 'block';
+                document.getElementById('stickyDrawer').style.display = 'flex';
+            } else if (mode === 'SINGLE_SUBJECT' || mode === 'MULTI_SUBJECT') {
+                document.getElementById(mode === 'SINGLE_SUBJECT' ? 'btnModeSingle' : 'btnModeMulti').classList.add('active');
+                document.getElementById('compilerContainer').style.display = 'block';
+                document.getElementById('stickyDrawer').style.display = 'flex';
+            } else if (mode === 'MERGER_HUB') {
+                document.getElementById('btnModeMerger').classList.add('active');
+                document.getElementById('mergerContainer').style.display = 'block';
+                document.getElementById('stickyDrawer').style.display = 'none';
+            }
         };
 
         // Merger Hub Rendering
         function renderMergerHubDrafts() {
             const container = document.getElementById('draftsListContainer');
+            if (!container) return;
             container.innerHTML = '';
 
             stagedTeacherDrafts.forEach((draft, idx) => {
                 const item = document.createElement('div');
-                item.className = `draft-item-card ${draft.included ? 'included' : ''}`;
+                item.style.cssText = 'background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;';
                 item.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 14px;">
-                        <input type="checkbox" ${draft.included ? 'checked' : ''} onchange="toggleDraftInclusion(${idx}, this.checked)" style="width: 18px; height: 18px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <input type="checkbox" ${draft.included ? 'checked' : ''} onchange="toggleDraft(${idx}, this.checked)" style="width: 18px; height: 18px;">
                         <div>
-                            <div style="font-weight: 700; font-size: 15px; color: #0f172a;">${draft.subject} Section — ${draft.teacherName}</div>
-                            <div style="font-size: 12px; color: #64748b; margin-top: 3px;">Coverage: ${draft.chapterTags}</div>
+                            <strong style="color: #0f172a;">${draft.subject} Section — ${draft.teacherName}</strong>
+                            <div style="font-size: 12px; color: #64748b;">${draft.chapterTags}</div>
                         </div>
                     </div>
-                    <div style="text-align: right;">
-                        <span style="font-weight: 800; font-size: 14px; color: var(--primary);">${draft.questionsCount} Questions</span>
-                        <div style="font-size: 11px; color: #16a34a; font-weight: 600;">Ready for Merger</div>
-                    </div>
+                    <div style="font-weight: 800; color: #2563eb;">${draft.questionsCount} Questions</div>
                 `;
                 container.appendChild(item);
             });
         }
 
-        window.toggleDraftInclusion = function(idx, isChecked) {
-            stagedTeacherDrafts[idx].included = isChecked;
-            renderMergerHubDrafts();
+        window.toggleDraft = function(idx, checked) {
+            stagedTeacherDrafts[idx].included = checked;
         };
 
         window.executeMergeAndPublish = function() {
-            const includedDrafts = stagedTeacherDrafts.filter(d => d.included);
-            if (includedDrafts.length < 2) {
-                alert('Please select at least 2 subject sections (e.g. Physics + Chemistry + Math) to create a combined mock exam.');
+            const included = stagedTeacherDrafts.filter(d => d.included);
+            if (included.length < 2) {
+                alert('Please select at least 2 subject sections (e.g. Physics + Chemistry + Math) to merge.');
                 return;
             }
 
-            const totalQs = includedDrafts.reduce((acc, curr) => acc + curr.questionsCount, 0);
-            const title = document.getElementById('mergedTitleInput').value;
+            // Combine questions from master bank for each included subject
+            stagedQuestions = [];
+            included.forEach(d => {
+                const qs = masterBank.filter(q => q.subject === d.subject).slice(0, d.questionsCount);
+                stagedQuestions.push(...qs);
+            });
 
-            alert(`🎉 Grand Success! Merged ${includedDrafts.length} Subject Sections (${includedDrafts.map(d => d.subject).join(' + ')}) totaling ${totalQs} questions into "${title}"! Launching full CBT player...`);
-            window.location.href = '/index.html';
+            publishStagedExamToCbt();
         };
 
-        // Boot
+        window.generateAlgorithmicPaper = function() {
+            const easy = parseInt(document.getElementById('easyCount').value) || 0;
+            const med = parseInt(document.getElementById('medCount').value) || 0;
+            const hard = parseInt(document.getElementById('hardCount').value) || 0;
+
+            const poolEasy = masterBank.filter(q => q.subject === activeSubject && q.difficulty === 'EASY');
+            const poolMed = masterBank.filter(q => q.subject === activeSubject && q.difficulty === 'MEDIUM');
+            const poolHard = masterBank.filter(q => q.subject === activeSubject && q.difficulty === 'HARD');
+
+            stagedQuestions = [
+                ...poolEasy.slice(0, easy),
+                ...poolMed.slice(0, med),
+                ...poolHard.slice(0, hard)
+            ];
+
+            updateDrawerUI();
+            setAuthoringMode('PYQ_PICKER');
+            alert(`⚡ Assembled ${stagedQuestions.length} questions matching your quota (${easy} Easy, ${med} Med, ${hard} Hard) into staged exam basket!`);
+        };
+
+        // Boot Application
         window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>

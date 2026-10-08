@@ -771,9 +771,21 @@
             await dbCache.init();
             initThemeSwitcher();
 
-            // Load Exam JSON
-            const res = await fetch('./mock-data/sample-jee-paper.json');
-            examData = await res.json();
+            // Load Exam JSON (Check if faculty or TIPS paper builder published a custom paper)
+            const customExamRaw = sessionStorage.getItem('cbt_active_custom_exam') || localStorage.getItem('cbt_active_custom_exam');
+            if (customExamRaw) {
+                try {
+                    examData = JSON.parse(customExamRaw);
+                    console.log('⚡ Loaded Faculty Custom Exam:', examData.title);
+                } catch (e) {
+                    console.error('Failed to parse custom exam', e);
+                }
+            }
+
+            if (!examData) {
+                const res = await fetch('./mock-data/sample-jee-paper.json');
+                examData = await res.json();
+            }
             document.getElementById('testTitle').textContent = examData.title;
 
             // Load persisted responses from IndexedDB
