@@ -226,11 +226,10 @@
             <div class="brand-subtitle" id="portalSubtitle">Private Isolated Database & Role-Based Access Control</div>
         </div>
 
-        <!-- Role Tabs (Only Admin and Student shown by default) -->
+        <!-- Role Tabs: Strictly Admin and Student -->
         <div class="role-tabs" id="roleTabsContainer" style="grid-template-columns: repeat(2, 1fr);">
             <button class="role-tab-btn active" id="tabInst" onclick="switchRoleTab('INST')">🏢 Admin</button>
             <button class="role-tab-btn" id="tabStudent" onclick="switchRoleTab('STUDENT')">🎓 Student</button>
-            <button class="role-tab-btn" id="tabSuper" onclick="switchRoleTab('SUPER')" style="display: none;">👑 Master</button>
         </div>
 
         <!-- Form Container -->
@@ -241,7 +240,7 @@
             </div>
 
             <div class="form-group">
-                <label id="idLabel">Official Admin Email / ID</label>
+                <label id="idLabel">Admin Email / ID</label>
                 <input type="text" id="usernameInput" value="director@apexpatna.in" placeholder="e.g. director@yourinstitute.in" required>
             </div>
 
@@ -267,9 +266,6 @@
             <div style="font-size: 11px; color: #64748b; margin-top: 6px;">
                 Enter your institutional credentials to connect to your private isolated database.
             </div>
-            <div style="margin-top: 14px;">
-                <a href="javascript:void(0)" onclick="revealMasterLogin()" style="color: #475569; font-size: 11px; text-decoration: none;">Platform Infrastructure Master Login</a>
-            </div>
         </div>
     </div>
 
@@ -280,7 +276,6 @@
         let activeTab = 'INST';
         const urlParams = new URLSearchParams(window.location.search);
         const orgParam = (urlParams.get('org') || urlParams.get('tenant') || '').toLowerCase();
-        const masterParam = urlParams.get('master') || urlParams.get('super');
 
         // Automatic White-Label Tenant Branding if specified via URL
         if (orgParam === 'apex') {
@@ -295,19 +290,6 @@
             document.getElementById('usernameInput').value = 'admin@chanakyakota.in';
         }
 
-        // Reveal Master Login if requested
-        if (masterParam === '1' || masterParam === 'true') {
-            revealMasterLogin();
-        }
-
-        window.revealMasterLogin = function() {
-            const tabSuper = document.getElementById('tabSuper');
-            const tabsContainer = document.getElementById('roleTabsContainer');
-            tabSuper.style.display = 'block';
-            tabsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
-            switchRoleTab('SUPER');
-        };
-
         window.switchRoleTab = function(tab) {
             activeTab = tab;
             document.querySelectorAll('.role-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -318,7 +300,7 @@
 
             if (tab === 'INST') {
                 document.getElementById('tabInst').classList.add('active');
-                idLabel.textContent = 'Official Admin Email / ID';
+                idLabel.textContent = 'Admin Email / ID';
                 submitBtn.textContent = 'Sign In to Admin Portal →';
                 userInput.value = orgParam === 'chanakya' ? 'admin@chanakyakota.in' : 'director@apexpatna.in';
             } else if (tab === 'STUDENT') {
@@ -326,11 +308,6 @@
                 idLabel.textContent = 'Student Enrollment Roll No / Email';
                 submitBtn.textContent = 'Launch Student CBT Terminal →';
                 userInput.value = 'student@apexpatna.in';
-            } else if (tab === 'SUPER') {
-                document.getElementById('tabSuper').classList.add('active');
-                idLabel.textContent = 'Platform Owner Master Key';
-                submitBtn.textContent = 'Access God-Mode Master Console →';
-                userInput.value = 'rannvijay@platform.com';
             }
         };
 
@@ -338,7 +315,7 @@
             e.preventDefault();
             const username = document.getElementById('usernameInput').value.trim().toLowerCase();
 
-            if (activeTab === 'SUPER' || username.includes('rannvijay') || username.includes('master')) {
+            if (username.includes('rannvijay') || username.includes('master') || username === 'admin@platform.com') {
                 quickLogin('rannvijay@platform.com');
                 return;
             }

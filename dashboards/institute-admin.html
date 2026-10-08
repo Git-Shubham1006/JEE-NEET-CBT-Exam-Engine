@@ -993,13 +993,21 @@
 </head>
 <body>
 
-    <!-- Demo Navigation Bar -->
+    <!-- Admin Navigation Bar -->
     <div class="top-nav">
         <div>
-            <strong>🏢 Institute Admin Console</strong> (Private Isolated Tenant DB: <span id="tenantDbName" style="color: #60a5fa; font-family: monospace;">institute_tenant_apex_patna</span>)
+            <strong>🏢 Admin Console</strong> (Private Isolated Database: <span id="tenantDbName" style="color: #60a5fa; font-family: monospace;">institute_tenant_apex_patna</span>)
         </div>
         <div style="display: flex; align-items: center; gap: 14px;">
-            <span id="adminSessionInfo" style="color: #cbd5e1; font-size: 12px;">Authenticated Admin: <strong id="adminStaffName" style="color: #fff;">Director S. K. Roy</strong></span>
+            <span id="superAdminSwitcher" style="display: none; align-items: center; gap: 8px; background: #1e293b; padding: 3px 8px; border-radius: 6px; border: 1px solid #334155;">
+                <span style="font-size: 11px; color: #facc15; font-weight: 700;">👑 Master DB:</span>
+                <select id="superTenantSelect" onchange="switchSuperTenant(this.value)" style="background: #0f172a; color: #93c5fd; border: 1px solid #475569; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer;">
+                    <option value="apex">Apex IIT-JEE (Patna)</option>
+                    <option value="chanakya">Chanakya Science (Kota)</option>
+                </select>
+                <a href="/dashboards/super-admin.html" style="color: #c084fc; font-weight: 700; text-decoration: none; font-size: 11px;">Platform God-Mode ↗</a>
+            </span>
+            <span id="adminSessionInfo" style="color: #cbd5e1; font-size: 12px;">Admin: <strong id="adminStaffName" style="color: #fff;">Director S. K. Roy</strong></span>
             <a href="/dashboards/tips-paper-builder.html" style="color: #fde047; font-weight: 700; text-decoration: none;">⚡ TIPS Builder</a>
             <button onclick="handleLogout()" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">🚪 Logout</button>
         </div>
@@ -1902,6 +1910,13 @@
             saveTenantTheme(tenantKey, currentTheme);
         };
 
+        window.switchSuperTenant = function(newKey) {
+            if (session && session.role === USER_ROLES.SUPER_ADMIN) {
+                session.instituteId = newKey;
+                initTenantDashboard();
+            }
+        };
+
         function initTenantDashboard() {
             if (!session) return;
 
@@ -1909,6 +1924,13 @@
             let tenantKey = 'apex';
             if (session.instituteId && tenantData[session.instituteId]) {
                 tenantKey = session.instituteId;
+            }
+
+            if (session.role === USER_ROLES.SUPER_ADMIN) {
+                const sw = document.getElementById('superAdminSwitcher');
+                if (sw) sw.style.display = 'flex';
+                const sel = document.getElementById('superTenantSelect');
+                if (sel) sel.value = tenantKey;
             }
 
             const data = tenantData[tenantKey];
