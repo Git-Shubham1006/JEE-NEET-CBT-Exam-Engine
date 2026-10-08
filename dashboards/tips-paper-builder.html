@@ -730,6 +730,8 @@
     <!-- Script Execution -->
     <script type="module">
         import { extractSyllabusTaxonomy, filterQuestions, assembleTestPaper, swapQuestionInPaper, mergeSubjectSections } from '../core/tips-algorithmic-generator.js';
+        import { getTenantTheme, applyThemeToDOM } from '../config/tenant-theme-schema.js';
+        import { getCurrentSession } from '../auth/session-auth-guard.js';
 
         let masterBank = [];
         let taxonomy = {};
@@ -776,6 +778,12 @@
         ];
 
         async function init() {
+            // Apply Dynamic White-Label Theme
+            const session = getCurrentSession();
+            const tenantId = session?.instituteId || 'apex';
+            const theme = getTenantTheme(tenantId);
+            applyThemeToDOM(theme);
+
             const res = await fetch('../mock-data/master-question-bank.json');
             masterBank = await res.json();
             taxonomy = extractSyllabusTaxonomy(masterBank);

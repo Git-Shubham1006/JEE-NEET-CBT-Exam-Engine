@@ -276,6 +276,104 @@
             display: block;
         }
 
+        /* Theme Studio Styles */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .theme-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: var(--btn-radius, 8px);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .theme-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .theme-card.active-theme {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--accent);
+            background: #f8fafc;
+        }
+        .theme-card-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .theme-swatches {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .theme-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .theme-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .customizer-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .customizer-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--btn-radius, 8px);
+            padding: 14px;
+        }
+        .customizer-card label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .color-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-input-wrapper input[type="color"] {
+            width: 44px;
+            height: 38px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 2px;
+            background: #fff;
+        }
+        .color-hex-label {
+            font-family: monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .live-preview-box {
+            background: #ffffff;
+            border: 2px dashed var(--border);
+            border-radius: var(--btn-radius, 8px);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
         /* Interactive Modals */
         .modal-backdrop {
             display: none;
@@ -422,6 +520,7 @@
             <div class="nav-item" onclick="switchTab('students')">👥 Students & Login Logs</div>
             <div class="nav-item" onclick="switchTab('tests')">📝 Tests & Question Bank</div>
             <div class="nav-item" onclick="switchTab('results')">📈 Marks & AI Diagnostics</div>
+            <div class="nav-item" onclick="switchTab('theme')">🎨 Brand & Theme Studio</div>
         </aside>
 
         <!-- Main Content -->
@@ -591,6 +690,198 @@
                 </div>
             </section>
 
+            <!-- TAB 5: BRAND & THEME STUDIO -->
+            <section id="panel-theme" class="tab-panel">
+                <div class="page-title-row">
+                    <div>
+                        <h1 class="page-title">Institutional Brand & Adaptive Theme Studio</h1>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+                            Instantly adapt brand colors, headers, buttons, borders, and corner radiuses to match your coaching institute's identity.
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-cancel" onclick="resetTheme()">🔄 Reset Defaults</button>
+                        <button class="btn-action" onclick="saveCurrentTheme()">💾 Deploy Theme →</button>
+                    </div>
+                </div>
+
+                <!-- 1-Click Institutional Presets -->
+                <div class="section-card" style="padding: 20px 24px; margin-bottom: 24px;">
+                    <div class="section-heading" style="margin-bottom: 14px;">⚡ 1-Click Institutional Brand Presets</div>
+                    <div class="theme-grid">
+                        <div class="theme-card active-theme" id="preset-sapphire" onclick="selectPreset('sapphire')">
+                            <div class="theme-card-header">
+                                <span>Apex Sapphire</span>
+                                <span class="badge badge-blue">Navy & Gold</span>
+                            </div>
+                            <div class="theme-swatches">
+                                <span class="theme-swatch" style="background: #1e3a8a;"></span>
+                                <span class="theme-swatch" style="background: #0f172a;"></span>
+                                <span class="theme-swatch" style="background: #2563eb;"></span>
+                            </div>
+                            <div class="theme-desc">Patna Elite classic navy aesthetic with deep slate headers and blue accents.</div>
+                        </div>
+
+                        <div class="theme-card" id="preset-crimson" onclick="selectPreset('crimson')">
+                            <div class="theme-card-header">
+                                <span>Chanakya Crimson</span>
+                                <span class="badge badge-danger">Kota Maroon</span>
+                            </div>
+                            <div class="theme-swatches">
+                                <span class="theme-swatch" style="background: #881337;"></span>
+                                <span class="theme-swatch" style="background: #4c0519;"></span>
+                                <span class="theme-swatch" style="background: #e11d48;"></span>
+                            </div>
+                            <div class="theme-desc">Kota benchmark deep ruby and maroon styling for high-intensity coaching hubs.</div>
+                        </div>
+
+                        <div class="theme-card" id="preset-emerald" onclick="selectPreset('emerald')">
+                            <div class="theme-card-header">
+                                <span>Emerald Academy</span>
+                                <span class="badge badge-success">Allen Green</span>
+                            </div>
+                            <div class="theme-swatches">
+                                <span class="theme-swatch" style="background: #065f46;"></span>
+                                <span class="theme-swatch" style="background: #022c22;"></span>
+                                <span class="theme-swatch" style="background: #10b981;"></span>
+                            </div>
+                            <div class="theme-desc">Prestigious dark forest green with mint highlights and refreshing contrast.</div>
+                        </div>
+
+                        <div class="theme-card" id="preset-royal_purple" onclick="selectPreset('royal_purple')">
+                            <div class="theme-card-header">
+                                <span>Imperial Violet</span>
+                                <span class="badge" style="background: #f3e8ff; color: #7e22ce;">Amethyst</span>
+                            </div>
+                            <div class="theme-swatches">
+                                <span class="theme-swatch" style="background: #581c87;"></span>
+                                <span class="theme-swatch" style="background: #3b0764;"></span>
+                                <span class="theme-swatch" style="background: #9333ea;"></span>
+                            </div>
+                            <div class="theme-desc">Resonance-inspired deep imperial purple with royal violet accents and modern curved borders.</div>
+                        </div>
+
+                        <div class="theme-card" id="preset-amber_gold" onclick="selectPreset('amber_gold')">
+                            <div class="theme-card-header">
+                                <span>Suryavanshi Amber</span>
+                                <span class="badge badge-warning">Narayana Gold</span>
+                            </div>
+                            <div class="theme-swatches">
+                                <span class="theme-swatch" style="background: #b45309;"></span>
+                                <span class="theme-swatch" style="background: #78350f;"></span>
+                                <span class="theme-swatch" style="background: #f59e0b;"></span>
+                            </div>
+                            <div class="theme-desc">Warm golden amber with bronze headers, ideal for premier engineering academies.</div>
+                        </div>
+
+                        <div class="theme-card" id="preset-cyber_slate" onclick="selectPreset('cyber_slate')">
+                            <div class="theme-card-header">
+                                <span>Cyber Slate</span>
+                                <span class="badge" style="background: #cffafe; color: #0891b2;">Minimal Tech</span>
+                            </div>
+                            <div class="theme-swatches">
+                                <span class="theme-swatch" style="background: #0f172a;"></span>
+                                <span class="theme-swatch" style="background: #020617;"></span>
+                                <span class="theme-swatch" style="background: #06b6d4;"></span>
+                            </div>
+                            <div class="theme-desc">Ultra-modern dark aesthetic with neon cyan highlights and pill-rounded controls.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fine-Tuning Color Controls -->
+                <div class="section-card" style="padding: 20px 24px; margin-bottom: 24px;">
+                    <div class="section-heading" style="margin-bottom: 14px;">🎛️ Fine-Tune Institutional Color Tokens</div>
+                    <div class="customizer-row">
+                        <div class="customizer-card">
+                            <label>Primary Brand Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="inputPrimary" value="#1e3a8a" oninput="handleColorChange('primary', this.value)">
+                                <span class="color-hex-label" id="labelPrimary">#1e3a8a</span>
+                            </div>
+                        </div>
+                        <div class="customizer-card">
+                            <label>Header Background Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="inputHeaderBg" value="#0f172a" oninput="handleColorChange('headerBg', this.value)">
+                                <span class="color-hex-label" id="labelHeaderBg">#0f172a</span>
+                            </div>
+                        </div>
+                        <div class="customizer-card">
+                            <label>Accent / Highlight Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="inputAccent" value="#2563eb" oninput="handleColorChange('accent', this.value)">
+                                <span class="color-hex-label" id="labelAccent">#2563eb</span>
+                            </div>
+                        </div>
+                        <div class="customizer-card">
+                            <label>Card & Table Border Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="inputBorder" value="#cbd5e1" oninput="handleColorChange('border', this.value)">
+                                <span class="color-hex-label" id="labelBorder">#cbd5e1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="customizer-card">
+                            <label>Button & Card Corner Roundness</label>
+                            <select id="selectRadius" onchange="handleRadiusChange(this.value)" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px;">
+                                <option value="4px">Sharp Rectangular (4px)</option>
+                                <option value="8px" selected>Smooth Modern (8px)</option>
+                                <option value="12px">Curved Elegant (12px)</option>
+                                <option value="9999px">Pill / Stadium (Fully Rounded)</option>
+                            </select>
+                        </div>
+                        <div class="customizer-card">
+                            <label>Institutional Logo Badge Text</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="inputLogoText" value="APEX" placeholder="e.g. APEX, KOTA, FITJEE" style="flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; text-transform: uppercase;">
+                                <button class="btn-action" onclick="updateLogoText()" style="white-space: nowrap;">Update Badge</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Component Preview Sandbox -->
+                <div class="section-card" style="padding: 20px 24px;">
+                    <div class="section-heading" style="margin-bottom: 14px;">👁️ Live Adaptive Component Sandbox</div>
+                    <div class="live-preview-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div id="previewLogo" style="background: var(--primary); color: #fff; font-weight: 800; padding: 6px 12px; border-radius: var(--btn-radius, 8px); font-size: 14px;">APEX</div>
+                                <div>
+                                    <strong style="color: var(--text-dark); font-size: 14px;">Sample Dynamic Header Component</strong>
+                                    <div style="font-size: 11px; color: var(--text-muted);">Adapts to director's color scheme in real time</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-action">Primary Action</button>
+                                <button class="btn-cancel">Secondary Action</button>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+                            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--btn-radius, 8px); padding: 14px;">
+                                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Active Metric Card</div>
+                                <div style="font-size: 22px; font-weight: 800; color: var(--primary); margin: 6px 0;">384 / 412</div>
+                                <span class="badge badge-success">● High Synchronization</span>
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--btn-radius, 8px); padding: 14px;">
+                                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Accent Highlight Card</div>
+                                <div style="font-size: 22px; font-weight: 800; color: var(--accent); margin: 6px 0;">99.4%</div>
+                                <span class="badge badge-blue">● Real-Time Vector Math</span>
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--btn-radius, 8px); padding: 14px;">
+                                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Status Indication</div>
+                                <div style="font-size: 22px; font-weight: 800; color: #16a34a; margin: 6px 0;">100% Offline Shield</div>
+                                <span class="badge" style="background: rgba(37,99,235,0.1); color: var(--primary);">● IndexedDB Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -648,6 +939,7 @@
 
     <script type="module">
         import { getCurrentSession, enforceAccess, USER_ROLES, clearAuthSession } from '../auth/session-auth-guard.js';
+        import { THEME_PRESETS, getTenantTheme, saveTenantTheme, applyThemeToDOM } from '../config/tenant-theme-schema.js';
 
         // Enforce Authentication Guard (Strictly checks for valid staff session)
         const session = enforceAccess([USER_ROLES.INSTITUTE_ADMIN, USER_ROLES.SUPER_ADMIN], '/login.html');
@@ -833,6 +1125,77 @@
             renderStudentsList(filtered);
         };
 
+        // --- THEME STUDIO LOGIC ---
+        let currentTheme = null;
+
+        window.selectPreset = function(presetKey) {
+            const preset = THEME_PRESETS[presetKey];
+            if (!preset) return;
+            currentTheme = { ...preset };
+
+            document.getElementById('inputPrimary').value = currentTheme.primary;
+            document.getElementById('labelPrimary').textContent = currentTheme.primary;
+            document.getElementById('inputHeaderBg').value = currentTheme.headerBg;
+            document.getElementById('labelHeaderBg').textContent = currentTheme.headerBg;
+            document.getElementById('inputAccent').value = currentTheme.accent;
+            document.getElementById('labelAccent').textContent = currentTheme.accent;
+            document.getElementById('inputBorder').value = currentTheme.border;
+            document.getElementById('labelBorder').textContent = currentTheme.border;
+            document.getElementById('selectRadius').value = currentTheme.btnRadius || '8px';
+
+            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active-theme'));
+            const activeCard = document.getElementById(`preset-${presetKey}`);
+            if (activeCard) activeCard.classList.add('active-theme');
+
+            applyThemeToDOM(currentTheme);
+        };
+
+        window.handleColorChange = function(prop, val) {
+            if (!currentTheme) currentTheme = { ...THEME_PRESETS.sapphire };
+            currentTheme[prop] = val;
+            const labelMap = {
+                primary: 'labelPrimary',
+                headerBg: 'labelHeaderBg',
+                accent: 'labelAccent',
+                border: 'labelBorder'
+            };
+            if (labelMap[prop]) {
+                const el = document.getElementById(labelMap[prop]);
+                if (el) el.textContent = val;
+            }
+
+            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active-theme'));
+            applyThemeToDOM(currentTheme);
+        };
+
+        window.handleRadiusChange = function(val) {
+            if (!currentTheme) currentTheme = { ...THEME_PRESETS.sapphire };
+            currentTheme.btnRadius = val;
+            applyThemeToDOM(currentTheme);
+        };
+
+        window.updateLogoText = function() {
+            const text = document.getElementById('inputLogoText').value.trim().toUpperCase();
+            if (!text) return;
+            document.getElementById('instLogo').textContent = text;
+            const previewEl = document.getElementById('previewLogo');
+            if (previewEl) previewEl.textContent = text;
+            if (currentTenantData) currentTenantData.logo = text;
+        };
+
+        window.saveCurrentTheme = function() {
+            const tenantKey = session?.instituteId || 'apex';
+            saveTenantTheme(tenantKey, currentTheme);
+            alert(`🎉 Institutional Theme Successfully Deployed!\n\nAll buttons, borders, tabs, headers, and student views will now render with ${currentTenantData?.name || 'your institute'}'s custom color scheme.`);
+        };
+
+        window.resetTheme = function() {
+            const tenantKey = session?.instituteId || 'apex';
+            const defaultPreset = tenantKey.includes('chanakya') ? 'crimson' : 'sapphire';
+            selectPreset(defaultPreset);
+            saveTenantTheme(tenantKey, currentTheme);
+        };
+
         function initTenantDashboard() {
             if (!session) return;
 
@@ -844,6 +1207,28 @@
 
             const data = tenantData[tenantKey];
             if (!data) return;
+
+            // Load and apply adaptive theme
+            currentTheme = getTenantTheme(tenantKey);
+            applyThemeToDOM(currentTheme);
+
+            // Populate theme customizer inputs
+            if (document.getElementById('inputPrimary')) {
+                document.getElementById('inputPrimary').value = currentTheme.primary || '#1e3a8a';
+                document.getElementById('labelPrimary').textContent = currentTheme.primary || '#1e3a8a';
+                document.getElementById('inputHeaderBg').value = currentTheme.headerBg || '#0f172a';
+                document.getElementById('labelHeaderBg').textContent = currentTheme.headerBg || '#0f172a';
+                document.getElementById('inputAccent').value = currentTheme.accent || '#2563eb';
+                document.getElementById('labelAccent').textContent = currentTheme.accent || '#2563eb';
+                document.getElementById('inputBorder').value = currentTheme.border || '#cbd5e1';
+                document.getElementById('labelBorder').textContent = currentTheme.border || '#cbd5e1';
+                document.getElementById('selectRadius').value = currentTheme.btnRadius || '8px';
+                if (currentTheme.id) {
+                    document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active-theme'));
+                    const card = document.getElementById(`preset-${currentTheme.id}`);
+                    if (card) card.classList.add('active-theme');
+                }
+            }
 
             // Attach remarks to mock students if not set
             data.students.forEach(s => {
