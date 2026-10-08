@@ -948,9 +948,209 @@
             }
 
             /* Review Modal Mobile */
-            .review-modal-card {
-                padding: 18px 14px;
-                width: 95%;
+        /* ==================================================================== */
+        /* BULK QUESTION INGESTION & BATCH RENDERING STUDIO STYLES              */
+        /* ==================================================================== */
+        .bulk-ingest-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+        }
+
+        .ingest-channel-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .channel-tab-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .channel-tab-btn.active {
+            background: #1e3a8a;
+            color: #fff;
+            border-color: #1e3a8a;
+        }
+
+        .bulk-meta-bar {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .bulk-textarea {
+            width: 100%;
+            font-family: "JetBrains Mono", Consolas, "Courier New", monospace;
+            font-size: 13px;
+            padding: 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 180px;
+            line-height: 1.5;
+            background: #fafafa;
+            color: #0f172a;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .bulk-textarea:focus {
+            border-color: #2563eb;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .bulk-validation-hud {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .validation-stat-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .validation-stat-val {
+            font-size: 22px;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        .batch-operations-toolbar {
+            background: #0f172a;
+            color: #fff;
+            border-radius: 10px;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 50;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .batch-btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-batch-primary {
+            background: #16a34a;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+        .btn-batch-primary:hover {
+            background: #15803d;
+        }
+
+        .btn-batch-blue {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-batch-blue:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-batch-secondary {
+            background: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-batch-secondary:hover {
+            background: #334155;
+        }
+
+        .bulk-card-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .bulk-card-item.selected {
+            border-color: #3b82f6;
+            background: #f8faff;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+
+        .bulk-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @media (max-width: 820px) {
+            .bulk-meta-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+            .bulk-validation-hud {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
@@ -1002,14 +1202,17 @@
             <button class="mode-tab-btn active" id="btnModePicker" onclick="setAuthoringMode('PYQ_PICKER')">
                 🎯 Mode 1: 5-Year PYQ Bank & Faculty Editor (Pick & Customize)
             </button>
+            <button class="mode-tab-btn" id="btnModeBulk" onclick="setAuthoringMode('BULK_IMPORT')">
+                📥 Mode 2: Bulk Question Ingestion & Batch Studio (Import & Render)
+            </button>
             <button class="mode-tab-btn" id="btnModeSingle" onclick="setAuthoringMode('SINGLE_SUBJECT')">
-                👤 Mode 2: Algorithmic Quota Compiler
+                👤 Mode 3: Algorithmic Quota Compiler
             </button>
             <button class="mode-tab-btn" id="btnModeMulti" onclick="setAuthoringMode('MULTI_SUBJECT')">
-                🌐 Mode 3: Multi-Subject Mock
+                🌐 Mode 4: Multi-Subject Mock
             </button>
             <button class="mode-tab-btn" id="btnModeMerger" onclick="setAuthoringMode('MERGER_HUB')">
-                🔗 Mode 4: Subject Merger Hub
+                🔗 Mode 5: Subject Merger Hub
             </button>
         </div>
     </div>
@@ -1130,8 +1333,184 @@
         </div>
 
         <!-- ==================================================================== -->
-        <!-- MODE 2 & 3: COMPILER VIEW (Single & Multi Subject Quotas)            -->
+        <!-- MODE 2: BULK QUESTION INGESTION & BATCH RENDERING STUDIO             -->
         <!-- ==================================================================== -->
+        <div id="bulkImportContainer" style="display: none;">
+
+            <!-- Header & Ingestion Card -->
+            <div class="bulk-ingest-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 24px;">📥</span>
+                            <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0;">Bulk Question Ingestion & Rendering Studio</h2>
+                        </div>
+                        <p style="font-size: 13px; color: #64748b; margin-top: 4px;">
+                            Import batches of 10 to 100+ questions simultaneously via Raw Exam Booklets, JSON Schema, or CSV spreadsheets. Automatically rendered with live KaTeX math!
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="loadSampleBulkBatch()" style="background: #eff6ff; color: #1d4ed8; border: 1.5px solid #bfdbfe; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            🧪 Load 10 Sample JEE Questions
+                        </button>
+                        <button onclick="downloadSampleCsvTemplate()" style="background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                            📄 Download CSV Template
+                        </button>
+                        <button onclick="downloadSampleJsonTemplate()" style="background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                            📄 Download JSON Template
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ingestion Format Selector Tabs -->
+                <div class="ingest-channel-tabs">
+                    <button class="channel-tab-btn active" id="btnChannelText" onclick="setIngestChannel('TEXT')">
+                        <span>📋</span> Raw Booklet / Word Text (Smart AI Parser)
+                    </button>
+                    <button class="channel-tab-btn" id="btnChannelJson" onclick="setIngestChannel('JSON')">
+                        <span>📄</span> JSON Schema (Array of Questions)
+                    </button>
+                    <button class="channel-tab-btn" id="btnChannelCsv" onclick="setIngestChannel('CSV')">
+                        <span>📊</span> CSV / Excel TSV Format
+                    </button>
+                </div>
+
+                <!-- Batch Default Metadata Row -->
+                <div class="bulk-meta-bar">
+                    <div class="form-control-wrap">
+                        <label style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase;">Default Subject</label>
+                        <select class="form-select" id="bulkDefaultSubject" onchange="updateBulkChapterDropdown()">
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Mathematics">Mathematics</option>
+                        </select>
+                    </div>
+
+                    <div class="form-control-wrap">
+                        <label style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase;">Default Chapter</label>
+                        <select class="form-select" id="bulkDefaultChapter">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="form-control-wrap">
+                        <label style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase;">Default Difficulty</label>
+                        <select class="form-select" id="bulkDefaultDiff">
+                            <option value="MEDIUM">🟡 Medium (JEE Cutoff Tier)</option>
+                            <option value="EASY">🟢 Easy (Foundation Tier)</option>
+                            <option value="HARD">🔴 Hard (Rank Decider Tier)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-control-wrap">
+                        <label style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase;">Default Exam Year</label>
+                        <select class="form-select" id="bulkDefaultYear">
+                            <option value="2024">2024 (Latest Shift)</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Ingestion Input Area -->
+                <div style="position: relative;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <label style="font-size: 12px; font-weight: 700; color: #334155;" id="bulkInputAreaLabel">
+                            Paste Raw Text / Questions (Auto-detects Q1, options A, B, C, D, Answer & Solution):
+                        </label>
+                        <div style="display: flex; gap: 8px;">
+                            <label for="bulkFileInput" style="background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">
+                                📁 Upload File (.json / .csv / .txt)
+                            </label>
+                            <input type="file" id="bulkFileInput" style="display: none;" accept=".json,.csv,.txt" onchange="handleBulkFileUpload(event)">
+                            <button onclick="clearBulkInput()" style="background: transparent; border: none; color: #dc2626; font-size: 12px; font-weight: 600; cursor: pointer;">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                    <textarea class="bulk-textarea" id="bulkInputText" placeholder="Paste your questions here..."></textarea>
+                </div>
+
+                <!-- Parse Execution Bar -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px;">
+                    <div style="font-size: 12px; color: #64748b;">
+                        ⚡ KaTeX math syntax like <code>$E = mc^2$</code> and <code>$$\int x dx$$</code> is automatically compiled.
+                    </div>
+                    <button onclick="executeBulkParseAndRender()" style="background: #2563eb; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
+                        ⚡ Parse & Render Batch Questions →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pre-Flight Validation HUD (Visible after parsing) -->
+            <div id="bulkValidationHudSection" style="display: none;">
+                <div class="bulk-validation-hud">
+                    <div class="validation-stat-card">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Total Questions Parsed</div>
+                        <div class="validation-stat-val" style="color: #0284c7;" id="valTotalParsed">0</div>
+                    </div>
+                    <div class="validation-stat-card">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Pre-Flight Quality Check</div>
+                        <div class="validation-stat-val" style="color: #16a34a;" id="valValidCount">0 Valid</div>
+                    </div>
+                    <div class="validation-stat-card">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Subject Breakdown</div>
+                        <div class="validation-stat-val" style="font-size: 15px; color: #475569; margin-top: 8px;" id="valSubjectBreakdown">0 Phy • 0 Chem • 0 Math</div>
+                    </div>
+                    <div class="validation-stat-card">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Difficulty Tier Breakdown</div>
+                        <div class="validation-stat-val" style="font-size: 15px; color: #475569; margin-top: 8px;" id="valDiffBreakdown">0 Easy • 0 Med • 0 Hard</div>
+                    </div>
+                </div>
+
+                <!-- Sticky Batch Operations Bar -->
+                <div class="batch-operations-toolbar">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <input type="checkbox" id="chkSelectAllBulk" checked onchange="toggleSelectAllBulk(this.checked)" style="width: 18px; height: 18px; cursor: pointer;">
+                        <label for="chkSelectAllBulk" style="font-weight: 700; font-size: 13px; cursor: pointer;">
+                            Select All (<span id="bulkSelectedCountBadge">0</span> Selected)
+                        </label>
+                    </div>
+
+                    <div class="batch-btn-group">
+                        <!-- Batch Tag Editor Dropdown / Trigger -->
+                        <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px;">
+                            <span style="font-size: 11px; color: #94a3b8;">Batch Tag:</span>
+                            <select id="batchChangeDiff" style="background: #1e293b; color: #fff; border: 1px solid #475569; padding: 4px 8px; border-radius: 4px; font-size: 11px;">
+                                <option value="NO_CHANGE">Difficulty: Keep</option>
+                                <option value="EASY">Set EASY</option>
+                                <option value="MEDIUM">Set MEDIUM</option>
+                                <option value="HARD">Set HARD</option>
+                            </select>
+                            <button onclick="applyBatchTagChanges()" style="background: #3b82f6; border: none; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer;">
+                                Apply
+                            </button>
+                        </div>
+
+                        <button class="btn-batch-primary" onclick="commitBulkToMasterBank()">
+                            📥 Import to Master PYQ Bank
+                        </button>
+                        <button class="btn-batch-blue" onclick="stageAllBulkToCbtPaper()">
+                            ⚡ Stage to CBT Test Paper
+                        </button>
+                        <button class="btn-batch-secondary" onclick="exportBulkAsJson()">
+                            💾 Export JSON
+                        </button>
+                        <button class="btn-batch-secondary" style="color: #f87171;" onclick="clearBulkBatch()">
+                            🗑️ Clear Batch
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rendered Batch Questions Canvas -->
+                <div id="bulkRenderedCardsCanvas">
+                    <!-- Populated dynamically with live KaTeX rendering -->
+                </div>
+            </div>
+
+        </div>
         <div id="compilerContainer" style="display: none;">
             <div class="legacy-builder-section">
                 <span class="section-header-tag">Section 1</span>
@@ -1454,6 +1833,23 @@
             const res = await fetch('../mock-data/master-question-bank.json');
             masterBank = await res.json();
 
+            // Merge any custom imported questions persisted in localStorage
+            try {
+                const storedCustom = localStorage.getItem('cbt_imported_master_questions');
+                if (storedCustom) {
+                    const parsed = JSON.parse(storedCustom);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        parsed.forEach(q => {
+                            if (!masterBank.find(m => m.id === q.id)) {
+                                masterBank.push(q);
+                            }
+                        });
+                    }
+                }
+            } catch (e) {
+                console.warn('No custom imported questions found in local storage', e);
+            }
+
             // Load any previously saved staged paper from localStorage
             try {
                 const savedStaged = localStorage.getItem('cbt_active_custom_exam');
@@ -1469,12 +1865,20 @@
 
             taxonomy = extractSyllabusTaxonomy(masterBank);
 
-            // Update subject counts
+            // Update subject counts & populate dropdowns
             updateSubjectPillCounts();
             populateChapterDropdown();
+            updateBulkChapterDropdown();
             applyPyqFilters();
             updateDrawerUI();
             renderMergerHubDrafts();
+
+            // Check URL query parameters (e.g. ?mode=BULK_IMPORT)
+            const urlParams = new URLSearchParams(window.location.search);
+            const initMode = urlParams.get('mode');
+            if (initMode === 'BULK_IMPORT') {
+                setAuthoringMode('BULK_IMPORT');
+            }
         }
 
         function updateSubjectPillCounts() {
@@ -1773,6 +2177,30 @@
         };
 
         window.saveQuestionEdits = function() {
+            if (window._pendingBulkEditIdx !== undefined && window._pendingBulkEditIdx !== null) {
+                const idx = window._pendingBulkEditIdx;
+                window._pendingBulkEditIdx = null;
+                const q = parsedBulkQuestions[idx];
+                if (q) {
+                    q.chapter = document.getElementById('editQChapter').value;
+                    q.difficulty = document.getElementById('editQDiff').value;
+                    q.examShift = document.getElementById('editQShift').value;
+                    q.questionLatex = document.getElementById('editQLatex').value;
+                    q.options = [
+                        { id: 'A', latex: document.getElementById('editOptA').value },
+                        { id: 'B', latex: document.getElementById('editOptB').value },
+                        { id: 'C', latex: document.getElementById('editOptC').value },
+                        { id: 'D', latex: document.getElementById('editOptD').value }
+                    ];
+                    q.correctAnswer = document.getElementById('editQCorrect').value;
+                    q.correctOptionId = document.getElementById('editQCorrect').value;
+                    q.solutionLatex = document.getElementById('editQSolution').value;
+                    renderBulkQuestionsCanvas();
+                    closeQuestionEditor();
+                    return;
+                }
+            }
+
             const qId = document.getElementById('editQId').value;
             const targetQ = masterBank.find(q => q.id === qId);
             if (!targetQ) return;
@@ -1922,11 +2350,738 @@
             window.location.href = '/index.html';
         };
 
+        // ====================================================================
+        // BULK QUESTION INGESTION & BATCH RENDERING STUDIO ENGINE
+        // ====================================================================
+        let currentIngestChannel = 'TEXT';
+        let parsedBulkQuestions = [];
+        let selectedBulkIndices = new Set();
+
+        window.setIngestChannel = function(channel) {
+            currentIngestChannel = channel;
+            document.querySelectorAll('.channel-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btnChannel${channel.charAt(0) + channel.slice(1).toLowerCase()}`).classList.add('active');
+
+            const label = document.getElementById('bulkInputAreaLabel');
+            const txt = document.getElementById('bulkInputText');
+            if (channel === 'TEXT') {
+                label.textContent = 'Paste Raw Text / Booklet Questions (Auto-detects Q1, options A, B, C, D, Answer & Solution):';
+                txt.placeholder = `Q1. Two point charges +q and -q are separated by distance 2d. The electric field at midpoint is:
+(A) Zero
+(B) 2q / (4πε₀ d²)
+(C) q / (4πε₀ d²)
+(D) 4q / (4πε₀ d²)
+Answer: B
+Solution: Electric fields due to both charges point in the same direction towards -q. Hence E = E1 + E2 = 2q / (4πε₀ d²).`;
+            } else if (channel === 'JSON') {
+                label.textContent = 'Paste JSON Schema (Array of question objects):';
+                txt.placeholder = `[
+  {
+    "subject": "Physics",
+    "chapter": "Electrostatics",
+    "difficulty": "MEDIUM",
+    "year": "2024",
+    "type": "SCQ",
+    "questionLatex": "Two point charges $+q$ and $-q$ are separated by distance $2d$...",
+    "options": [
+      { "id": "A", "latex": "0" },
+      { "id": "B", "latex": "\\\\frac{2q}{4\\\\pi\\\\varepsilon_0 d^2}" },
+      { "id": "C", "latex": "\\\\frac{q}{4\\\\pi\\\\varepsilon_0 d^2}" },
+      { "id": "D", "latex": "\\\\frac{4q}{4\\\\pi\\\\varepsilon_0 d^2}" }
+    ],
+    "correctOptionId": "B",
+    "solutionLatex": "Electric fields add up vectorially."
+  }
+]`;
+            } else if (channel === 'CSV') {
+                label.textContent = 'Paste CSV / Excel Tab-Delimited Data:';
+                txt.placeholder = `Subject,Chapter,Difficulty,Year,QuestionLatex,OptionA,OptionB,OptionC,OptionD,CorrectOption,SolutionLatex
+Physics,Electrostatics,MEDIUM,2024,"Two point charges +q and -q...","0","2q/(4πε₀d²)","q/(4πε₀d²)","4q/(4πε₀d²)",B,"Electric fields add up vectorially."`;
+            }
+        };
+
+        window.updateBulkChapterDropdown = function() {
+            const sub = document.getElementById('bulkDefaultSubject')?.value || 'Physics';
+            const select = document.getElementById('bulkDefaultChapter');
+            if (!select) return;
+            select.innerHTML = '';
+            const chapters = taxonomy[sub] || {};
+            const chList = Object.keys(chapters);
+            if (chList.length === 0) {
+                select.innerHTML = '<option value="General">General / Foundational</option>';
+                return;
+            }
+            chList.forEach(ch => {
+                const opt = document.createElement('option');
+                opt.value = ch;
+                opt.textContent = ch;
+                select.appendChild(opt);
+            });
+        };
+
+        window.clearBulkInput = function() {
+            document.getElementById('bulkInputText').value = '';
+        };
+
+        window.handleBulkFileUpload = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                document.getElementById('bulkInputText').value = content;
+                if (file.name.endsWith('.json')) {
+                    setIngestChannel('JSON');
+                } else if (file.name.endsWith('.csv')) {
+                    setIngestChannel('CSV');
+                } else {
+                    setIngestChannel('TEXT');
+                }
+                executeBulkParseAndRender();
+            };
+            reader.readAsText(file);
+        };
+
+        // Execution Engine: Parses input based on active channel and renders batch
+        window.executeBulkParseAndRender = function() {
+            const raw = document.getElementById('bulkInputText').value.trim();
+            if (!raw) {
+                alert('Please paste questions or upload a file first.');
+                return;
+            }
+
+            const defaultMeta = {
+                subject: document.getElementById('bulkDefaultSubject').value,
+                chapter: document.getElementById('bulkDefaultChapter').value || 'General',
+                difficulty: document.getElementById('bulkDefaultDiff').value,
+                year: document.getElementById('bulkDefaultYear').value
+            };
+
+            let parsed = [];
+            try {
+                if (currentIngestChannel === 'JSON') {
+                    parsed = parseJsonQuestions(raw, defaultMeta);
+                } else if (currentIngestChannel === 'CSV') {
+                    parsed = parseCsvQuestions(raw, defaultMeta);
+                } else {
+                    parsed = parseRawTextQuestions(raw, defaultMeta);
+                }
+            } catch (err) {
+                console.error('Parse error', err);
+                alert(`⚠️ Parser error: ${err.message}\n\nPlease check format or try the "Load 10 Sample Questions" button.`);
+                return;
+            }
+
+            if (!parsed || parsed.length === 0) {
+                alert('No questions could be identified from your input. Please check the numbering format (e.g. Q1., Q2., or A, B, C, D options).');
+                return;
+            }
+
+            parsedBulkQuestions = parsed;
+            selectedBulkIndices = new Set(parsedBulkQuestions.map((_, i) => i));
+
+            renderBulkQuestionsCanvas();
+            document.getElementById('bulkValidationHudSection').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        function parseRawTextQuestions(text, meta) {
+            const clean = text.replace(/\r\n/g, '\n').trim();
+            if (!clean) return [];
+
+            const regex = /(?:^|\n)\s*(?:Q(?:uestion)?\.?\s*(\d+)[\.:\)\s]|(\d+)[\.:\)\s])\s*([\s\S]*?)(?=(?:\n\s*(?:Q(?:uestion)?\.?\s*\d+[\.:\)\s]|\d+[\.:\)\s])\s*)|$)/gi;
+            let matches = [];
+            let match;
+            while ((match = regex.exec(clean)) !== null) {
+                const qNum = match[1] || match[2] || (matches.length + 1);
+                const content = match[3].trim();
+                if (content) {
+                    matches.push({ qNum, content });
+                }
+            }
+
+            if (matches.length === 0 && clean.length > 0) {
+                const blocks = clean.split(/\n\s*\n\s*\n/);
+                blocks.forEach((b, idx) => {
+                    if (b.trim()) matches.push({ qNum: idx + 1, content: b.trim() });
+                });
+            }
+
+            const results = [];
+            matches.forEach((item, idx) => {
+                let content = item.content;
+
+                let correctAnswer = 'A';
+                const ansMatch = content.match(/(?:Ans(?:wer)?|Key|Correct(?:\s*Option)?)\s*[:=\-]?\s*\(?([A-D1-4])\)?/i);
+                if (ansMatch) {
+                    let rawKey = ansMatch[1].toUpperCase();
+                    if (rawKey === '1') rawKey = 'A';
+                    else if (rawKey === '2') rawKey = 'B';
+                    else if (rawKey === '3') rawKey = 'C';
+                    else if (rawKey === '4') rawKey = 'D';
+                    correctAnswer = rawKey;
+                    content = content.replace(ansMatch[0], '').trim();
+                }
+
+                let solution = '';
+                const solMatch = content.match(/(?:Solution|Explanation|Exp|Sol)\s*[:=\-]?\s*([\s\S]*)$/i);
+                if (solMatch) {
+                    solution = solMatch[1].trim();
+                    content = content.substring(0, solMatch.index).trim();
+                }
+
+                let options = [
+                    { id: 'A', latex: 'Option A' },
+                    { id: 'B', latex: 'Option B' },
+                    { id: 'C', latex: 'Option C' },
+                    { id: 'D', latex: 'Option D' }
+                ];
+
+                const optMarkerRegex = /(?:\n|\s|^)\s*(?:\(([A-D1-4])\)|([A-D1-4])[\)\.\]])\s*/gi;
+                const optSplits = [];
+                let optMatch;
+                while ((optMatch = optMarkerRegex.exec(content)) !== null) {
+                    let optLetter = (optMatch[1] || optMatch[2]).toUpperCase();
+                    if (optLetter === '1') optLetter = 'A';
+                    if (optLetter === '2') optLetter = 'B';
+                    if (optLetter === '3') optLetter = 'C';
+                    if (optLetter === '4') optLetter = 'D';
+
+                    optSplits.push({
+                        letter: optLetter,
+                        startIndex: optMatch.index,
+                        textStart: optMatch.index + optMatch[0].length
+                    });
+                }
+
+                let questionLatex = content;
+                if (optSplits.length >= 2) {
+                    questionLatex = content.substring(0, optSplits[0].startIndex).trim();
+                    for (let i = 0; i < optSplits.length; i++) {
+                        const curr = optSplits[i];
+                        const next = optSplits[i + 1];
+                        const optText = next ? 
+                            content.substring(curr.textStart, next.startIndex).trim() : 
+                            content.substring(curr.textStart).trim();
+
+                        const optObj = options.find(o => o.id === curr.letter);
+                        if (optObj) {
+                            optObj.latex = optText || `Option ${curr.letter}`;
+                        }
+                    }
+                }
+
+                results.push({
+                    id: `BULK_${Date.now()}_${idx + 1}`,
+                    subject: meta.subject,
+                    chapter: meta.chapter,
+                    difficulty: meta.difficulty,
+                    year: meta.year,
+                    type: 'SCQ',
+                    examShift: `JEE Main ${meta.year} (Batch Import)`,
+                    questionLatex: questionLatex || `Question ${item.qNum}`,
+                    options: options,
+                    correctAnswer: correctAnswer,
+                    correctOptionId: correctAnswer,
+                    solutionLatex: solution || 'Solution explanation verified by faculty.',
+                    marks: 4,
+                    negativeMarks: 1
+                });
+            });
+
+            return results;
+        }
+
+        function parseJsonQuestions(text, meta) {
+            let parsed = JSON.parse(text);
+            if (!Array.isArray(parsed)) parsed = [parsed];
+
+            return parsed.map((item, idx) => {
+                let options = [];
+                if (Array.isArray(item.options)) {
+                    options = item.options.map((o, oIdx) => ({
+                        id: o.id || ['A', 'B', 'C', 'D'][oIdx] || 'A',
+                        latex: o.latex || o.text || String(o)
+                    }));
+                } else {
+                    options = [
+                        { id: 'A', latex: item.optionA || item.A || 'Option A' },
+                        { id: 'B', latex: item.optionB || item.B || 'Option B' },
+                        { id: 'C', latex: item.optionC || item.C || 'Option C' },
+                        { id: 'D', latex: item.optionD || item.D || 'Option D' }
+                    ];
+                }
+
+                const corr = (item.correctAnswer || item.correctOptionId || item.answer || item.correct || 'A').toUpperCase();
+
+                return {
+                    id: item.id || `BULK_JSON_${Date.now()}_${idx + 1}`,
+                    subject: item.subject || meta.subject,
+                    chapter: item.chapter || meta.chapter,
+                    difficulty: (item.difficulty || meta.difficulty).toUpperCase(),
+                    year: String(item.year || meta.year),
+                    type: item.type || 'SCQ',
+                    examShift: item.examShift || `JEE Main ${item.year || meta.year}`,
+                    questionLatex: item.questionLatex || item.question || item.text || `Question ${idx + 1}`,
+                    options: options,
+                    correctAnswer: corr,
+                    correctOptionId: corr,
+                    solutionLatex: item.solutionLatex || item.solution || item.explanation || 'Step-by-step solution available.',
+                    marks: item.marks || 4,
+                    negativeMarks: item.negativeMarks || 1
+                };
+            });
+        }
+
+        function parseCsvQuestions(text, meta) {
+            const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+            if (lines.length === 0) return [];
+
+            const results = [];
+            let startIdx = 0;
+            const firstLine = lines[0].toLowerCase();
+            if (firstLine.includes('question') || firstLine.includes('subject') || firstLine.includes('chapter')) {
+                startIdx = 1;
+            }
+
+            for (let i = startIdx; i < lines.length; i++) {
+                const row = parseCsvRow(lines[i]);
+                if (row.length < 5) continue;
+
+                let [sub, ch, diff, yr, qLatex, optA, optB, optC, optD, corr, sol] = row;
+
+                const options = [
+                    { id: 'A', latex: optA || 'Option A' },
+                    { id: 'B', latex: optB || 'Option B' },
+                    { id: 'C', latex: optC || 'Option C' },
+                    { id: 'D', latex: optD || 'Option D' }
+                ];
+
+                results.push({
+                    id: `BULK_CSV_${Date.now()}_${i}`,
+                    subject: sub || meta.subject,
+                    chapter: ch || meta.chapter,
+                    difficulty: (diff || meta.difficulty).toUpperCase(),
+                    year: yr || meta.year,
+                    type: 'SCQ',
+                    examShift: `JEE Main ${yr || meta.year}`,
+                    questionLatex: qLatex || `Question ${i}`,
+                    options: options,
+                    correctAnswer: (corr || 'A').toUpperCase(),
+                    correctOptionId: (corr || 'A').toUpperCase(),
+                    solutionLatex: sol || 'Detailed explanation verified by faculty.',
+                    marks: 4,
+                    negativeMarks: 1
+                });
+            }
+
+            return results;
+        }
+
+        function parseCsvRow(text) {
+            const p = /([^\t,"]+|"(?:[^"]|"")*")+/g;
+            const matches = [];
+            let m;
+            while ((m = p.exec(text)) !== null) {
+                let val = m[0].trim();
+                if (val.startsWith('"') && val.endsWith('"')) {
+                    val = val.substring(1, val.length - 1).replace(/""/g, '"');
+                }
+                matches.push(val);
+            }
+            return matches;
+        }
+
+        function renderBulkQuestionsCanvas() {
+            const canvas = document.getElementById('bulkRenderedCardsCanvas');
+            if (!canvas) return;
+            canvas.innerHTML = '';
+
+            if (parsedBulkQuestions.length === 0) {
+                document.getElementById('bulkValidationHudSection').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('bulkValidationHudSection').style.display = 'block';
+            document.getElementById('valTotalParsed').textContent = parsedBulkQuestions.length;
+
+            let validCount = 0;
+            const subCounts = { Physics: 0, Chemistry: 0, Mathematics: 0 };
+            const diffCounts = { EASY: 0, MEDIUM: 0, HARD: 0 };
+
+            parsedBulkQuestions.forEach((q, idx) => {
+                const isValid = q.questionLatex && q.options && q.options.length >= 2 && q.correctAnswer;
+                if (isValid) validCount++;
+
+                if (subCounts[q.subject] !== undefined) subCounts[q.subject]++;
+                if (diffCounts[q.difficulty] !== undefined) diffCounts[q.difficulty]++;
+
+                const isChecked = selectedBulkIndices.has(idx);
+
+                const card = document.createElement('div');
+                card.className = `bulk-card-item ${isChecked ? 'selected' : ''}`;
+                card.id = `bulkCard_${idx}`;
+
+                let diffBadge = '<span class="diff-badge badge-med">MEDIUM</span>';
+                if (q.difficulty === 'EASY') diffBadge = '<span class="diff-badge badge-easy">EASY</span>';
+                if (q.difficulty === 'HARD') diffBadge = '<span class="diff-badge badge-hard">HARD</span>';
+
+                let optionsHtml = '';
+                (q.options || []).forEach(opt => {
+                    const isCorrect = (opt.id === q.correctAnswer);
+                    optionsHtml += `
+                        <div style="background: ${isCorrect ? '#f0fdf4' : '#ffffff'}; border: 1.5px solid ${isCorrect ? '#22c55e' : '#e2e8f0'}; border-radius: 8px; padding: 10px 14px; display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="font-weight: 800; font-size: 13px; color: ${isCorrect ? '#15803d' : '#475569'}; background: ${isCorrect ? '#dcfce7' : '#f1f5f9'}; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                ${opt.id}
+                            </span>
+                            <div class="katex-renderable" style="font-size: 14px; color: #1e293b; flex: 1;">${opt.latex}</div>
+                            ${isCorrect ? '<span style="color: #16a34a; font-weight: 800; font-size: 11px; background: #dcfce7; padding: 2px 6px; border-radius: 4px;">✓ Correct Key</span>' : ''}
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="bulk-card-header">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSingleBulkSelect(${idx}, this.checked)" style="width: 18px; height: 18px; cursor: pointer;">
+                            <span style="font-weight: 800; font-size: 15px; color: var(--primary);">Question #${idx + 1}</span>
+                            <span class="sub-badge" style="background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">${q.subject}</span>
+                            <span style="font-size: 12px; color: #64748b; font-weight: 600;">• ${q.chapter}</span>
+                            ${diffBadge}
+                            <span class="year-badge" style="background: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;">${q.year}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="editBulkQuestionInline(${idx})" style="background: #f8fafc; border: 1px solid #cbd5e1; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                                ✏️ Edit
+                            </button>
+                            <button onclick="deleteBulkQuestion(${idx})" style="background: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                                🗑️ Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 15px; line-height: 1.6; color: #0f172a; margin-bottom: 14px;" class="katex-renderable">
+                        ${q.questionLatex}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px;">
+                        ${optionsHtml}
+                    </div>
+
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; font-size: 13px;">
+                        <strong style="color: #1e3a8a;">💡 Detailed Solution:</strong>
+                        <div style="color: #334155; margin-top: 4px;" class="katex-renderable">${q.solutionLatex}</div>
+                    </div>
+                `;
+
+                canvas.appendChild(card);
+                triggerKatex(card);
+            });
+
+            document.getElementById('valValidCount').textContent = `${validCount} / ${parsedBulkQuestions.length} Valid`;
+            document.getElementById('valSubjectBreakdown').textContent = `${subCounts.Physics} Phy • ${subCounts.Chemistry} Chem • ${subCounts.Mathematics} Math`;
+            document.getElementById('valDiffBreakdown').textContent = `${diffCounts.EASY} Easy • ${diffCounts.MEDIUM} Med • ${diffCounts.HARD} Hard`;
+            document.getElementById('bulkSelectedCountBadge').textContent = selectedBulkIndices.size;
+        }
+
+        window.toggleSelectAllBulk = function(checked) {
+            if (checked) {
+                selectedBulkIndices = new Set(parsedBulkQuestions.map((_, i) => i));
+            } else {
+                selectedBulkIndices.clear();
+            }
+            renderBulkQuestionsCanvas();
+        };
+
+        window.toggleSingleBulkSelect = function(idx, checked) {
+            if (checked) {
+                selectedBulkIndices.add(idx);
+            } else {
+                selectedBulkIndices.delete(idx);
+            }
+            document.getElementById('bulkSelectedCountBadge').textContent = selectedBulkIndices.size;
+            const card = document.getElementById(`bulkCard_${idx}`);
+            if (card) {
+                if (checked) card.classList.add('selected');
+                else card.classList.remove('selected');
+            }
+        };
+
+        window.deleteBulkQuestion = function(idx) {
+            parsedBulkQuestions.splice(idx, 1);
+            selectedBulkIndices.delete(idx);
+            const newSet = new Set();
+            parsedBulkQuestions.forEach((_, i) => newSet.add(i));
+            selectedBulkIndices = newSet;
+            renderBulkQuestionsCanvas();
+        };
+
+        window.editBulkQuestionInline = function(idx) {
+            const q = parsedBulkQuestions[idx];
+            if (!q) return;
+
+            document.getElementById('editQId').value = q.id;
+            document.getElementById('editQSubject').value = q.subject;
+            document.getElementById('editQChapter').value = q.chapter;
+            document.getElementById('editQDiff').value = q.difficulty;
+            document.getElementById('editQShift').value = q.examShift || '';
+            document.getElementById('editQLatex').value = q.questionLatex;
+
+            const opts = q.options || [];
+            document.getElementById('editOptA').value = opts.find(o => o.id === 'A')?.latex || '';
+            document.getElementById('editOptB').value = opts.find(o => o.id === 'B')?.latex || '';
+            document.getElementById('editOptC').value = opts.find(o => o.id === 'C')?.latex || '';
+            document.getElementById('editOptD').value = opts.find(o => o.id === 'D')?.latex || '';
+
+            document.getElementById('editQCorrect').value = q.correctAnswer || 'A';
+            document.getElementById('editQSolution').value = q.solutionLatex || '';
+
+            updateEditorPreviews();
+            document.getElementById('questionEditorModal').classList.add('show');
+
+            window._pendingBulkEditIdx = idx;
+        };
+
+        window.applyBatchTagChanges = function() {
+            const diff = document.getElementById('batchChangeDiff').value;
+            if (diff === 'NO_CHANGE') {
+                alert('Please choose a difficulty tier to apply.');
+                return;
+            }
+
+            let modified = 0;
+            selectedBulkIndices.forEach(idx => {
+                if (parsedBulkQuestions[idx]) {
+                    parsedBulkQuestions[idx].difficulty = diff;
+                    modified++;
+                }
+            });
+
+            renderBulkQuestionsCanvas();
+            alert(`🏷️ Updated difficulty to ${diff} for ${modified} selected questions!`);
+        };
+
+        // Commit selected bulk questions to Master Question Bank
+        window.commitBulkToMasterBank = function() {
+            if (selectedBulkIndices.size === 0) {
+                alert('Please select at least one question to import.');
+                return;
+            }
+
+            const toImport = [];
+            selectedBulkIndices.forEach(idx => {
+                if (parsedBulkQuestions[idx]) {
+                    toImport.push(parsedBulkQuestions[idx]);
+                }
+            });
+
+            // Merge into masterBank
+            toImport.forEach(q => {
+                if (!masterBank.find(m => m.id === q.id)) {
+                    masterBank.unshift(q);
+                }
+            });
+
+            // Persist to localStorage
+            const stored = JSON.parse(localStorage.getItem('cbt_imported_master_questions') || '[]');
+            toImport.forEach(q => {
+                if (!stored.find(m => m.id === q.id)) {
+                    stored.unshift(q);
+                }
+            });
+            localStorage.setItem('cbt_imported_master_questions', JSON.stringify(stored));
+
+            // Rebuild taxonomy & stats
+            taxonomy = extractSyllabusTaxonomy(masterBank);
+            updateSubjectPillCounts();
+            populateChapterDropdown();
+            applyPyqFilters();
+
+            alert(`🎉 Success! Successfully imported and indexed ${toImport.length} questions into your Master PYQ Question Bank!\n\nThey are now immediately searchable and selectable in Mode 1.`);
+            setAuthoringMode('PYQ_PICKER');
+        };
+
+        // Stage all selected bulk questions directly to CBT test paper
+        window.stageAllBulkToCbtPaper = function() {
+            if (selectedBulkIndices.size === 0) {
+                alert('Please select at least one question to stage.');
+                return;
+            }
+
+            let added = 0;
+            selectedBulkIndices.forEach(idx => {
+                const q = parsedBulkQuestions[idx];
+                if (q && !stagedQuestions.find(s => s.id === q.id)) {
+                    stagedQuestions.push(q);
+                    added++;
+                }
+            });
+
+            updateDrawerUI();
+            alert(`⚡ Staged ${added} questions directly into the CBT Examination basket!\n\nYou can now review and launch via the bottom drawer.`);
+            document.getElementById('stickyDrawer').style.display = 'flex';
+        };
+
+        window.exportBulkAsJson = function() {
+            if (parsedBulkQuestions.length === 0) return;
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(parsedBulkQuestions, null, 2));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", `JEE_Questions_Batch_${Date.now()}.json`);
+            document.body.appendChild(dl);
+            dl.click();
+            dl.remove();
+        };
+
+        window.clearBulkBatch = function() {
+            if (confirm('Clear the current bulk batch canvas?')) {
+                parsedBulkQuestions = [];
+                selectedBulkIndices.clear();
+                document.getElementById('bulkValidationHudSection').style.display = 'none';
+                document.getElementById('bulkRenderedCardsCanvas').innerHTML = '';
+            }
+        };
+
+        // Sample Template Download Helpers
+        window.downloadSampleCsvTemplate = function() {
+            const csv = `Subject,Chapter,Difficulty,Year,QuestionLatex,OptionA,OptionB,OptionC,OptionD,CorrectOption,SolutionLatex
+Physics,Kinematics,EASY,2024,"A car accelerates uniformly from rest to $20\\text{ m/s}$ in $5\\text{ s}$. The distance covered is:","$50\\text{ m}","$100\\text{ m}","$25\\text{ m}","$75\\text{ m}",A,"Using $s = \\frac{u+v}{2} t = \\frac{0+20}{2} \\times 5 = 50\\text{ m}$."
+Chemistry,Chemical Bonding,MEDIUM,2024,"Which of the following molecules has linear geometry according to VSEPR theory?","$\\text{CO}_2$","$\\text{SO}_2$","$\\text{H}_2\\text{O}$","$\\text{O}_3$",A,"$\\text{CO}_2$ has $sp$ hybridization with $180^\\circ$ bond angle."
+Mathematics,Matrices,HARD,2024,"If matrix $A$ satisfies $A^2 = A$, then the eigenvalues of $A$ can only be:","$0$ or $1$","$1$ or $-1$","$0$ or $-1$","Any real number",A,"For idempotent matrices, $\\lambda^2 = \\lambda \\implies \\lambda(\\lambda - 1) = 0$."`;
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'JEE_Question_Bank_Sample_Template.csv';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        };
+
+        window.downloadSampleJsonTemplate = function() {
+            const sampleJson = [
+                {
+                    "subject": "Physics",
+                    "chapter": "Electrostatics",
+                    "difficulty": "MEDIUM",
+                    "year": "2024",
+                    "type": "SCQ",
+                    "questionLatex": "Two charges $+q$ and $-q$ are situated at distance $2d$. The electric field at midpoint on the axis is:",
+                    "options": [
+                        { "id": "A", "latex": "0" },
+                        { "id": "B", "latex": "$\\frac{2q}{4\\pi\\varepsilon_0 d^2}$" },
+                        { "id": "C", "latex": "$\\frac{q}{4\\pi\\varepsilon_0 d^2}$" },
+                        { "id": "D", "latex": "$\\frac{4q}{4\\pi\\varepsilon_0 d^2}$" }
+                    ],
+                    "correctAnswer": "B",
+                    "solutionLatex": "Both fields point toward the negative charge. Total field $E = \\frac{kq}{d^2} + \\frac{kq}{d^2} = \\frac{2kq}{d^2}$."
+                }
+            ];
+
+            const blob = new Blob([JSON.stringify(sampleJson, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'JEE_Question_Bank_Sample_Template.json';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        };
+
+        // 1-Click Sample JEE Questions Generator (10 authentic questions)
+        window.loadSampleBulkBatch = function() {
+            setIngestChannel('TEXT');
+            const sampleText = `Q1. Two identical conducting spheres having charges $+4\\mu\\text{C}$ and $-2\\mu\\text{C}$ are brought into contact and separated to their initial distance $r$. The ratio of initial electrostatic force to final force is:
+(A) $8 : 1$
+(B) $4 : 1$
+(C) $2 : 1$
+(D) $16 : 1$
+Answer: A
+Solution: Initial force $F_1 \\propto |(+4)(-2)| = 8$. When touched, charge distributes equally: $q' = \\frac{4 - 2}{2} = 1\\mu\\text{C}$. Final force $F_2 \\propto (1)(1) = 1$. Ratio $\\frac{F_1}{F_2} = \\frac{8}{1}$.
+
+Q2. A Carnot heat engine operates between temperatures $T_1 = 500\\text{ K}$ and $T_2 = 300\\text{ K}$. It absorbs $1000\\text{ J}$ of heat from the hot reservoir per cycle. The work done per cycle is:
+(A) $400\\text{ J}$
+(B) $600\\text{ J}$
+(C) $200\\text{ J}$
+(D) $500\\text{ J}$
+Answer: A
+Solution: Efficiency $\\eta = 1 - \\frac{T_2}{T_1} = 1 - \\frac{300}{500} = 0.4$. Work done $W = \\eta Q_1 = 0.4 \\times 1000\\text{ J} = 400\\text{ J}$.
+
+Q3. In a Wheatstone bridge circuit, four resistances $P = 10\\,\\Omega$, $Q = 20\\,\\Omega$, $R = 15\\,\\Omega$, and $S = 30\\,\\Omega$ form a closed loop. If the galvanometer resistance is $50\\,\\Omega$, the current through the galvanometer is:
+(A) Zero
+(B) $0.2\\text{ A}$
+(C) $0.5\\text{ A}$
+(D) $1.0\\text{ A}$
+Answer: A
+Solution: Since $\\frac{P}{Q} = \\frac{10}{20} = \\frac{1}{2}$ and $\\frac{R}{S} = \\frac{15}{30} = \\frac{1}{2}$, the bridge is balanced. Hence zero current flows through the galvanometer.
+
+Q4. In a photoelectric effect experiment, light of frequency $2\\nu_0$ is incident on a metal with threshold frequency $\\nu_0$. The maximum kinetic energy of the emitted photoelectrons is:
+(A) $h\\nu_0$
+(B) $2h\\nu_0$
+(C) $\\frac{1}{2}h\\nu_0$
+(D) $3h\\nu_0$
+Answer: A
+Solution: Einstein's photoelectric equation states $K_{\\max} = h\\nu - h\\nu_0 = h(2\\nu_0) - h\\nu_0 = h\\nu_0$.
+
+Q5. For a first-order chemical reaction, the rate constant is $k = 0.0693\\text{ min}^{-1}$. The time required for $75\\%$ completion of the reaction is:
+(A) $20\\text{ minutes}$
+(B) $10\\text{ minutes}$
+(C) $30\\text{ minutes}$
+(D) $40\\text{ minutes}$
+Answer: A
+Solution: Half-life $t_{1/2} = \\frac{0.693}{k} = \\frac{0.693}{0.0693} = 10\\text{ minutes}$. For $75\\%$ completion, $t = 2 \\times t_{1/2} = 2 \\times 10 = 20\\text{ minutes}$.
+
+Q6. According to Valence Bond Theory, the hybridization and magnetic behavior of $[\\text{Ni}(\\text{CO})_4]$ is:
+(A) $sp^3$ and Diamagnetic
+(B) $dsp^2$ and Diamagnetic
+(C) $sp^3$ and Paramagnetic
+(D) $d^2sp^3$ and Diamagnetic
+Answer: A
+Solution: Nickel has oxidation state $0$ ($3d^8 4s^2$). Carbon monoxide is a strong field ligand, forcing pairing of electrons into $3d^{10}$, leaving $4s$ and $4p$ empty for $sp^3$ tetrahedral hybridization (diamagnetic).
+
+Q7. When ethanal undergoes Aldol condensation followed by heating, the final stable unsaturated aldehyde product formed is:
+(A) But-2-enal (Crotonaldehyde)
+(B) But-1-enal
+(C) Propenal
+(D) 2-Methylbut-2-enal
+Answer: A
+Solution: Two molecules of $\\text{CH}_3\\text{CHO}$ combine in basic medium to form 3-hydroxybutanal, which on dehydration gives $\\text{CH}_3\\text{CH}=\\text{CH}-\\text{CHO}$ (But-2-enal).
+
+Q8. The value of the definite integral $\\int_{0}^{\\pi/2} \\frac{\\sin^3 x}{\\sin^3 x + \\cos^3 x}\\,dx$ using King's property is:
+(A) $\\frac{\\pi}{4}$
+(B) $\\frac{\\pi}{2}$
+(C) $\\frac{\\pi}{3}$
+(D) $1$
+Answer: A
+Solution: Applying $\\int_a^b f(x)dx = \\int_a^b f(a+b-x)dx$, $I = \\int_{0}^{\\pi/2} \\frac{\\cos^3 x}{\\sin^3 x + \\cos^3 x}\\,dx$. Adding gives $2I = \\int_{0}^{\\pi/2} 1\\,dx = \\frac{\\pi}{2} \\implies I = \\frac{\\pi}{4}$.
+
+Q9. If $A$ is a $3 \\times 3$ orthogonal matrix, then the value of $(\\det A)^2$ is:
+(A) $1$
+(B) $0$
+(C) $3$
+(D) $9$
+Answer: A
+Solution: An orthogonal matrix satisfies $A A^T = I$. Taking determinants: $\\det(A)\\det(A^T) = (\\det A)^2 = \\det(I) = 1$.
+
+Q10. The integrating factor of the linear differential equation $\\frac{dy}{dx} + \\frac{2}{x}y = x^2$ for $x > 0$ is:
+(A) $x^2$
+(B) $x$
+(C) $e^{2x}$
+(D) $\\ln x$
+Answer: A
+Solution: Integrating factor $I.F. = e^{\\int P\\,dx} = e^{\\int \\frac{2}{x}\\,dx} = e^{2\\ln x} = e^{\\ln(x^2)} = x^2$.`;
+
+            document.getElementById('bulkInputText').value = sampleText;
+            executeBulkParseAndRender();
+        };
+
         // Authoring Mode Switching
         window.setAuthoringMode = function(mode) {
             document.querySelectorAll('.mode-tab-btn').forEach(btn => btn.classList.remove('active'));
 
             document.getElementById('pyqPickerContainer').style.display = 'none';
+            document.getElementById('bulkImportContainer').style.display = 'none';
             document.getElementById('compilerContainer').style.display = 'none';
             document.getElementById('mergerContainer').style.display = 'none';
 
@@ -1934,6 +3089,11 @@
                 document.getElementById('btnModePicker').classList.add('active');
                 document.getElementById('pyqPickerContainer').style.display = 'block';
                 document.getElementById('stickyDrawer').style.display = 'flex';
+            } else if (mode === 'BULK_IMPORT') {
+                document.getElementById('btnModeBulk').classList.add('active');
+                document.getElementById('bulkImportContainer').style.display = 'block';
+                document.getElementById('stickyDrawer').style.display = 'flex';
+                updateBulkChapterDropdown();
             } else if (mode === 'SINGLE_SUBJECT' || mode === 'MULTI_SUBJECT') {
                 document.getElementById(mode === 'SINGLE_SUBJECT' ? 'btnModeSingle' : 'btnModeMulti').classList.add('active');
                 document.getElementById('compilerContainer').style.display = 'block';
