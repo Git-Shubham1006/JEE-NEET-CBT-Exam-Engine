@@ -41,11 +41,21 @@ export class ExamTimerEngine {
     }
 
     pause() {
+        if (!this.isRunning) return;
         this.isRunning = false;
+        this.pausedRemainingSec = this.getRemainingSeconds();
         if (this.timerHandle) {
             clearInterval(this.timerHandle);
             this.timerHandle = null;
         }
+    }
+
+    resume() {
+        if (this.isRunning) return;
+        if (this.pausedRemainingSec !== undefined) {
+            this.endTimestamp = Date.now() + (this.pausedRemainingSec * 1000);
+        }
+        this.start();
     }
 
     getRemainingSeconds() {
