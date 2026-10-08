@@ -479,6 +479,232 @@
             background: #2563eb;
             color: #fff;
         }
+
+        /* ==================================================================== */
+        /* FULL RESPONSIVE ADAPTIVE LAYOUT (MOBILE, TABLET & SMALL LAPTOPS)     */
+        /* ==================================================================== */
+        .section-card {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 1024px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .theme-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .customizer-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Top Navigation Responsive Stacking */
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                padding: 10px 14px;
+            }
+
+            .top-nav > div:last-child {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 8px;
+                width: 100%;
+            }
+
+            #adminSessionInfo {
+                font-size: 11px;
+                display: block;
+                width: 100%;
+                margin-bottom: 2px;
+            }
+
+            /* Institute Brand Header Stack */
+            header.inst-header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 14px 16px;
+                gap: 12px;
+            }
+
+            header.inst-header > div:last-child {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                gap: 6px;
+                font-size: 11px;
+            }
+
+            .inst-brand {
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .inst-logo {
+                padding: 6px 10px;
+                font-size: 15px;
+            }
+
+            #instName {
+                font-size: 16px !important;
+                line-height: 1.3;
+            }
+
+            /* Dashboard Layout: Switch from Vertical Splitting to Top Horizontal Scroll */
+            .dashboard-layout {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            aside.sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid var(--border);
+                padding: 10px 12px;
+                flex-direction: row;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                gap: 8px;
+                background: #ffffff;
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            }
+
+            aside.sidebar::-webkit-scrollbar {
+                height: 4px;
+            }
+            aside.sidebar::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 4px;
+            }
+
+            .nav-item {
+                white-space: nowrap;
+                padding: 8px 14px;
+                font-size: 12px;
+                border-radius: 9999px;
+                border: 1px solid #cbd5e1;
+                background: #f8fafc;
+                flex-shrink: 0;
+            }
+
+            .nav-item.active {
+                background: var(--primary);
+                color: #ffffff;
+                border-color: var(--primary);
+                box-shadow: 0 2px 6px rgba(30, 58, 138, 0.25);
+            }
+
+            /* Main Content: Full Width on Mobile */
+            main.main-content {
+                padding: 16px 14px;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            .page-title-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                margin-bottom: 18px;
+            }
+
+            .page-title {
+                font-size: 18px;
+                line-height: 1.3;
+            }
+
+            .btn-action {
+                width: 100%;
+                text-align: center;
+                padding: 10px;
+            }
+
+            /* KPI Cards 2-Col Grid on Mobile */
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .kpi-card {
+                padding: 12px 14px;
+            }
+
+            .kpi-label {
+                font-size: 11px;
+            }
+
+            .kpi-value {
+                font-size: 20px;
+            }
+
+            .kpi-trend {
+                font-size: 10px;
+            }
+
+            /* Section Headers & Search Input */
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding: 14px;
+            }
+
+            .section-heading {
+                font-size: 14px;
+            }
+
+            #studentSearchInput {
+                width: 100% !important;
+            }
+
+            /* Tables: Scroll horizontally with min-width guard */
+            table.data-table {
+                min-width: 620px;
+            }
+
+            table.data-table th, table.data-table td {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            /* Theme Studio Mobile Layout */
+            .theme-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .customizer-row {
+                grid-template-columns: 1fr;
+            }
+
+            .live-preview-box {
+                padding: 14px;
+            }
+
+            /* Modals: Mobile Centered & Touch Friendly */
+            .modal-card {
+                width: 95%;
+                max-width: 440px;
+                padding: 18px 16px;
+                margin: 12px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>

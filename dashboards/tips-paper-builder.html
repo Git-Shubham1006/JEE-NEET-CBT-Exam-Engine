@@ -741,6 +741,218 @@
         .print-exam-header {
             display: none;
         }
+
+        /* ==================================================================== */
+        /* FULL RESPONSIVE ADAPTIVE LAYOUT (MOBILE, TABLET & SMALL LAPTOPS)     */
+        /* ==================================================================== */
+        @media (max-width: 1024px) {
+            .filter-grid-secondary {
+                grid-template-columns: 1fr 1fr;
+            }
+            .form-grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 140px; /* Extra space for mobile stacked drawer */
+            }
+
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                padding: 10px 14px;
+            }
+
+            .top-nav > div:last-child {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            header.tips-header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 14px 16px;
+                gap: 12px;
+            }
+
+            header.tips-header > div:last-child {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+
+            .tips-brand {
+                gap: 10px;
+            }
+
+            #tipsMainHeading {
+                font-size: 16px !important;
+                line-height: 1.3;
+            }
+
+            .mode-banner {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .mode-tabs {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 4px;
+            }
+
+            .mode-tab-btn {
+                white-space: nowrap;
+                flex-shrink: 0;
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            .builder-container {
+                margin: 12px auto;
+                padding: 0 12px;
+            }
+
+            .filter-panel-card {
+                padding: 16px 14px;
+            }
+
+            .filter-row-primary {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+            }
+
+            .subject-pill-group {
+                overflow-x: auto;
+                padding-bottom: 4px;
+            }
+
+            .sub-pill-btn {
+                white-space: nowrap;
+                flex-shrink: 0;
+                padding: 7px 12px;
+                font-size: 12px;
+            }
+
+            .diff-pill-strip {
+                overflow-x: auto;
+                padding-bottom: 4px;
+            }
+
+            .diff-pill {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .filter-grid-secondary {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .pyq-stats-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding: 12px 14px;
+            }
+
+            .pyq-stats-bar > div:last-child {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .pyq-stats-bar button {
+                width: 100%;
+            }
+
+            .pyq-card {
+                padding: 16px 14px;
+            }
+
+            .pyq-card-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .card-action-btns {
+                display: flex;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn-edit-q, .btn-select-q {
+                flex: 1;
+                justify-content: center;
+                text-align: center;
+                padding: 8px 10px;
+            }
+
+            .pyq-options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Sticky Drawer on Mobile */
+            .sticky-paper-drawer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding: 12px 14px;
+            }
+
+            .drawer-metrics {
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .drawer-actions {
+                display: flex;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn-drawer-review, .btn-drawer-launch {
+                flex: 1;
+                text-align: center;
+                justify-content: center;
+                padding: 9px 8px;
+                font-size: 12px;
+            }
+
+            /* Editor Modal Mobile */
+            .editor-modal-card {
+                padding: 18px 14px;
+                width: 95%;
+            }
+
+            .editor-modal-card > div[style*="grid-template-columns: repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            .editor-modal-card > div[style*="grid-template-columns: repeat(2, 1fr)"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            .editor-modal-card > div[style*="grid-template-columns: 1fr 2fr"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Review Modal Mobile */
+            .review-modal-card {
+                padding: 18px 14px;
+                width: 95%;
+            }
+        }
     </style>
 </head>
 <body>
