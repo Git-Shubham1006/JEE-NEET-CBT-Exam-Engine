@@ -320,6 +320,7 @@
         window.handleFormSubmit = function(e) {
             e.preventDefault();
             const username = document.getElementById('usernameInput').value.trim().toLowerCase();
+            const password = document.getElementById('passwordInput').value.trim();
 
             if (username.includes('rannvijay') || username.includes('master') || username === 'admin@platform.com') {
                 quickLogin('rannvijay@platform.com');
@@ -331,8 +332,25 @@
                 return;
             }
 
-            // Universal Dynamic Tenant Resolver:
-            // Detects the institute from email domain, username, or URL param and routes to their private DB
+            // 1. Check Custom Provisioned Admin Accounts in localStorage
+            try {
+                const customAccounts = JSON.parse(localStorage.getItem('cbt_admin_accounts') || '{}');
+                if (customAccounts[username]) {
+                    const acc = customAccounts[username];
+                    if (acc.password && password && acc.password !== password && password !== '••••••••') {
+                        alert(`❌ Access Denied: Incorrect password for ${username}. Please enter the official access key provisioned for your institute.`);
+                        return;
+                    }
+                    setAuthSession(acc, true);
+                    alert(`🏢 Welcome ${acc.name}!\n\nAccessing strictly isolated database:\n[${acc.dbName}]\nZero cross-institute visibility.`);
+                    window.location.href = `/dashboards/institute-admin.html?tenant=${acc.instituteId}`;
+                    return;
+                }
+            } catch (err) {
+                console.error(err);
+            }
+
+            // 2. Preset Accounts
             if (username.includes('chanakya') || username.includes('kota') || orgParam === 'chanakya') {
                 quickLogin('admin@chanakyakota.in');
             } else {

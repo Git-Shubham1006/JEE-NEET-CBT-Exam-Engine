@@ -501,69 +501,115 @@
             
             <div class="form-group">
                 <label>Institute Name</label>
-                <input type="text" id="newInstName" placeholder="e.g. Vidyamandir Classes, Patna">
+                <input type="text" id="newInstName" placeholder="e.g. Vidyamandir Classes, Patna" oninput="autoFillCredentials()">
             </div>
 
-            <div class="form-group">
-                <label>Subdomain Slug</label>
-                <input type="text" id="newInstSlug" placeholder="e.g. vmc-patna">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group">
+                    <label>Subdomain Slug</label>
+                    <input type="text" id="newInstSlug" placeholder="e.g. vmc-patna" oninput="autoFillCredentials()">
+                </div>
+                <div class="form-group">
+                    <label>Director / Administrator Name</label>
+                    <input type="text" id="newAdminName" placeholder="e.g. Director R. K. Verma">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Subscription Tier</label>
-                <select id="newInstPlan">
-                    <option value="PRO">PRO Tier (Up to 500 Students - ₹35,000/mo)</option>
-                    <option value="ENTERPRISE">ENTERPRISE Tier (Up to 2,000 Students - ₹75,000/mo)</option>
-                    <option value="STARTER">STARTER Tier (Up to 150 Students - ₹15,000/mo)</option>
-                </select>
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+                <div class="form-group">
+                    <label>Official Admin Login Email</label>
+                    <input type="email" id="newAdminEmail" placeholder="e.g. director@vmcpatna.in">
+                </div>
+                <div class="form-group">
+                    <label>Master Password / Access Key</label>
+                    <div style="display: flex; gap: 6px;">
+                        <input type="text" id="newAdminPassword" placeholder="e.g. VMC#2026!Key" style="font-family: monospace;">
+                        <button type="button" onclick="generateRandomPassword()" style="background: #374151; color: #facc15; border: 1px solid #4b5563; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">🎲 Key</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Primary Brand Color</label>
-                <input type="color" id="newInstColor" value="#1e40af" style="height: 40px; padding: 2px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group">
+                    <label>Subscription Tier</label>
+                    <select id="newInstPlan">
+                        <option value="TRIAL" selected>14-DAY PILOT TRIAL (₹0 / 14 Days)</option>
+                        <option value="PRO">PRO Tier (Up to 500 Students - ₹35,000/mo)</option>
+                        <option value="ENTERPRISE">ENTERPRISE Tier (Up to 2,000 Students - ₹75,000/mo)</option>
+                        <option value="STARTER">STARTER Tier (Up to 150 Students - ₹15,000/mo)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Primary Brand Color</label>
+                    <input type="color" id="newInstColor" value="#1e40af" style="height: 38px; padding: 2px;">
+                </div>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
                 <button style="background: #374151; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;" onclick="closeOnboardModal()">Cancel</button>
-                <button class="btn-primary" onclick="submitOnboard()">Create Tenant DB & Launch</button>
+                <button class="btn-primary" onclick="submitOnboard()">Create Tenant DB & Provision Access</button>
             </div>
         </div>
     </div>
 
-    <!-- Provisioning Success Modal -->
+    <!-- Provisioning Success & Client Dossier Modal -->
     <div class="modal-overlay" id="launchSuccessModal">
-        <div class="modal-content" style="max-width: 580px; border-color: #3b82f6;">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div style="font-size: 42px; margin-bottom: 8px;">🚀</div>
+        <div class="modal-content" style="max-width: 620px; border-color: #3b82f6;">
+            <div style="text-align: center; margin-bottom: 18px;">
+                <div style="font-size: 42px; margin-bottom: 6px;">🚀</div>
                 <h3 style="font-size: 20px; font-weight: 800; color: #fff;" id="successInstTitle">Institute Successfully Provisioned!</h3>
                 <div style="font-size: 13px; color: #94a3b8;" id="successInstSubtitle">Isolated Tenant Database Activated</div>
             </div>
 
-            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+            <!-- Credentials Box -->
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 12px; font-weight: 700; color: #93c5fd;">🔑 Director / Admin Login Credentials:</span>
+                    <span style="font-size: 11px; color: #34d399; font-weight: 700;">● Active on Admin Gateway</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+                    <div>
+                        <div style="font-size: 11px; color: #94a3b8; margin-bottom: 2px;">Official Login Email:</div>
+                        <input type="text" id="successAdminEmail" readonly style="width: 100%; background: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 6px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: #94a3b8; margin-bottom: 2px;">Master Password / Access Key:</div>
+                        <input type="text" id="successAdminPassword" readonly style="width: 100%; background: #1e293b; color: #fbbf24; border: 1px solid #334155; padding: 6px 10px; border-radius: 6px; font-family: monospace; font-size: 12px; font-weight: 700;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- URLs -->
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                     <span style="font-size: 12px; font-weight: 700; color: #93c5fd;">🏢 Dedicated Admin Console URL:</span>
-                    <span style="font-size: 11px; color: #64748b;">(Faculty / Director Portal)</span>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <input type="text" id="successAdminLink" readonly style="flex: 1; background: #1e293b; color: #60a5fa; border: 1px solid #334155; padding: 7px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
+                    <input type="text" id="successAdminLink" readonly style="flex: 1; background: #1e293b; color: #60a5fa; border: 1px solid #334155; padding: 6px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
                     <button onclick="copyToClipboard('successAdminLink')" style="background: #2563eb; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">📋 Copy</button>
                 </div>
             </div>
 
-            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                     <span style="font-size: 12px; font-weight: 700; color: #86efac;">🎓 Student CBT Exam Terminal URL:</span>
-                    <span style="font-size: 11px; color: #64748b;">(Full-Screen Lockdown)</span>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <input type="text" id="successStudentLink" readonly style="flex: 1; background: #1e293b; color: #34d399; border: 1px solid #334155; padding: 7px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
+                    <input type="text" id="successStudentLink" readonly style="flex: 1; background: #1e293b; color: #34d399; border: 1px solid #334155; padding: 6px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
                     <button onclick="copyToClipboard('successStudentLink')" style="background: #059669; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">📋 Copy</button>
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <!-- WhatsApp / Email Client Dossier -->
+            <div style="margin-bottom: 16px;">
+                <button onclick="copyClientDossier()" style="width: 100%; background: #4f46e5; color: #fff; border: none; padding: 11px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    📋 Copy Complete Client Onboarding Kit (For WhatsApp / Email)
+                </button>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
                 <button style="background: #374151; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;" onclick="document.getElementById('launchSuccessModal').style.display = 'none'">Close</button>
-                <a id="successLaunchBtn" href="#" target="_blank" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Open Admin Console ↗</a>
+                <a id="successLaunchBtn" href="#" target="_blank" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">🚀 Open Admin Console ↗</a>
             </div>
         </div>
     </div>
@@ -581,6 +627,7 @@
         const session = enforceAccess([USER_ROLES.SUPER_ADMIN], '/login.html');
 
         const CUSTOM_TENANTS_KEY = 'cbt_custom_tenants';
+        const CUSTOM_ACCOUNTS_KEY = 'cbt_admin_accounts';
 
         function getCustomTenants() {
             try {
@@ -596,30 +643,49 @@
             localStorage.setItem(CUSTOM_TENANTS_KEY, JSON.stringify(tenants));
         }
 
+        function getCustomAccounts() {
+            try {
+                return JSON.parse(localStorage.getItem(CUSTOM_ACCOUNTS_KEY) || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveCustomAccount(acc) {
+            const accounts = getCustomAccounts();
+            accounts[acc.email.toLowerCase()] = acc;
+            localStorage.setItem(CUSTOM_ACCOUNTS_KEY, JSON.stringify(accounts));
+        }
+
         function renderCustomTenants() {
             const tenants = getCustomTenants();
+            const accounts = getCustomAccounts();
             const tbody = document.getElementById('institutesTableBody');
             let added = 0;
+
             for (const [slug, t] of Object.entries(tenants)) {
                 if (document.getElementById(`row-${slug}`)) continue;
+                const acc = Object.values(accounts).find(a => a.instituteId === slug);
+                const adminEmail = acc ? acc.email : `director@${slug}.in`;
+
                 const row = document.createElement('tr');
                 row.id = `row-${slug}`;
                 row.innerHTML = `
                     <td><strong>${slug.toUpperCase()}</strong></td>
                     <td>
                         <div style="font-weight: 700; color: #fff;">${t.name}</div>
-                        <div style="font-size: 11px; color: #34d399;">Newly Provisioned Tenant</div>
+                        <div style="font-size: 11px; color: #38bdf8;">👤 ${adminEmail}</div>
                     </td>
                     <td><code>${slug}.jeeplatform.com</code></td>
                     <td><code style="color: #60a5fa;">tenant_${slug}</code></td>
                     <td>${t.studentsCount || '0 / 500'}</td>
-                    <td><strong style="color: #60a5fa;">${t.plan || 'PRO'}</strong></td>
+                    <td><strong style="color: #fbbf24;">${t.plan || '14-DAY TRIAL'}</strong></td>
                     <td>₹35,000 / mo</td>
                     <td><span class="status-pill active">● ACTIVE</span></td>
                     <td>
                         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                             <a href="/dashboards/institute-admin.html?tenant=${slug}" style="color: #818cf8; text-decoration: none; font-weight: 600; font-size: 12px;">Inspect Admin →</a>
-                            <a href="/index.html?tenant=${slug}" target="_blank" style="color: #34d399; text-decoration: none; font-weight: 600; font-size: 11px;">Student CBT ↗</a>
+                            <button onclick="viewCredentials('${slug}')" style="background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.4); color: #a5b4fc; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer;">🔑 View Key</button>
                         </div>
                     </td>
                 `;
@@ -635,6 +701,94 @@
         // Initialize custom tenants on load
         renderCustomTenants();
 
+        window.autoFillCredentials = function() {
+            const name = document.getElementById('newInstName').value.trim();
+            const slugInput = document.getElementById('newInstSlug');
+            const emailInput = document.getElementById('newAdminEmail');
+            const nameInput = document.getElementById('newAdminName');
+            const pwdInput = document.getElementById('newAdminPassword');
+
+            if (!slugInput.value && name) {
+                const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                slugInput.value = slug;
+            }
+
+            const currentSlug = slugInput.value.trim().toLowerCase();
+            if (currentSlug && (!emailInput.value || emailInput.dataset.autofilled === "true")) {
+                const cleanDomain = currentSlug.replace(/-/g, '') + '.in';
+                emailInput.value = `director@${cleanDomain}`;
+                emailInput.dataset.autofilled = "true";
+            }
+
+            if (!nameInput.value && name) {
+                nameInput.value = `Director (${name.split(' ')[0]})`;
+            }
+
+            if (!pwdInput.value) {
+                generateRandomPassword();
+            }
+        };
+
+        window.generateRandomPassword = function() {
+            const rawSlug = (document.getElementById('newInstSlug').value || 'CBT').replace(/[^a-zA-Z]/g, '').toUpperCase().substring(0, 4) || 'CBT';
+            const randNum = Math.floor(1000 + Math.random() * 9000);
+            const chars = ['#', '$', '!', '@'];
+            const sym = chars[Math.floor(Math.random() * chars.length)];
+            document.getElementById('newAdminPassword').value = `${rawSlug}${sym}${randNum}!Pass`;
+        };
+
+        window.viewCredentials = function(slug) {
+            const tenants = getCustomTenants();
+            const accounts = getCustomAccounts();
+            const t = tenants[slug];
+            const acc = Object.values(accounts).find(a => a.instituteId === slug);
+
+            if (!t && !acc) {
+                alert(`No stored credentials found for tenant "${slug}".`);
+                return;
+            }
+
+            const name = t?.name || slug.toUpperCase();
+            const email = acc?.email || `director@${slug}.in`;
+            const pwd = acc?.password || `CBT#2026!Key`;
+            const origin = window.location.origin;
+
+            document.getElementById('successInstTitle').textContent = `🏢 ${name}`;
+            document.getElementById('successInstSubtitle').textContent = `Stored Credentials for Isolated DB [${acc?.dbName || 'tenant_' + slug}]`;
+            document.getElementById('successAdminEmail').value = email;
+            document.getElementById('successAdminPassword').value = pwd;
+            document.getElementById('successAdminLink').value = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
+            document.getElementById('successStudentLink').value = `${origin}/index.html?tenant=${slug}`;
+            document.getElementById('successLaunchBtn').href = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
+
+            document.getElementById('launchSuccessModal').style.display = 'flex';
+        };
+
+        window.copyClientDossier = function() {
+            const title = document.getElementById('successInstTitle').textContent;
+            const adminEmail = document.getElementById('successAdminEmail').value;
+            const adminPassword = document.getElementById('successAdminPassword').value;
+            const adminLink = document.getElementById('successAdminLink').value;
+            const studentLink = document.getElementById('successStudentLink').value;
+
+            const text = `🏛️ JEE CBT ENTERPRISE PLATFORM — INSTITUTIONAL ONBOARDING KIT\n\n` +
+                         `Institute: ${title.replace('🏢 ', '').replace(' Provisioned!', '')}\n` +
+                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                         `🏢 ADMIN MANAGEMENT CONSOLE:\n` +
+                         `URL: ${adminLink}\n` +
+                         `Login ID / Email: ${adminEmail}\n` +
+                         `Access Password: ${adminPassword}\n\n` +
+                         `🎓 STUDENT CBT EXAM TERMINAL:\n` +
+                         `URL: ${studentLink}\n\n` +
+                         `🔒 DATA ISOLATION: Strict 256-bit encrypted tenant schema.\n` +
+                         `Zero cross-institute visibility.\n` +
+                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                         `Powered by TIPS Engine & NTA CBT Examination Infrastructure.`;
+
+            navigator.clipboard.writeText(text);
+            alert(`📋 Complete Client Onboarding Kit Copied!\n\nYou can now paste and send this directly to the Institute Director via WhatsApp or Email.`);
+        };
+
         window.copyToClipboard = function(elemId) {
             const val = document.getElementById(elemId).value;
             navigator.clipboard.writeText(val);
@@ -643,6 +797,7 @@
 
         window.openOnboardModal = function() {
             document.getElementById('onboardModal').style.display = 'flex';
+            generateRandomPassword();
         };
 
         window.closeOnboardModal = function() {
@@ -688,6 +843,9 @@
             const name = document.getElementById('newInstName').value.trim();
             const rawSlug = document.getElementById('newInstSlug').value.trim().toLowerCase();
             const slug = rawSlug.replace(/[^a-z0-9_-]/g, '-');
+            const adminName = document.getElementById('newAdminName').value.trim() || `Director (${name.split(' ')[0]})`;
+            const adminEmail = (document.getElementById('newAdminEmail').value.trim() || `director@${slug}.in`).toLowerCase();
+            const adminPassword = document.getElementById('newAdminPassword').value.trim() || `${slug.toUpperCase()}#2026!Pass`;
             const plan = document.getElementById('newInstPlan').value;
             const color = document.getElementById('newInstColor')?.value || '#1e40af';
 
@@ -707,17 +865,32 @@
                 created: new Date().toISOString()
             };
 
+            const newAccount = {
+                role: 'INSTITUTE_ADMIN',
+                name: adminName,
+                email: adminEmail,
+                password: adminPassword,
+                instituteId: slug,
+                instituteName: name,
+                subdomain: slug,
+                dbName: `institute_tenant_${slug}`,
+                created: new Date().toISOString()
+            };
+
             saveCustomTenant(newTenant);
+            saveCustomAccount(newAccount);
             renderCustomTenants();
             closeOnboardModal();
 
-            // Display Launch Success Modal with All Direct URLs
+            // Display Launch Success Modal with All Direct URLs and Credentials
             const origin = window.location.origin;
             const adminUrl = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
             const studentUrl = `${origin}/index.html?tenant=${slug}`;
 
             document.getElementById('successInstTitle').textContent = `🏢 ${name} Provisioned!`;
             document.getElementById('successInstSubtitle').textContent = `Isolated Tenant DB: [${newTenant.db}] Activated`;
+            document.getElementById('successAdminEmail').value = adminEmail;
+            document.getElementById('successAdminPassword').value = adminPassword;
             document.getElementById('successAdminLink').value = adminUrl;
             document.getElementById('successStudentLink').value = studentUrl;
             document.getElementById('successLaunchBtn').href = adminUrl;
