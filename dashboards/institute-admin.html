@@ -2006,8 +2006,14 @@
             const data = tenantData[tenantKey];
             if (!data) return;
 
-            // Load and apply adaptive theme
+            // Load and apply adaptive theme with dual-color support
             currentTheme = getTenantTheme(tenantKey);
+            if (data.primary || data.color) {
+                currentTheme.primary = data.primary || data.color;
+            }
+            if (data.accent) {
+                currentTheme.accent = data.accent;
+            }
             applyThemeToDOM(currentTheme);
 
             // Populate theme customizer inputs

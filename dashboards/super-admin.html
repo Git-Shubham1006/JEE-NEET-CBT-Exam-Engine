@@ -497,8 +497,14 @@
     <!-- Onboard Modal -->
     <div class="modal-overlay" id="onboardModal">
         <div class="modal-content">
-            <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 16px;">🏢 Onboard New Coaching Institute</h3>
+            <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 12px;">🏢 Onboard New Coaching Institute</h3>
             
+            <!-- Security Architecture Banner -->
+            <div style="background: rgba(30, 58, 138, 0.25); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #bfdbfe; line-height: 1.5;">
+                <span style="color: #60a5fa; font-weight: 700;">🔒 Enterprise Isolation & Access Control:</span><br>
+                Assigning an <strong>Admin Email & Password</strong> below registers a dedicated root administrator account locked strictly to their private database schema (<code>tenant_&lt;slug&gt;</code>). When this director logs in, they have <strong>zero visibility into other institutes</strong>.
+            </div>
+
             <div class="form-group">
                 <label>Institute Name</label>
                 <input type="text" id="newInstName" placeholder="e.g. Vidyamandir Classes, Patna" oninput="autoFillCredentials()">
@@ -521,27 +527,75 @@
                     <input type="email" id="newAdminEmail" placeholder="e.g. director@vmcpatna.in">
                 </div>
                 <div class="form-group">
-                    <label>Master Password / Access Key</label>
-                    <div style="display: flex; gap: 6px;">
-                        <input type="text" id="newAdminPassword" placeholder="e.g. VMC#2026!Key" style="font-family: monospace;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <label style="margin-bottom: 0;">Master Password / Access Key</label>
+                        <button type="button" onclick="togglePasswordVisibility('newAdminPassword', 'eyeToggleNewAdmin')" style="background: none; border: none; color: #94a3b8; font-size: 11px; cursor: pointer; padding: 0;">
+                            <span id="eyeToggleNewAdmin">👁️ Show</span>
+                        </button>
+                    </div>
+                    <div style="display: flex; gap: 6px; position: relative;">
+                        <input type="password" id="newAdminPassword" placeholder="e.g. VMC#2026!Key" style="font-family: monospace; flex: 1; padding-right: 36px;">
+                        <button type="button" onclick="togglePasswordVisibility('newAdminPassword', 'eyeToggleNewAdmin')" title="Toggle Password" style="position: absolute; right: 68px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 15px; padding: 2px;">👁️</button>
                         <button type="button" onclick="generateRandomPassword()" style="background: #374151; color: #facc15; border: 1px solid #4b5563; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">🎲 Key</button>
                     </div>
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div class="form-group">
-                    <label>Subscription Tier</label>
-                    <select id="newInstPlan">
-                        <option value="TRIAL" selected>14-DAY PILOT TRIAL (₹0 / 14 Days)</option>
-                        <option value="PRO">PRO Tier (Up to 500 Students - ₹35,000/mo)</option>
-                        <option value="ENTERPRISE">ENTERPRISE Tier (Up to 2,000 Students - ₹75,000/mo)</option>
-                        <option value="STARTER">STARTER Tier (Up to 150 Students - ₹15,000/mo)</option>
-                    </select>
+            <div class="form-group">
+                <label>Subscription Tier</label>
+                <select id="newInstPlan">
+                    <option value="TRIAL" selected>14-DAY PILOT TRIAL (₹0 / 14 Days Evaluation)</option>
+                    <option value="PRO">PRO Tier (Up to 500 Students - ₹35,000/mo)</option>
+                    <option value="ENTERPRISE">ENTERPRISE Tier (Up to 2,000 Students - ₹75,000/mo)</option>
+                    <option value="STARTER">STARTER Tier (Up to 150 Students - ₹15,000/mo)</option>
+                </select>
+            </div>
+
+            <!-- Dual Color Brand Theme Studio -->
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="margin-bottom: 0; font-size: 12px; font-weight: 700; color: #cbd5e1;">🎨 Institute Brand Dual-Color Palette</label>
+                    <span style="font-size: 11px; color: #94a3b8;">Headers, Buttons & Accent Badges</span>
                 </div>
-                <div class="form-group">
-                    <label>Primary Brand Color</label>
-                    <input type="color" id="newInstColor" value="#1e40af" style="height: 38px; padding: 2px;">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 11px; color: #94a3b8;">Color 1: Primary Brand (Header & Base)</label>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="color" id="newInstColor" value="#1e3a8a" style="height: 38px; width: 50px; padding: 2px; border-radius: 6px; cursor: pointer; border: 1px solid #334155;" oninput="updateColorLabels()">
+                            <span id="labelColor1" style="font-family: monospace; font-size: 12px; color: #93c5fd;">#1e3a8a</span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 11px; color: #94a3b8;">Color 2: Secondary Accent (Tabs & Highlights)</label>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="color" id="newInstAccentColor" value="#f59e0b" style="height: 38px; width: 50px; padding: 2px; border-radius: 6px; cursor: pointer; border: 1px solid #334155;" oninput="updateColorLabels()">
+                            <span id="labelColor2" style="font-family: monospace; font-size: 12px; color: #fbbf24;">#f59e0b</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick 1-Click Dual-Color Preset Schemes -->
+                <div>
+                    <div style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 6px;">1-Click Coaching Presets:</div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" onclick="applyColorPreset('#1e3a8a', '#f59e0b')" style="background: #1e293b; border: 1px solid #334155; color: #e2e8f0; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #1e3a8a 50%, #f59e0b 50%);"></span>
+                            Sapphire & Gold
+                        </button>
+                        <button type="button" onclick="applyColorPreset('#991b1b', '#0284c7')" style="background: #1e293b; border: 1px solid #334155; color: #e2e8f0; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #991b1b 50%, #0284c7 50%);"></span>
+                            Crimson & Sky
+                        </button>
+                        <button type="button" onclick="applyColorPreset('#065f46', '#10b981')" style="background: #1e293b; border: 1px solid #334155; color: #e2e8f0; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #065f46 50%, #10b981 50%);"></span>
+                            Emerald & Mint
+                        </button>
+                        <button type="button" onclick="applyColorPreset('#4c1d95', '#fbbf24')" style="background: #1e293b; border: 1px solid #334155; color: #e2e8f0; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #4c1d95 50%, #fbbf24 50%);"></span>
+                            Royal Violet & Amber
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -701,6 +755,36 @@
         // Initialize custom tenants on load
         renderCustomTenants();
 
+        window.togglePasswordVisibility = function(inputId, btnTextId) {
+            const input = document.getElementById(inputId);
+            const btnText = document.getElementById(btnTextId);
+            if (!input) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                if (btnText) btnText.textContent = '🙈 Hide';
+            } else {
+                input.type = 'password';
+                if (btnText) btnText.textContent = '👁️ Show';
+            }
+        };
+
+        window.updateColorLabels = function() {
+            const c1 = document.getElementById('newInstColor')?.value || '#1e3a8a';
+            const c2 = document.getElementById('newInstAccentColor')?.value || '#f59e0b';
+            const l1 = document.getElementById('labelColor1');
+            const l2 = document.getElementById('labelColor2');
+            if (l1) l1.textContent = c1;
+            if (l2) l2.textContent = c2;
+        };
+
+        window.applyColorPreset = function(primary, accent) {
+            const el1 = document.getElementById('newInstColor');
+            const el2 = document.getElementById('newInstAccentColor');
+            if (el1) el1.value = primary;
+            if (el2) el2.value = accent;
+            updateColorLabels();
+        };
+
         window.autoFillCredentials = function() {
             const name = document.getElementById('newInstName').value.trim();
             const slugInput = document.getElementById('newInstSlug');
@@ -797,7 +881,8 @@
 
         window.openOnboardModal = function() {
             document.getElementById('onboardModal').style.display = 'flex';
-            generateRandomPassword();
+            autoFillCredentials();
+            updateColorLabels();
         };
 
         window.closeOnboardModal = function() {
@@ -847,7 +932,8 @@
             const adminEmail = (document.getElementById('newAdminEmail').value.trim() || `director@${slug}.in`).toLowerCase();
             const adminPassword = document.getElementById('newAdminPassword').value.trim() || `${slug.toUpperCase()}#2026!Pass`;
             const plan = document.getElementById('newInstPlan').value;
-            const color = document.getElementById('newInstColor')?.value || '#1e40af';
+            const primaryColor = document.getElementById('newInstColor')?.value || '#1e3a8a';
+            const accentColor = document.getElementById('newInstAccentColor')?.value || '#f59e0b';
 
             if (!name || !slug) {
                 alert('Please enter institute name and subdomain slug.');
@@ -860,7 +946,9 @@
                 logo: name.split(' ').map(w => w[0]).join('').substring(0, 5).toUpperCase() || slug.toUpperCase(),
                 db: `institute_tenant_${slug}`,
                 plan: `${plan} TIER`,
-                color,
+                color: primaryColor,
+                primary: primaryColor,
+                accent: accentColor,
                 studentsCount: '0 / 500',
                 created: new Date().toISOString()
             };
@@ -874,6 +962,8 @@
                 instituteName: name,
                 subdomain: slug,
                 dbName: `institute_tenant_${slug}`,
+                primary: primaryColor,
+                accent: accentColor,
                 created: new Date().toISOString()
             };
 

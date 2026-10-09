@@ -245,8 +245,18 @@
             </div>
 
             <div class="form-group">
-                <label>Password / Access Key</label>
-                <input type="password" id="passwordInput" value="••••••••" required>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label style="margin-bottom: 0;">Password / Access Key</label>
+                    <button type="button" onclick="togglePasswordVisibility('passwordInput', 'eyeLoginBtn')" style="background: none; border: none; color: #94a3b8; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 0;">
+                        <span id="eyeLoginBtn">👁️ Show</span>
+                    </button>
+                </div>
+                <div style="position: relative;">
+                    <input type="password" id="passwordInput" value="••••••••" required style="padding-right: 42px;">
+                    <button type="button" onclick="togglePasswordVisibility('passwordInput', 'eyeLoginBtn')" title="Show/Hide Password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 16px; padding: 4px; line-height: 1;">
+                        👁️
+                    </button>
+                </div>
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
@@ -295,6 +305,19 @@
         if (keyParam === 'godmode' || keyParam === 'rannvijay' || keyParam === '1') {
             quickLogin('rannvijay@platform.com');
         }
+
+        window.togglePasswordVisibility = function(inputId, btnTextId) {
+            const input = document.getElementById(inputId);
+            const btnText = document.getElementById(btnTextId);
+            if (!input) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                if (btnText) btnText.textContent = '🙈 Hide';
+            } else {
+                input.type = 'password';
+                if (btnText) btnText.textContent = '👁️ Show';
+            }
+        };
 
         window.switchRoleTab = function(tab) {
             activeTab = tab;
