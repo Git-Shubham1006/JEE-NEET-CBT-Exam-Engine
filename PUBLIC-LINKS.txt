@@ -4,25 +4,33 @@
 
 These links work on any device worldwide (phones, laptops, tablets):
 
-1. 👑 Super-Admin Master Portal (God Mode / RannVijay Operations Console):
+1. 🌐 Master Platform Landing Page (Animated First Page):
+   https://normally-fourth-bedroom-suddenly.trycloudflare.com/
+   (Or: https://normally-fourth-bedroom-suddenly.trycloudflare.com/landing.html)
+
+2. 🏛️ Branded Institute Landing Page (Apex IIT JEE Custom First Page):
+   https://normally-fourth-bedroom-suddenly.trycloudflare.com/?org=apex
+   (Or: https://normally-fourth-bedroom-suddenly.trycloudflare.com/landing.html?org=apex)
+
+3. 👑 Super-Admin Master Portal (God Mode / RannVijay Operations Console):
    https://normally-fourth-bedroom-suddenly.trycloudflare.com/dashboards/super-admin.html
 
-2. 🔐 Unified Secure Portal Entry (With Password Eye 👁️ Toggle):
+4. 🔐 Unified Secure Portal Entry (With Password Eye 👁️ Toggle):
    https://normally-fourth-bedroom-suddenly.trycloudflare.com/login.html
 
-3. 🏢 Isolated Institute Portal (Apex IIT JEE White-Labeled):
+5. 🏢 Isolated Institute Portal (Apex IIT JEE White-Labeled):
    https://normally-fourth-bedroom-suddenly.trycloudflare.com/login.html?org=apex
 
-4. 🏢 Institute-Admin Portal (Isolated Director Dashboard):
+6. 🏢 Institute-Admin Portal (Isolated Director Dashboard):
    https://normally-fourth-bedroom-suddenly.trycloudflare.com/dashboards/institute-admin.html
 
-5. 🎓 Main Student CBT Exam Player (1:1 NTA Exact Real-Exam Simulation):
+7. 🎓 Main Student CBT Exam Player (1:1 NTA Exact Real-Exam Simulation):
    https://normally-fourth-bedroom-suddenly.trycloudflare.com/index.html
 
-6. 📚 Student Self-Study & PYQ Practice Hub (MARKS-style):
+8. 📚 Student Self-Study & PYQ Practice Hub (MARKS-style):
    https://normally-fourth-bedroom-suddenly.trycloudflare.com/dashboards/student-practice-hub.html
 
-7. ⚡ TIPS Test Paper Builder (Teacher Exam Creator & Auto-Merger):
+9. ⚡ TIPS Test Paper Builder (Teacher Exam Creator & Auto-Merger):
    https://normally-fourth-bedroom-suddenly.trycloudflare.com/dashboards/tips-paper-builder.html
 
 =============================================================================

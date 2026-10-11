@@ -599,6 +599,30 @@
                 </div>
             </div>
 
+            <!-- White-Label Landing Page Customization -->
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="margin-bottom: 0; font-size: 12px; font-weight: 700; color: #cbd5e1;">🌐 Dedicated Landing Page Setup</label>
+                    <span style="font-size: 11px; color: #34d399;">White-label First Page</span>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label style="font-size: 11px; color: #94a3b8;">Hero Headline / Tagline</label>
+                    <input type="text" id="newInstTagline" placeholder="e.g. Premier Coaching for JEE (Main+Adv) & NEET-UG">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 11px; color: #94a3b8;">Campus Centers / City</label>
+                        <input type="text" id="newInstLocation" placeholder="e.g. Kankarbagh & Boring Road, Patna">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 11px; color: #94a3b8;">Admissions Helpline Phone</label>
+                        <input type="text" id="newInstPhone" placeholder="e.g. +91 98765 43210">
+                    </div>
+                </div>
+            </div>
+
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
                 <button style="background: #374151; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;" onclick="closeOnboardModal()">Cancel</button>
                 <button class="btn-primary" onclick="submitOnboard()">Create Tenant DB & Provision Access</button>
@@ -634,7 +658,18 @@
             </div>
 
             <!-- URLs -->
-            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 12px; font-weight: 700; color: #f59e0b;">🌐 Institute Dedicated Landing Page URL:</span>
+                    <span style="font-size: 11px; color: #94a3b8;">Custom First Page For Students & Parents</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="successLandingLink" readonly style="flex: 1; background: #1e293b; color: #fbbf24; border: 1px solid #334155; padding: 6px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
+                    <button onclick="copyToClipboard('successLandingLink')" style="background: #d97706; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">📋 Copy</button>
+                </div>
+            </div>
+
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                     <span style="font-size: 12px; font-weight: 700; color: #93c5fd;">🏢 Dedicated Admin Console URL:</span>
                 </div>
@@ -646,7 +681,7 @@
 
             <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <span style="font-size: 12px; font-weight: 700; color: #86efac;">🎓 Student CBT Exam Terminal URL:</span>
+                    <span style="font-size: 12px; font-weight: 700; color: #86efac;">🎓 Direct Student CBT Exam Terminal URL:</span>
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <input type="text" id="successStudentLink" readonly style="flex: 1; background: #1e293b; color: #34d399; border: 1px solid #334155; padding: 6px 10px; border-radius: 6px; font-family: monospace; font-size: 12px;">
@@ -808,6 +843,22 @@
                 nameInput.value = `Director (${name.split(' ')[0]})`;
             }
 
+            const taglineInput = document.getElementById('newInstTagline');
+            if (taglineInput && (!taglineInput.value || taglineInput.dataset.autofilled === "true") && name) {
+                taglineInput.value = `${name} — Premier Entrance Examination & CBT Portal`;
+                taglineInput.dataset.autofilled = "true";
+            }
+
+            const locInput = document.getElementById('newInstLocation');
+            if (locInput && !locInput.value) {
+                locInput.value = 'Main Campus, Patna';
+            }
+
+            const phoneInput = document.getElementById('newInstPhone');
+            if (phoneInput && !phoneInput.value) {
+                phoneInput.value = '+91 98765 43210';
+            }
+
             if (!pwdInput.value) {
                 generateRandomPassword();
             }
@@ -836,14 +887,18 @@
             const email = acc?.email || `director@${slug}.in`;
             const pwd = acc?.password || `CBT#2026!Key`;
             const origin = window.location.origin;
+            const landingUrl = `${origin}/landing.html?org=${slug}`;
+            const adminUrl = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
+            const studentUrl = `${origin}/index.html?tenant=${slug}`;
 
             document.getElementById('successInstTitle').textContent = `🏢 ${name}`;
             document.getElementById('successInstSubtitle').textContent = `Stored Credentials for Isolated DB [${acc?.dbName || 'tenant_' + slug}]`;
             document.getElementById('successAdminEmail').value = email;
             document.getElementById('successAdminPassword').value = pwd;
-            document.getElementById('successAdminLink').value = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
-            document.getElementById('successStudentLink').value = `${origin}/index.html?tenant=${slug}`;
-            document.getElementById('successLaunchBtn').href = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
+            document.getElementById('successLandingLink').value = landingUrl;
+            document.getElementById('successAdminLink').value = adminUrl;
+            document.getElementById('successStudentLink').value = studentUrl;
+            document.getElementById('successLaunchBtn').href = adminUrl;
 
             document.getElementById('launchSuccessModal').style.display = 'flex';
         };
@@ -852,17 +907,20 @@
             const title = document.getElementById('successInstTitle').textContent;
             const adminEmail = document.getElementById('successAdminEmail').value;
             const adminPassword = document.getElementById('successAdminPassword').value;
+            const landingLink = document.getElementById('successLandingLink')?.value || '';
             const adminLink = document.getElementById('successAdminLink').value;
             const studentLink = document.getElementById('successStudentLink').value;
 
             const text = `🏛️ JEE CBT ENTERPRISE PLATFORM — INSTITUTIONAL ONBOARDING KIT\n\n` +
                          `Institute: ${title.replace('🏢 ', '').replace(' Provisioned!', '')}\n` +
                          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                         `🌐 PUBLIC BRANDED LANDING PAGE (Students & Parents):\n` +
+                         `URL: ${landingLink}\n\n` +
                          `🏢 ADMIN MANAGEMENT CONSOLE:\n` +
                          `URL: ${adminLink}\n` +
                          `Login ID / Email: ${adminEmail}\n` +
                          `Access Password: ${adminPassword}\n\n` +
-                         `🎓 STUDENT CBT EXAM TERMINAL:\n` +
+                         `🎓 DIRECT STUDENT CBT EXAM TERMINAL:\n` +
                          `URL: ${studentLink}\n\n` +
                          `🔒 DATA ISOLATION: Strict 256-bit encrypted tenant schema.\n` +
                          `Zero cross-institute visibility.\n` +
@@ -934,6 +992,9 @@
             const plan = document.getElementById('newInstPlan').value;
             const primaryColor = document.getElementById('newInstColor')?.value || '#1e3a8a';
             const accentColor = document.getElementById('newInstAccentColor')?.value || '#f59e0b';
+            const tagline = document.getElementById('newInstTagline')?.value.trim() || `${name} — Premier Entrance Examination & CBT Portal`;
+            const location = document.getElementById('newInstLocation')?.value.trim() || 'Main Campus, Patna';
+            const phone = document.getElementById('newInstPhone')?.value.trim() || '+91 98765 43210';
 
             if (!name || !slug) {
                 alert('Please enter institute name and subdomain slug.');
@@ -943,6 +1004,10 @@
             const newTenant = {
                 slug,
                 name,
+                tagline,
+                location,
+                phone,
+                badge: '🏆 RANKERS BATCH 2026 ADMISSIONS OPEN',
                 logo: name.split(' ').map(w => w[0]).join('').substring(0, 5).toUpperCase() || slug.toUpperCase(),
                 db: `institute_tenant_${slug}`,
                 plan: `${plan} TIER`,
@@ -974,6 +1039,7 @@
 
             // Display Launch Success Modal with All Direct URLs and Credentials
             const origin = window.location.origin;
+            const landingUrl = `${origin}/landing.html?org=${slug}`;
             const adminUrl = `${origin}/dashboards/institute-admin.html?tenant=${slug}`;
             const studentUrl = `${origin}/index.html?tenant=${slug}`;
 
@@ -981,6 +1047,7 @@
             document.getElementById('successInstSubtitle').textContent = `Isolated Tenant DB: [${newTenant.db}] Activated`;
             document.getElementById('successAdminEmail').value = adminEmail;
             document.getElementById('successAdminPassword').value = adminPassword;
+            document.getElementById('successLandingLink').value = landingUrl;
             document.getElementById('successAdminLink').value = adminUrl;
             document.getElementById('successStudentLink').value = studentUrl;
             document.getElementById('successLaunchBtn').href = adminUrl;

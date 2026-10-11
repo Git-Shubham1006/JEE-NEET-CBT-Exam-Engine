@@ -19,9 +19,9 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-    let reqPath = req.url === '/' ? '/index.html' : req.url;
     // Strip query parameters
-    reqPath = reqPath.split('?')[0];
+    const cleanUrl = req.url.split('?')[0];
+    let reqPath = (cleanUrl === '/' || cleanUrl === '') ? '/landing.html' : cleanUrl;
 
     const safePath = path.normalize(path.join(__dirname, reqPath));
     if (!safePath.startsWith(__dirname)) {
